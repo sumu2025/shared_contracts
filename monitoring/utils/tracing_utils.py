@@ -6,15 +6,7 @@ import contextlib
 import functools
 import inspect
 import threading
-from typing import (
-    Any,
-    Callable,
-    ContextManager,
-    Dict,
-    Optional,
-    TypeVar,
-    cast,
-)
+from typing import Any, Callable, ContextManager, Dict, Optional, TypeVar, cast
 
 from ..monitor_models import TraceContext
 from ..monitor_types import EventType, ServiceComponent

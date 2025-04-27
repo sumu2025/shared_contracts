@@ -12,8 +12,6 @@ import uuid
 from datetime import datetime
 from typing import Any, Dict, List
 
-# 模拟HTTP客户端
-
 # 导入shared_contracts组件
 from agentforge_contracts.core.interfaces.tool_interface import ToolServiceInterface
 from agentforge_contracts.core.models.base_models import BaseResponse
@@ -33,6 +31,9 @@ from agentforge_contracts.monitoring import (
     with_monitoring,
 )
 from agentforge_contracts.utils.validation import validate_parameters
+
+# 模拟HTTP客户端
+
 
 # 配置日志
 logging.basicConfig(

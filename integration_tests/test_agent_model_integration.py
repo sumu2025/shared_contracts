@@ -10,10 +10,7 @@ from typing import Any, Dict, Optional
 import pytest
 
 from shared_contracts.core.interfaces.model_interface import ModelServiceInterface
-from shared_contracts.core.models.agent_models import (
-    AgentCapability,
-    AgentConfig,
-)
+from shared_contracts.core.models.agent_models import AgentCapability, AgentConfig
 from shared_contracts.core.models.base_models import BaseResponse
 from shared_contracts.core.models.model_models import (
     ModelCapability,

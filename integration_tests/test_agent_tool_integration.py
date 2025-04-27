@@ -10,10 +10,7 @@ from typing import Any, Dict
 import pytest
 
 from shared_contracts.core.interfaces.tool_interface import ToolServiceInterface
-from shared_contracts.core.models.agent_models import (
-    AgentCapability,
-    AgentConfig,
-)
+from shared_contracts.core.models.agent_models import AgentCapability, AgentConfig
 from shared_contracts.core.models.base_models import BaseResponse
 from shared_contracts.core.models.tool_models import (
     ToolDefinition,

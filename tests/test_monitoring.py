@@ -5,7 +5,6 @@ Tests for monitoring components in agentforge-contracts.
 import uuid
 from datetime import datetime
 
-
 from shared_contracts.monitoring.monitor_interface import MonitorInterface
 from shared_contracts.monitoring.monitor_models import (
     AlertConfig,

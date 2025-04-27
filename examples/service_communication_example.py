@@ -21,9 +21,7 @@ from agentforge_contracts.core.models.agent_models import (
 
 # 导入shared_contracts组件
 from agentforge_contracts.core.models.base_models import BaseResponse
-from agentforge_contracts.core.models.model_models import (
-    ModelConfig,
-)
+from agentforge_contracts.core.models.model_models import ModelConfig
 from agentforge_contracts.monitoring import (
     EventType,
     ServiceComponent,
