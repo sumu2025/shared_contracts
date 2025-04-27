@@ -8,21 +8,7 @@
 # flake8: noqa
 # 为了通过CI检查，使用noqa标记忽略此文件中的lint问题
 
-import asyncio
-import time
-import uuid
 
-from agentforge_contracts.monitoring import (
-    EventType,
-    LogLevel,
-    ServiceComponent,
-    configure_monitor,
-    create_trace_context,
-    get_monitor,
-    trace_method,
-    track_performance,
-    with_monitoring,
-)
 
 # 实际示例代码已注释，请按需取消注释使用
 """

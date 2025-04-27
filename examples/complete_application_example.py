@@ -13,13 +13,13 @@
 
 # 以下示例代码展示如何使用shared_contracts构建聊天应用
 
+
 class ExampleAgent:
     """示例代理实现。"""
-    
+
     def __init__(self):
         """初始化示例代理。"""
-        pass
-        
+
     def process_message(self, message):
         """处理用户消息。"""
         return f"这是对消息'{message}'的示例响应"
