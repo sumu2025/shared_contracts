@@ -36,7 +36,7 @@ jobs:
         
     - name: 类型检查
       run: |
-        poetry run mypy .
+        poetry run mypy --no-namespace-packages .
         
   test:
     runs-on: ubuntu-latest
