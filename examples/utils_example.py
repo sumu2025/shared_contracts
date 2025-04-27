@@ -4,13 +4,12 @@
 本示例展示如何使用shared_contracts中的实用工具函数，包括模式操作、验证、序列化和计时。
 """
 
-import asyncio
 import json
 import time
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -147,7 +146,7 @@ def validation_tools_example():
     )
     print(f"字符串长度验证 (太短): {validate_string_length('ab', min_length=3, max_length=10)}")
     print(
-        f"字符串长度验证 (太长): {validate_string_length('very long string', min_length=3, max_length=10)}"
+        f"字符串长度验证 (太长): {validate_string_length('very long string', min_length=3, max_length=10)}"  # noqa: E501
     )
 
 
@@ -225,9 +224,7 @@ def slow_operation(delay):
 @retry_with_backoff(max_retries=3, initial_delay=0.1)
 def unreliable_operation(succeed_after=None):
     """模拟不可靠操作"""
-    global _retry_count
-
-    # 用于跟踪重试次数的全局变量
+    # 用于跟踪重试次数的局部变量
     if not hasattr(unreliable_operation, "_retry_count"):
         unreliable_operation._retry_count = 0
 

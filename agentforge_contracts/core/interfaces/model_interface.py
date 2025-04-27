@@ -6,7 +6,6 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Union
-from uuid import UUID
 
 from ..models.base_models import BaseModel, BaseResponse
 from ..models.model_models import ModelCapability, ModelConfig, ModelType
@@ -51,7 +50,6 @@ class ModelServiceInterface(ABC):
         Raises:
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def get_model(self, model_id: str) -> ModelConfig:
@@ -68,7 +66,6 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def register_model(self, config: ModelConfig) -> ModelConfig:
@@ -85,7 +82,6 @@ class ModelServiceInterface(ABC):
             ValidationError: 如果配置无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def update_model(self, model_id: str, config: ModelConfig) -> ModelConfig:
@@ -104,7 +100,6 @@ class ModelServiceInterface(ABC):
             ValidationError: 如果配置无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def delete_model(self, model_id: str) -> bool:
@@ -121,7 +116,6 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def generate_text(self, request: ModelRequest) -> ModelResponse:
@@ -139,7 +133,6 @@ class ModelServiceInterface(ABC):
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def generate_embeddings(self, request: ModelRequest) -> ModelResponse:
@@ -157,7 +150,6 @@ class ModelServiceInterface(ABC):
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def get_model_capabilities(self, model_id: str) -> ModelCapability:
@@ -174,7 +166,6 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def check_model_health(self, model_id: str) -> Dict[str, Any]:
@@ -191,4 +182,3 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
         """
-        pass

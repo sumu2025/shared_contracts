@@ -122,14 +122,14 @@ class AgentServiceInterface(Protocol):
 
     async def send_message_to_agent(
         self, agent_id: UUID, message: str, conversation_id: Optional[UUID] = None
-    ) -> BaseResponse[Dict[str, Any]]:
+    ) -> BaseResponse[Dict[str, Any]]:  # noqa: E501
         """
         Send a message to an agent.
 
         Args:
             agent_id: Agent ID
             message: Message content
-            conversation_id: Optional conversation ID, if continuing an existing conversation
+            conversation_id: Optional conversation ID, if continuing an existing conversation  # noqa: E501
 
         Returns:
             Response containing the agent's response

@@ -5,17 +5,14 @@
 """
 
 import asyncio
-import json
 import logging
 import math
 import os
 import uuid
 from datetime import datetime
-from enum import Enum
-from typing import Any, AsyncIterable, Dict, List, Optional, Union
+from typing import Any, Dict, List
 
 # 模拟HTTP客户端
-import httpx
 
 # 导入shared_contracts组件
 from agentforge_contracts.core.interfaces.tool_interface import ToolServiceInterface
@@ -111,7 +108,7 @@ class ToolService(ToolServiceInterface):
                     ),
                     "b": ToolParameter(
                         name="b",
-                        description="Second number (not required for sqrt, sin, cos, tan)",
+                        description="Second number (not required for sqrt, sin, cos, tan)",  # noqa: E501
                         type=ToolParameterType.NUMBER,
                         required=False,
                     ),
@@ -433,7 +430,7 @@ class ToolService(ToolServiceInterface):
             "temperature": temperature,
             "condition": weather["condition"],
             "humidity": weather["humidity"],
-            "forecast": "This is a simulated weather forecast. In a real application, this would use an actual weather API.",
+            "forecast": "This is a simulated weather forecast. In a real application, this would use an actual weather API.",  # noqa: E501
             "timestamp": datetime.now().isoformat(),
         }
 
@@ -451,27 +448,27 @@ class ToolService(ToolServiceInterface):
             {
                 "title": f"Search Result 1 for '{query}'",
                 "url": f"https://example.com/result1?q={query}",
-                "snippet": f"This is a simulated search result for '{query}'. It would contain a brief excerpt of the content.",
+                "snippet": f"This is a simulated search result for '{query}'. It would contain a brief excerpt of the content.",  # noqa: E501
             },
             {
                 "title": f"Search Result 2 for '{query}'",
                 "url": f"https://example.com/result2?q={query}",
-                "snippet": f"Another simulated result for '{query}'. In a real application, this would be fetched from a search engine API.",
+                "snippet": f"Another simulated result for '{query}'. In a real application, this would be fetched from a search engine API.",  # noqa: E501
             },
             {
                 "title": f"Search Result 3 for '{query}'",
                 "url": f"https://example.com/result3?q={query}",
-                "snippet": f"Third simulated result for '{query}'. The number of results returned is based on the 'num_results' parameter.",
+                "snippet": f"Third simulated result for '{query}'. The number of results returned is based on the 'num_results' parameter.",  # noqa: E501
             },
             {
                 "title": f"Search Result 4 for '{query}'",
                 "url": f"https://example.com/result4?q={query}",
-                "snippet": f"Fourth simulated result for '{query}'. This result might not be shown if num_results is less than 4.",
+                "snippet": f"Fourth simulated result for '{query}'. This result might not be shown if num_results is less than 4.",  # noqa: E501
             },
             {
                 "title": f"Search Result 5 for '{query}'",
                 "url": f"https://example.com/result5?q={query}",
-                "snippet": f"Fifth simulated result for '{query}'. This is the last of our simulated results.",
+                "snippet": f"Fifth simulated result for '{query}'. This is the last of our simulated results.",  # noqa: E501
             },
         ]
 
@@ -482,7 +479,7 @@ class ToolService(ToolServiceInterface):
             "query": query,
             "num_results": len(limited_results),
             "results": limited_results,
-            "disclaimer": "These are simulated search results. In a real application, these would be fetched from a search engine API.",
+            "disclaimer": "These are simulated search results. In a real application, these would be fetched from a search engine API.",  # noqa: E501
         }
 
 
@@ -567,7 +564,7 @@ async def run_example():
                 "source_language": source_lang,
                 "target_language": target_lang,
                 "translated_text": translation,
-                "note": "This is a simulated translation. In a real application, this would use an actual translation API.",
+                "note": "This is a simulated translation. In a real application, this would use an actual translation API.",  # noqa: E501
             }
 
         tool_service.tool_executors[translator_tool.tool_id] = execute_translator

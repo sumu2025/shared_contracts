@@ -23,8 +23,6 @@ from agentforge_contracts.core.models.agent_models import (
 from agentforge_contracts.core.models.base_models import BaseResponse
 from agentforge_contracts.core.models.model_models import (
     ModelConfig,
-    ModelProvider,
-    ModelType,
 )
 from agentforge_contracts.monitoring import (
     EventType,
@@ -64,7 +62,7 @@ class ServiceClient:
         try:
             # 记录请求日志
             monitor.info(
-                message=f"Sending {method} request to {self.service_name} at {endpoint}",
+                message=f"Sending {method} request to {self.service_name} at {endpoint}",  # noqa: E501
                 component=ServiceComponent.API_GATEWAY,
                 event_type=EventType.REQUEST,
                 service=self.service_name,
@@ -371,7 +369,7 @@ class MockAgentService:
             )
 
         # 获取代理配置和状态
-        config = self.agents[agent_id]
+        #         config = self.agents[agent_id]  # 未使用变量: config
         state = self.agent_states[agent_id]
 
         # 更新状态
@@ -438,7 +436,7 @@ async def http_communication_example():
 
             if message_result.get("success"):
                 print(
-                    f"Message sent successfully, response: {message_result.get('data', {}).get('response')}"
+                    f"Message sent successfully, response: {message_result.get('data', {}).get('response')}"  # noqa: E501
                 )
             else:
                 print(f"Failed to send message: {message_result.get('error')}")
@@ -461,7 +459,7 @@ async def message_queue_example():
     message_queue = MessageQueue()
 
     # 创建模拟服务
-    mock_service = MockAgentService(message_queue)
+    #     mock_service = MockAgentService(message_queue)  # 未使用变量: mock_service
 
     # 创建消息队列客户端
     mq_client = MessageQueueClient(message_queue)
@@ -491,7 +489,7 @@ async def message_queue_example():
 
         if message_result.get("success"):
             print(
-                f"Message sent successfully, response: {message_result.get('data', {}).get('response')}"
+                f"Message sent successfully, response: {message_result.get('data', {}).get('response')}"  # noqa: E501
             )
         else:
             print(f"Failed to send message: {message_result.get('error')}")

@@ -4,19 +4,15 @@ Agent-Model服务集成测试。
 此模块测试Agent服务与Model服务间通过shared_contracts进行交互的场景。
 """
 
-import asyncio
 import uuid
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 import pytest
 
-from shared_contracts.core.interfaces.agent_interface import AgentServiceInterface
 from shared_contracts.core.interfaces.model_interface import ModelServiceInterface
 from shared_contracts.core.models.agent_models import (
     AgentCapability,
     AgentConfig,
-    AgentState,
-    AgentStatus,
 )
 from shared_contracts.core.models.base_models import BaseResponse
 from shared_contracts.core.models.model_models import (
@@ -27,9 +23,6 @@ from shared_contracts.core.models.model_models import (
     ModelType,
 )
 from shared_contracts.monitoring import (
-    EventType,
-    LogFireConfig,
-    LogLevel,
     ServiceComponent,
     configure_monitor,
     track_performance,
@@ -215,13 +208,13 @@ def setup_monitor():
     """设置监控客户端。"""
     try:
         # 使用内存配置（不实际连接到LogFire）
-        config = LogFireConfig(
-            api_key="test_key",
-            project_id="test_project",
-            service_name="integration-test",
-            environment="test",
-            api_endpoint="memory://logfire",  # 使用内存模式
-        )
+        # config = LogFireConfig(  # 未使用变量: config
+        #    api_key="test_key",
+        #    project_id="test_project",
+        #    service_name="integration-test",
+        #    environment="test",
+        #    api_endpoint="memory://logfire",  # 使用内存模式
+        # )
 
         # 配置监控客户端
         monitor = configure_monitor(

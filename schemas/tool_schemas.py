@@ -73,21 +73,21 @@ REGISTER_TOOL_SCHEMA = {
                             },
                             "min_value": {
                                 "type": ["integer", "number", "null"],
-                                "description": "Minimum value (for INTEGER and NUMBER types)",
+                                "description": "Minimum value (for INTEGER and NUMBER types)",  # noqa: E501
                             },
                             "max_value": {
                                 "type": ["integer", "number", "null"],
-                                "description": "Maximum value (for INTEGER and NUMBER types)",
+                                "description": "Maximum value (for INTEGER and NUMBER types)",  # noqa: E501
                             },
                             "min_length": {
                                 "type": ["integer", "null"],
                                 "minimum": 0,
-                                "description": "Minimum length (for STRING and ARRAY types)",
+                                "description": "Minimum length (for STRING and ARRAY types)",  # noqa: E501
                             },
                             "max_length": {
                                 "type": ["integer", "null"],
                                 "minimum": 0,
-                                "description": "Maximum length (for STRING and ARRAY types)",
+                                "description": "Maximum length (for STRING and ARRAY types)",  # noqa: E501
                             },
                             "pattern": {
                                 "type": ["string", "null"],
@@ -184,21 +184,21 @@ UPDATE_TOOL_SCHEMA = {
                             },
                             "min_value": {
                                 "type": ["integer", "number", "null"],
-                                "description": "Minimum value (for INTEGER and NUMBER types)",
+                                "description": "Minimum value (for INTEGER and NUMBER types)",  # noqa: E501
                             },
                             "max_value": {
                                 "type": ["integer", "number", "null"],
-                                "description": "Maximum value (for INTEGER and NUMBER types)",
+                                "description": "Maximum value (for INTEGER and NUMBER types)",  # noqa: E501
                             },
                             "min_length": {
                                 "type": ["integer", "null"],
                                 "minimum": 0,
-                                "description": "Minimum length (for STRING and ARRAY types)",
+                                "description": "Minimum length (for STRING and ARRAY types)",  # noqa: E501
                             },
                             "max_length": {
                                 "type": ["integer", "null"],
                                 "minimum": 0,
-                                "description": "Maximum length (for STRING and ARRAY types)",
+                                "description": "Maximum length (for STRING and ARRAY types)",  # noqa: E501
                             },
                             "pattern": {
                                 "type": ["string", "null"],

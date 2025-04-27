@@ -4,8 +4,7 @@ Tests for core interfaces in agentforge-contracts.
 
 import uuid
 from datetime import datetime
-from typing import Any, AsyncIterable, Dict, List, Optional, Protocol, runtime_checkable
-from unittest.mock import AsyncMock, patch
+from typing import Any, AsyncIterable, Dict, List, Optional
 
 import pytest
 
@@ -34,9 +33,6 @@ from shared_contracts.core.models.model_models import (
 )
 from shared_contracts.core.models.tool_models import (
     ToolDefinition,
-    ToolParameter,
-    ToolParameters,
-    ToolParameterType,
     ToolResult,
     ToolResultStatus,
 )

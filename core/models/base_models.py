@@ -3,11 +3,11 @@ Base models for the AgentForge platform.
 """
 
 from datetime import datetime
-from typing import Any, Dict, Generic, List, Optional, TypeVar, Union
+from typing import Generic, Optional, TypeVar
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel as PydanticBaseModel
-from pydantic import ConfigDict, Field, field_validator, model_validator
+from pydantic import ConfigDict, Field, model_validator
 
 T = TypeVar("T")
 
@@ -18,7 +18,7 @@ class BaseModel(PydanticBaseModel):
     model_config = ConfigDict(
         extra="forbid",  # Forbid extra attributes
         validate_assignment=True,  # Validate when attributes are assigned
-        arbitrary_types_allowed=True,  # Allow arbitrary types (needed for some edge cases)
+        arbitrary_types_allowed=True,  # Allow arbitrary types (needed for some edge cases)  # noqa: E501
         populate_by_name=True,  # Allow populating by field name
     )
 

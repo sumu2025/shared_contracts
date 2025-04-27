@@ -3,7 +3,6 @@ Model service interface definition.
 """
 
 from typing import Any, AsyncIterable, Dict, List, Optional, Protocol, runtime_checkable
-from uuid import UUID
 
 from ..models.base_models import BaseResponse
 from ..models.model_models import ModelConfig, ModelResponse

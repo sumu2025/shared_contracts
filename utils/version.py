@@ -3,7 +3,7 @@ Version management utilities.
 """
 
 import re
-from typing import Dict, Optional, Tuple
+from typing import Dict, Optional
 
 from packaging import version
 

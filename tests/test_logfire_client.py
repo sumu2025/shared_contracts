@@ -17,14 +17,11 @@ from shared_contracts.monitoring.monitor_types import (
     ServiceComponent,
 )
 from shared_contracts.monitoring.utils.logger_utils import (
-    configure_monitor,
-    get_monitor,
     track_performance,
     with_monitoring,
 )
 from shared_contracts.monitoring.utils.tracing_utils import (
     create_trace_context,
-    get_current_trace,
     trace_method,
 )
 

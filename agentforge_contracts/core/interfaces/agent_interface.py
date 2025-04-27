@@ -5,11 +5,11 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Protocol, Union
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from ..models.agent_models import AgentConfig, AgentState
-from ..models.base_models import BaseModel, BaseResponse
+from ..models.base_models import BaseResponse
 
 
 class AgentCreationResponse(BaseResponse):
@@ -38,7 +38,6 @@ class AgentServiceInterface(ABC):
             AuthorizationError: 如果无权创建代理
             DependencyError: 如果依赖服务不可用
         """
-        pass
 
     @abstractmethod
     async def get_agent(self, agent_id: UUID) -> AgentConfig:
@@ -55,7 +54,6 @@ class AgentServiceInterface(ABC):
             NotFoundError: 如果找不到代理
             AuthorizationError: 如果无权访问代理
         """
-        pass
 
     @abstractmethod
     async def update_agent(self, agent_id: UUID, config: AgentConfig) -> AgentConfig:
@@ -74,7 +72,6 @@ class AgentServiceInterface(ABC):
             ValidationError: 如果配置无效
             AuthorizationError: 如果无权更新代理
         """
-        pass
 
     @abstractmethod
     async def delete_agent(self, agent_id: UUID) -> bool:
@@ -91,7 +88,6 @@ class AgentServiceInterface(ABC):
             NotFoundError: 如果找不到代理
             AuthorizationError: 如果无权删除代理
         """
-        pass
 
     @abstractmethod
     async def list_agents(
@@ -115,7 +111,6 @@ class AgentServiceInterface(ABC):
             ValidationError: 如果过滤条件无效
             AuthorizationError: 如果无权列出代理
         """
-        pass
 
     @abstractmethod
     async def get_agent_state(self, agent_id: UUID) -> AgentState:
@@ -132,7 +127,6 @@ class AgentServiceInterface(ABC):
             NotFoundError: 如果找不到代理
             AuthorizationError: 如果无权访问代理状态
         """
-        pass
 
     @abstractmethod
     async def create_conversation(
@@ -157,7 +151,6 @@ class AgentServiceInterface(ABC):
             ValidationError: 如果参数无效
             AuthorizationError: 如果无权创建对话
         """
-        pass
 
     @abstractmethod
     async def send_message(
@@ -182,4 +175,3 @@ class AgentServiceInterface(ABC):
             ValidationError: 如果消息无效
             AuthorizationError: 如果无权发送消息
         """
-        pass

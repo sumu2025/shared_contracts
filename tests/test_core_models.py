@@ -2,7 +2,6 @@
 Tests for core data models in agentforge-contracts.
 """
 
-import json
 import uuid
 from datetime import datetime, timedelta
 

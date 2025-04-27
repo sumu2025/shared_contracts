@@ -22,7 +22,7 @@ from .monitor_models import (
     ServiceHealthStatus,
     TraceContext,
 )
-from .monitor_types import EventType, LogLevel, MonitorEvent, ServiceComponent
+from .monitor_types import EventType, LogLevel, ServiceComponent
 
 
 @runtime_checkable

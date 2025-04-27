@@ -26,7 +26,7 @@ def test_logfire():
         print("export LOGFIRE_WRITE_TOKEN='您的LogFire写入令牌'")
         return False
 
-    print(f"找到LOGFIRE_WRITE_TOKEN环境变量")
+    print("找到LOGFIRE_WRITE_TOKEN环境变量")
 
     try:
         # 设置监控客户端

@@ -7,12 +7,12 @@ import inspect
 import threading
 import time
 from contextlib import contextmanager
-from typing import Any, Callable, Dict, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Optional, TypeVar, cast
 
 from ..implementations.logfire_client import LogFireClient
 from ..implementations.logfire_config import LogFireConfig
 from ..monitor_interface import MonitorInterface
-from ..monitor_types import EventType, LogLevel, ServiceComponent
+from ..monitor_types import EventType, ServiceComponent
 
 # Global monitor instance
 _monitor: Optional[MonitorInterface] = None
@@ -71,7 +71,7 @@ def get_monitor() -> MonitorInterface:
     Raises:
         RuntimeError: If the monitor has not been configured
     """
-    global _monitor
+    #     global _monitor  # 未使用的全局声明
 
     if _monitor is None:
         raise RuntimeError(
@@ -90,7 +90,8 @@ def with_monitoring(
 
     Args:
         component: Service component
-        event_type: Event type (defaults to REQUEST for normal functions, RESPONSE for coroutines)
+        event_type: Event type (defaults to REQUEST for normal functions,
+            RESPONSE for coroutines)
 
     Returns:
         Decorated function

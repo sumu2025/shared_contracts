@@ -9,9 +9,7 @@ import json
 import logging
 import os
 import uuid
-from datetime import datetime
-from enum import Enum
-from typing import Any, AsyncIterable, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 
 # 模拟HTTP客户端
 import httpx
@@ -20,7 +18,6 @@ import httpx
 from agentforge_contracts.core.interfaces.model_interface import ModelServiceInterface
 from agentforge_contracts.core.models.base_models import BaseResponse
 from agentforge_contracts.core.models.model_models import (
-    ModelCapability,
     ModelConfig,
     ModelProvider,
     ModelResponse,
@@ -263,7 +260,7 @@ class OpenAIModelService(ModelService):
 
             # 记录成功响应
             monitor.info(
-                message=f"Successfully generated completion",
+                message="Successfully generated completion",
                 component=ServiceComponent.MODEL_SERVICE,
                 event_type=EventType.RESPONSE,
                 model_id=model_id,
@@ -434,7 +431,7 @@ class ClaudeModelService(ModelService):
 
             # 记录成功响应
             monitor.info(
-                message=f"Successfully generated completion",
+                message="Successfully generated completion",
                 component=ServiceComponent.MODEL_SERVICE,
                 event_type=EventType.RESPONSE,
                 model_id=model_id,

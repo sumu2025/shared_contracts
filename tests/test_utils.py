@@ -8,7 +8,7 @@ import time
 import uuid
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import List, Optional
 
 import pytest
 from pydantic import BaseModel, Field
@@ -29,7 +29,6 @@ from shared_contracts.utils.serialization import (
 )
 from shared_contracts.utils.timing import async_timed, measure_execution_time, timed
 from shared_contracts.utils.validation import (
-    ValidationResult,
     validate_enum_value,
     validate_model,
     validate_model_type,

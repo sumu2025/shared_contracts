@@ -157,7 +157,7 @@ SEND_MESSAGE_SCHEMA = {
         "conversation_id": {
             "type": "string",
             "format": "uuid",
-            "description": "Optional conversation ID, if continuing an existing conversation",
+            "description": "Optional conversation ID, if continuing an existing conversation",  # noqa: E501
         },
         "stream": {
             "type": "boolean",

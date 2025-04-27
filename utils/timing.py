@@ -6,8 +6,7 @@ import asyncio
 import functools
 import logging
 import time
-from datetime import datetime, timedelta
-from typing import Any, Callable, Dict, List, Optional, TypeVar, Union, cast
+from typing import Any, Callable, List, Optional, TypeVar, Union, cast
 
 T = TypeVar("T")
 F = TypeVar("F", bound=Callable[..., Any])
@@ -140,7 +139,7 @@ def retry_with_backoff(
                         break
 
                     logger.warning(
-                        f"Retry {retry+1}/{max_retries} for {func.__name__} after error: {e}"
+                        f"Retry {retry+1}/{max_retries} for {func.__name__} after error: {e}"  # noqa: E501
                     )
                     time.sleep(delay)
                     delay = min(delay * backoff_factor, max_delay)
@@ -161,7 +160,7 @@ def retry_with_backoff(
                         break
 
                     logger.warning(
-                        f"Retry {retry+1}/{max_retries} for {func.__name__} after error: {e}"
+                        f"Retry {retry+1}/{max_retries} for {func.__name__} after error: {e}"  # noqa: E501
                     )
                     await asyncio.sleep(delay)
                     delay = min(delay * backoff_factor, max_delay)

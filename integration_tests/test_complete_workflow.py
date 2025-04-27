@@ -4,18 +4,15 @@
 此模块测试Agent、Model和Tool服务间的完整交互场景，同时使用监控工具追踪数据流。
 """
 
-import asyncio
 import json
 import uuid
-from datetime import datetime
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, Optional
 
 import pytest
 
 from shared_contracts.core.models.agent_models import (
     AgentCapability,
     AgentConfig,
-    AgentStatus,
 )
 from shared_contracts.core.models.base_models import BaseResponse
 from shared_contracts.core.models.model_models import (
@@ -34,8 +31,6 @@ from shared_contracts.core.models.tool_models import (
 )
 from shared_contracts.monitoring import (
     EventType,
-    LogFireConfig,
-    LogLevel,
     MonitorInterface,
     ServiceComponent,
     configure_monitor,
@@ -123,7 +118,7 @@ class MockModelService:
         )
 
         self.monitor.info(
-            f"Completion generated",
+            "Completion generated",
             component=ServiceComponent.MODEL_SERVICE,
             event_type=EventType.RESPONSE,
             model_id=model_id,

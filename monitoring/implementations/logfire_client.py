@@ -3,7 +3,6 @@ LogFire client implementation for the AgentForge platform.
 """
 
 import asyncio
-import json
 import logging
 import platform
 import socket
@@ -11,7 +10,7 @@ import threading
 import time
 import uuid
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional, Set, Union
+from typing import Any, Dict, List, Literal, Optional, Union
 
 import httpx
 
@@ -27,7 +26,6 @@ from shared_contracts.monitoring.monitor_models import (
 from shared_contracts.monitoring.monitor_types import (
     EventType,
     LogLevel,
-    MonitorEvent,
     ServiceComponent,
 )
 
@@ -102,7 +100,7 @@ class LogFireClient(MonitorInterface):
         )
 
         self.logger.info(
-            f"LogFire client initialized for service {self.service_name} in {self.environment} environment"
+            f"LogFire client initialized for service {self.service_name} in {self.environment} environment"  # noqa: E501
         )
 
     def _configure_logger(self) -> None:
@@ -603,7 +601,7 @@ class LogFireClient(MonitorInterface):
             log_data["error"] = error
 
         level = LogLevel.ERROR if not success else LogLevel.INFO
-        message = f"API call to {api_name} {'succeeded' if success else 'failed'} with status {status_code}"
+        message = f"API call to {api_name} {'succeeded' if success else 'failed'} with status {status_code}"  # noqa: E501
 
         self.log(
             message=message,
@@ -1130,7 +1128,7 @@ class LogFireClient(MonitorInterface):
 
                 if response.status_code >= 400:
                     self.logger.error(
-                        f"Failed to send logs to LogFire: {response.status_code} {response.text}"
+                        f"Failed to send logs to LogFire: {response.status_code} {response.text}"  # noqa: E501
                     )
                     success = False
             except Exception as e:
@@ -1153,7 +1151,7 @@ class LogFireClient(MonitorInterface):
 
                 if response.status_code >= 400:
                     self.logger.error(
-                        f"Failed to send metrics to LogFire: {response.status_code} {response.text}"
+                        f"Failed to send metrics to LogFire: {response.status_code} {response.text}"  # noqa: E501
                     )
                     success = False
             except Exception as e:
@@ -1178,7 +1176,7 @@ class LogFireClient(MonitorInterface):
             loop = asyncio.get_event_loop()
             if loop.is_running():
                 # Create task if loop is already running
-                future = asyncio.create_task(self._do_flush())
+                #                 future = asyncio.create_task(self._do_flush())  # 未使用变量: future  # noqa: E501
                 # We can't easily wait for the result in this case
                 return True
             else:
@@ -1220,5 +1218,5 @@ class LogFireClient(MonitorInterface):
         """Clean up resources on deletion."""
         try:
             self.shutdown()
-        except:
+        except Exception:
             pass

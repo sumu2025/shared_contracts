@@ -5,7 +5,7 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
 from uuid import UUID
 
 from ..models.base_models import BaseModel, BaseResponse
@@ -50,7 +50,6 @@ class ToolServiceInterface(ABC):
         Raises:
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def get_tool(self, tool_id: str) -> ToolDefinition:
@@ -67,7 +66,6 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到工具
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def register_tool(self, definition: ToolDefinition) -> ToolDefinition:
@@ -84,7 +82,6 @@ class ToolServiceInterface(ABC):
             ValidationError: 如果定义无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def update_tool(
@@ -105,7 +102,6 @@ class ToolServiceInterface(ABC):
             ValidationError: 如果定义无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def delete_tool(self, tool_id: str) -> bool:
@@ -122,7 +118,6 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到工具
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def execute_tool(
@@ -142,7 +137,6 @@ class ToolServiceInterface(ABC):
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def get_execution_result(self, execution_id: UUID) -> ToolResult:
@@ -159,7 +153,6 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到执行
             ServiceError: 通用服务错误
         """
-        pass
 
     @abstractmethod
     async def cancel_execution(self, execution_id: UUID) -> bool:
@@ -177,4 +170,3 @@ class ToolServiceInterface(ABC):
             ValidationError: 如果执行已完成
             ServiceError: 通用服务错误
         """
-        pass

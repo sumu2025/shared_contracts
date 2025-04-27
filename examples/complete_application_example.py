@@ -14,23 +14,19 @@ import logging
 import os
 import uuid
 from datetime import datetime
-from typing import Any, AsyncIterable, Dict, List, Optional, Union
+from typing import Any, AsyncIterable, Dict, List
 
 # HTTP客户端
-import httpx
 
 # FastAPI用于API网关
 from fastapi import (
-    Depends,
     FastAPI,
-    HTTPException,
     Request,
     WebSocket,
     WebSocketDisconnect,
 )
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.staticfiles import StaticFiles
 
 # 导入shared_contracts组件
 from agentforge_contracts.core.interfaces.agent_interface import AgentServiceInterface
@@ -53,7 +49,6 @@ from agentforge_contracts.core.models.model_models import (
 from agentforge_contracts.core.models.tool_models import (
     ToolDefinition,
     ToolParameter,
-    ToolParameters,
     ToolParameterType,
     ToolResult,
     ToolResultStatus,
@@ -66,8 +61,6 @@ from agentforge_contracts.monitoring import (
     track_performance,
     with_monitoring,
 )
-from agentforge_contracts.utils.serialization import deserialize_model, serialize_model
-from agentforge_contracts.utils.timing import retry_with_backoff
 from agentforge_contracts.utils.validation import validate_parameters
 
 # 配置日志
@@ -176,7 +169,7 @@ class SimpleModelService(ModelServiceInterface):
         )
 
         monitor.info(
-            message=f"Response generated successfully",
+            message="Response generated successfully",
             component=ServiceComponent.MODEL_SERVICE,
             event_type=EventType.OPERATION,
             model_id=model_id,
@@ -245,7 +238,7 @@ class SimpleModelService(ModelServiceInterface):
             )
 
         monitor.info(
-            message=f"Stream response generated successfully",
+            message="Stream response generated successfully",
             component=ServiceComponent.MODEL_SERVICE,
             event_type=EventType.OPERATION,
             model_id=model_id,
@@ -872,7 +865,7 @@ async def websocket_chat(websocket: WebSocket):
         logger.error(f"WebSocket处理时出错: {str(e)}")
         try:
             await websocket.send_json({"type": "error", "error": f"服务器错误: {str(e)}"})
-        except:
+        except Exception:
             pass
 
 
@@ -891,7 +884,7 @@ async def run_example_workflow():
 
     # 展示已注册工具
     tools_response = await tool_service.list_tools()
-    print(f"\n已注册工具:")
+    print("\n已注册工具:")
     for tool in tools_response.data:
         print(f"  - {tool.name} ({tool.tool_id}): {tool.description}")
 

@@ -4,10 +4,9 @@ Tool-related data models.
 
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
-from uuid import UUID, uuid4
+from uuid import UUID
 
-from pydantic import ConfigDict, Field, field_validator, model_validator
-from pydantic.json_schema import JsonSchemaMode
+from pydantic import ConfigDict, Field, model_validator
 
 from .base_models import BaseModel
 

@@ -3,10 +3,10 @@ Monitoring data models.
 """
 
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
 
 from ..core.models.base_models import BaseModel as ContractBaseModel
 from .monitor_types import EventType, LogLevel, ServiceComponent

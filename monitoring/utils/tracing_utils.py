@@ -8,18 +8,14 @@ import inspect
 import threading
 from typing import (
     Any,
-    AsyncContextManager,
     Callable,
     ContextManager,
     Dict,
     Optional,
-    Type,
     TypeVar,
-    Union,
     cast,
 )
 
-from ..monitor_interface import MonitorInterface
 from ..monitor_models import TraceContext
 from ..monitor_types import EventType, ServiceComponent
 from .logger_utils import get_monitor
@@ -42,7 +38,8 @@ def trace_method(
 
     Args:
         component: Service component
-        event_type: Event type (defaults to REQUEST for normal methods, RESPONSE for coroutines)
+        event_type: Event type (defaults to REQUEST for normal methods,
+            RESPONSE for coroutines)
         include_args: Whether to include method arguments in the trace
 
     Returns:
@@ -240,7 +237,7 @@ def create_trace_context(
 
     Example:
         ```python
-        with create_trace_context("process_request", ServiceComponent.API_GATEWAY) as span:
+        with create_trace_context("process_request", ServiceComponent.API_GATEWAY) as span:  # noqa: E501
             # Process the request
             span.attributes["request_id"] = request.id
         ```

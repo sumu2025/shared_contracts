@@ -2,7 +2,7 @@
 Message type enumeration for the platform.
 """
 
-from enum import Enum, auto
+from enum import Enum
 
 
 class MessageType(str, Enum):

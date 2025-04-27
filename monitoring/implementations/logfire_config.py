@@ -2,7 +2,7 @@
 LogFire configuration for the AgentForge platform.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
