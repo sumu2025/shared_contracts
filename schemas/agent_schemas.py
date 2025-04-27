@@ -5,7 +5,7 @@ These schemas define the API contracts for the Agent Service,
 including endpoints for agent management and interaction.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Schema for creating an agent
 CREATE_AGENT_SCHEMA = {

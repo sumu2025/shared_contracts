@@ -5,7 +5,7 @@ These schemas define the API contracts for the Tool Service,
 including endpoints for tool management and execution.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Schema for registering a tool
 REGISTER_TOOL_SCHEMA = {

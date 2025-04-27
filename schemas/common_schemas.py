@@ -5,7 +5,7 @@ These schemas define common structures like pagination, error responses,
 and other shared patterns used in API contracts.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Schema for pagination parameters
 PAGINATION_SCHEMA = {

@@ -7,7 +7,7 @@ from typing import Any, Dict, Optional
 
 class ServiceError(Exception):
     """Base class for all service errors."""
-    
+
     def __init__(
         self,
         message: str,
@@ -20,7 +20,7 @@ class ServiceError(Exception):
         self.status_code = status_code
         self.details = details or {}
         super().__init__(self.message)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert error to dictionary format."""
         return {
@@ -32,7 +32,7 @@ class ServiceError(Exception):
 
 class NotFoundError(ServiceError):
     """Raised when a requested resource is not found."""
-    
+
     def __init__(
         self,
         message: str,
@@ -54,7 +54,7 @@ class NotFoundError(ServiceError):
 
 class ValidationError(ServiceError):
     """Raised when input validation fails."""
-    
+
     def __init__(
         self,
         message: str,
@@ -74,7 +74,7 @@ class ValidationError(ServiceError):
 
 class AuthenticationError(ServiceError):
     """Raised when authentication fails."""
-    
+
     def __init__(
         self,
         message: str = "Authentication failed",

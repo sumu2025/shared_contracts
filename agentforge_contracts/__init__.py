@@ -5,11 +5,9 @@ AgentForge Contracts - 共享契约库
 包括数据模型、接口规范和通用工具。
 """
 
-from . import core
-from . import monitoring
-from . import schemas
-from . import utils
 from shared_contracts.utils.version import get_version
+
+from . import core, monitoring, schemas, utils
 
 __version__ = "0.1.0"
 

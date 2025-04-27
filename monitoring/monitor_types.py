@@ -3,13 +3,15 @@ Monitoring types and enumerations.
 """
 
 from enum import Enum
-from typing import Dict, Any, List, Optional, Union
-from pydantic import BaseModel as PydanticBaseModel, Field
+from typing import Any, Dict, List, Optional, Union
+
+from pydantic import BaseModel as PydanticBaseModel
+from pydantic import Field
 
 
 class LogLevel(str, Enum):
     """Log level enumeration."""
-    
+
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -19,7 +21,7 @@ class LogLevel(str, Enum):
 
 class ServiceComponent(str, Enum):
     """Service component enumeration."""
-    
+
     AGENT_CORE = "agent_core"
     MODEL_SERVICE = "model_service"
     TOOL_SERVICE = "tool_service"
@@ -32,7 +34,7 @@ class ServiceComponent(str, Enum):
 
 class EventType(str, Enum):
     """Event type enumeration."""
-    
+
     REQUEST = "request"
     RESPONSE = "response"
     EXCEPTION = "exception"
@@ -45,7 +47,7 @@ class EventType(str, Enum):
 
 class MonitorEvent(PydanticBaseModel):
     """Base monitoring event model."""
-    
+
     timestamp: float = Field(..., description="Event timestamp (Unix time)")
     level: LogLevel = Field(..., description="Log level")
     component: ServiceComponent = Field(..., description="Service component")
@@ -53,4 +55,6 @@ class MonitorEvent(PydanticBaseModel):
     message: str = Field(..., description="Event message")
     data: Optional[Dict[str, Any]] = Field(None, description="Event data")
     tags: List[str] = Field(default_factory=list, description="Event tags")
-    trace_id: Optional[str] = Field(None, description="Trace ID for distributed tracing")
+    trace_id: Optional[str] = Field(
+        None, description="Trace ID for distributed tracing"
+    )

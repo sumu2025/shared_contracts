@@ -6,9 +6,9 @@ This module re-exports schema definitions from the shared_contracts package.
 
 from shared_contracts.schemas import (
     AGENT_API_SCHEMAS,
+    COMMON_SCHEMAS,
     MODEL_API_SCHEMAS,
     TOOL_API_SCHEMAS,
-    COMMON_SCHEMAS,
 )
 
 __all__ = [

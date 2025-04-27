@@ -2,9 +2,10 @@
 AI Model-related data models.
 """
 
-from typing import Any, Dict, List, Optional, Union
 from enum import Enum
+from typing import Any, Dict, List, Optional, Union
 from uuid import UUID, uuid4
+
 from pydantic import Field, field_validator, model_validator
 
 from .base_models import BaseModel
@@ -12,7 +13,7 @@ from .base_models import BaseModel
 
 class ModelProvider(str, Enum):
     """AI model provider enumeration."""
-    
+
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     COHERE = "cohere"
@@ -23,7 +24,7 @@ class ModelProvider(str, Enum):
 
 class ModelType(str, Enum):
     """AI model type enumeration."""
-    
+
     COMPLETION = "completion"
     CHAT = "chat"
     EMBEDDING = "embedding"
@@ -33,7 +34,7 @@ class ModelType(str, Enum):
 
 class ModelCapability(BaseModel):
     """Capabilities of an AI model."""
-    
+
     supports_streaming: bool = Field(
         default=False, description="Whether the model supports streaming"
     )
@@ -59,14 +60,14 @@ class ModelCapability(BaseModel):
 
 class ModelConfig(BaseModel):
     """Configuration for an AI model."""
-    
+
     model_id: str = Field(..., description="Unique model identifier", min_length=1)
     provider: ModelProvider = Field(..., description="Model provider")
     model_type: ModelType = Field(..., description="Model type")
-    display_name: str = Field(..., description="Human-readable model name", min_length=1)
-    capabilities: ModelCapability = Field(
-        ..., description="Model capabilities"
+    display_name: str = Field(
+        ..., description="Human-readable model name", min_length=1
     )
+    capabilities: ModelCapability = Field(..., description="Model capabilities")
     provider_model_id: str = Field(
         ..., description="Model identifier used by the provider", min_length=1
     )
@@ -85,7 +86,7 @@ class ModelConfig(BaseModel):
     metadata: Dict[str, str] = Field(
         default_factory=dict, description="Additional metadata"
     )
-    
+
     @field_validator("model_id")
     @classmethod
     def validate_model_id(cls, v: str) -> str:
@@ -100,13 +101,11 @@ class ModelConfig(BaseModel):
 
 class ModelResponse(BaseModel):
     """Response from an AI model."""
-    
+
     model_id: str = Field(..., description="Model identifier")
     request_id: UUID = Field(..., description="Request identifier")
     content: str = Field(..., description="Response content")
-    usage: Dict[str, int] = Field(
-        ..., description="Token usage statistics"
-    )
+    usage: Dict[str, int] = Field(..., description="Token usage statistics")
     finish_reason: Optional[str] = Field(
         None, description="Reason why the model finished generating"
     )

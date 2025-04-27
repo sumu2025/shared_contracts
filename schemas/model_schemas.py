@@ -5,7 +5,7 @@ These schemas define the API contracts for the Model Service,
 including endpoints for model management and inference.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 # Schema for registering a model
 REGISTER_MODEL_SCHEMA = {

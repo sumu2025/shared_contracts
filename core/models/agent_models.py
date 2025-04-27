@@ -2,10 +2,11 @@
 Agent-related data models.
 """
 
+from datetime import datetime
+from enum import Enum
 from typing import Dict, List, Optional, Set
 from uuid import UUID, uuid4
-from enum import Enum
-from datetime import datetime
+
 from pydantic import Field, field_validator
 
 from .base_models import BaseModel
@@ -13,7 +14,7 @@ from .base_models import BaseModel
 
 class AgentStatus(str, Enum):
     """Agent status enumeration."""
-    
+
     INITIALIZING = "initializing"
     READY = "ready"
     BUSY = "busy"
@@ -23,7 +24,7 @@ class AgentStatus(str, Enum):
 
 class AgentCapability(str, Enum):
     """Agent capability enumeration."""
-    
+
     CONVERSATION = "conversation"
     PLANNING = "planning"
     MEMORY = "memory"
@@ -34,10 +35,12 @@ class AgentCapability(str, Enum):
 
 class AgentConfig(BaseModel):
     """Configuration for an agent."""
-    
+
     agent_id: UUID = Field(default_factory=uuid4, description="Unique agent identifier")
     name: str = Field(..., description="Agent name", min_length=1, max_length=100)
-    description: str = Field(..., description="Agent description", min_length=1, max_length=500)
+    description: str = Field(
+        ..., description="Agent description", min_length=1, max_length=500
+    )
     capabilities: Set[AgentCapability] = Field(
         default_factory=set, description="Agent capabilities"
     )
@@ -57,7 +60,7 @@ class AgentConfig(BaseModel):
     metadata: Dict[str, str] = Field(
         default_factory=dict, description="Additional metadata"
     )
-    
+
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
@@ -69,7 +72,7 @@ class AgentConfig(BaseModel):
 
 class AgentState(BaseModel):
     """Agent state information."""
-    
+
     agent_id: UUID = Field(..., description="Agent identifier")
     status: AgentStatus = Field(..., description="Current agent status")
     created_at: datetime = Field(..., description="When the agent was created")

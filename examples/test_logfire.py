@@ -5,14 +5,16 @@ LogFire集成测试脚本
 """
 
 import os
-import time
 import sys
+import time
+
 from shared_contracts.monitoring import (
-    configure_monitor,
-    ServiceComponent,
     EventType,
     LogLevel,
+    ServiceComponent,
+    configure_monitor,
 )
+
 
 def test_logfire():
     """测试LogFire集成"""
@@ -23,9 +25,9 @@ def test_logfire():
         print("请使用以下命令设置:")
         print("export LOGFIRE_WRITE_TOKEN='您的LogFire写入令牌'")
         return False
-    
+
     print(f"找到LOGFIRE_WRITE_TOKEN环境变量")
-    
+
     try:
         # 设置监控客户端
         print("正在初始化LogFire客户端...")
@@ -36,7 +38,7 @@ def test_logfire():
             environment="development",
             min_log_level=LogLevel.DEBUG,
         )
-        
+
         # 发送测试日志
         print("发送测试日志...")
         test_id = str(int(time.time()))
@@ -46,7 +48,7 @@ def test_logfire():
             event_type=EventType.SYSTEM,
             test_id=test_id,
         )
-        
+
         # 发送测试指标
         print("发送测试指标...")
         monitor.record_metric(
@@ -54,24 +56,25 @@ def test_logfire():
             value=1.0,
             tags={"test_id": test_id},
         )
-        
+
         # 刷新确保发送
         print("刷新日志缓冲区...")
         monitor.flush()
-        
+
         print("=== 测试完成 ===")
         print("成功: 测试日志和指标已发送到LogFire")
         print(f"测试ID: {test_id}")
         print("请登录LogFire控制台确认日志是否正确接收")
         return True
-    
+
     except Exception as e:
         print(f"错误: LogFire测试失败: {e}")
         return False
     finally:
-        if 'monitor' in locals():
+        if "monitor" in locals():
             print("关闭LogFire客户端...")
             monitor.shutdown()
+
 
 if __name__ == "__main__":
     print("=== LogFire集成测试 ===")

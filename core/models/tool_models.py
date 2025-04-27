@@ -2,10 +2,11 @@
 Tool-related data models.
 """
 
+from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 from uuid import UUID, uuid4
-from enum import Enum
-from pydantic import Field, field_validator, model_validator, ConfigDict, Field
+
+from pydantic import ConfigDict, Field, field_validator, model_validator
 from pydantic.json_schema import JsonSchemaMode
 
 from .base_models import BaseModel
@@ -13,7 +14,7 @@ from .base_models import BaseModel
 
 class ToolParameterType(str, Enum):
     """Tool parameter type enumeration."""
-    
+
     STRING = "string"
     INTEGER = "integer"
     NUMBER = "number"
@@ -25,11 +26,13 @@ class ToolParameterType(str, Enum):
 
 class ToolParameter(BaseModel):
     """Definition of a tool parameter."""
-    
+
     name: str = Field(..., description="Parameter name", min_length=1)
     description: str = Field(..., description="Parameter description", min_length=1)
     type: ToolParameterType = Field(..., description="Parameter type")
-    required: bool = Field(default=True, description="Whether this parameter is required")
+    required: bool = Field(
+        default=True, description="Whether this parameter is required"
+    )
     default: Optional[Any] = Field(None, description="Default value for this parameter")
     enum: Optional[List[Any]] = Field(None, description="Enumeration of allowed values")
     min_value: Optional[Union[int, float]] = Field(
@@ -44,10 +47,8 @@ class ToolParameter(BaseModel):
     max_length: Optional[int] = Field(
         None, description="Maximum length (for STRING and ARRAY types)"
     )
-    pattern: Optional[str] = Field(
-        None, description="Regex pattern (for STRING type)"
-    )
-    
+    pattern: Optional[str] = Field(None, description="Regex pattern (for STRING type)")
+
     @model_validator(mode="after")
     def validate_parameter(self) -> "ToolParameter":
         """Validate parameter constraints based on type."""
@@ -55,56 +56,60 @@ class ToolParameter(BaseModel):
             if self.min_value is not None and self.max_value is not None:
                 if self.min_value > self.max_value:
                     raise ValueError("min_value cannot be greater than max_value")
-        
+
         if self.type in (ToolParameterType.STRING, ToolParameterType.ARRAY):
             if self.min_length is not None and self.max_length is not None:
                 if self.min_length > self.max_length:
                     raise ValueError("min_length cannot be greater than max_length")
-        
+
         # Validate that enum values match the parameter type
         if self.enum is not None:
             for value in self.enum:
                 if self.type == ToolParameterType.STRING and not isinstance(value, str):
                     raise ValueError(f"Enum value {value} is not a string")
-                elif self.type == ToolParameterType.INTEGER and not isinstance(value, int):
+                elif self.type == ToolParameterType.INTEGER and not isinstance(
+                    value, int
+                ):
                     raise ValueError(f"Enum value {value} is not an integer")
                 elif self.type == ToolParameterType.NUMBER and not isinstance(
                     value, (int, float)
                 ):
                     raise ValueError(f"Enum value {value} is not a number")
-                elif self.type == ToolParameterType.BOOLEAN and not isinstance(value, bool):
+                elif self.type == ToolParameterType.BOOLEAN and not isinstance(
+                    value, bool
+                ):
                     raise ValueError(f"Enum value {value} is not a boolean")
-        
+
         return self
 
 
 class ToolParameters(BaseModel):
     """Container for tool parameters with JSON schema generation."""
-    
+
     parameters: Dict[str, ToolParameter] = Field(
         default_factory=dict, description="Map of parameter names to definitions"
     )
-    
+
     def to_json_schema(self) -> Dict[str, Any]:
         """Convert to JSON schema format."""
         properties = {}
         required = []
-        
+
         for param_name, param in self.parameters.items():
             prop = {
                 "type": param.type.value,
                 "description": param.description,
             }
-            
+
             if param.enum is not None:
                 prop["enum"] = param.enum
-            
+
             if param.type in (ToolParameterType.INTEGER, ToolParameterType.NUMBER):
                 if param.min_value is not None:
                     prop["minimum"] = param.min_value
                 if param.max_value is not None:
                     prop["maximum"] = param.max_value
-            
+
             if param.type == ToolParameterType.STRING:
                 if param.min_length is not None:
                     prop["minLength"] = param.min_length
@@ -112,32 +117,32 @@ class ToolParameters(BaseModel):
                     prop["maxLength"] = param.max_length
                 if param.pattern is not None:
                     prop["pattern"] = param.pattern
-            
+
             if param.type == ToolParameterType.ARRAY:
                 if param.min_length is not None:
                     prop["minItems"] = param.min_length
                 if param.max_length is not None:
                     prop["maxItems"] = param.max_length
-            
+
             properties[param_name] = prop
-            
+
             if param.required:
                 required.append(param_name)
-        
+
         schema = {
             "type": "object",
             "properties": properties,
         }
-        
+
         if required:
             schema["required"] = required
-        
+
         return schema
 
 
 class ToolDefinition(BaseModel):
     """Definition of a tool."""
-    
+
     tool_id: str = Field(..., description="Unique tool identifier", min_length=1)
     name: str = Field(..., description="Tool name", min_length=1)
     description: str = Field(..., description="Tool description", min_length=1)
@@ -152,13 +157,14 @@ class ToolDefinition(BaseModel):
         default=False, description="Whether this tool requires authentication"
     )
     is_stateful: bool = Field(
-        default=False, description="Whether this tool maintains state between invocations"
+        default=False,
+        description="Whether this tool maintains state between invocations",
     )
 
 
 class ToolResultStatus(str, Enum):
     """Tool result status enumeration."""
-    
+
     SUCCESS = "success"
     ERROR = "error"
     PARTIAL = "partial"  # For streaming results
@@ -166,16 +172,18 @@ class ToolResultStatus(str, Enum):
 
 class ToolResult(BaseModel):
     """Result of a tool execution."""
-    
+
     tool_id: str = Field(..., description="Tool identifier")
     request_id: UUID = Field(..., description="Request identifier")
     status: ToolResultStatus = Field(..., description="Status of the execution")
-    data: Optional[Any] = Field(None, description="Result data (for SUCCESS and PARTIAL)")
+    data: Optional[Any] = Field(
+        None, description="Result data (for SUCCESS and PARTIAL)"
+    )
     error: Optional[str] = Field(None, description="Error message (for ERROR)")
     is_final: bool = Field(
         default=True, description="Whether this is the final result (for streaming)"
     )
-    
+
     @model_validator(mode="after")
     def validate_result(self) -> "ToolResult":
         """Validate result fields based on status."""

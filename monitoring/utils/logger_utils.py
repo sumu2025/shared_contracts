@@ -2,17 +2,17 @@
 Utilities for working with the monitoring client.
 """
 
-import time
 import functools
-import threading
 import inspect
-from typing import Any, Dict, Optional, Callable, TypeVar, cast, Type, Union
+import threading
+import time
 from contextlib import contextmanager
+from typing import Any, Callable, Dict, Optional, Type, TypeVar, Union, cast
 
-from ..monitor_interface import MonitorInterface
-from ..monitor_types import ServiceComponent, EventType, LogLevel
 from ..implementations.logfire_client import LogFireClient
 from ..implementations.logfire_config import LogFireConfig
+from ..monitor_interface import MonitorInterface
+from ..monitor_types import EventType, LogLevel, ServiceComponent
 
 # Global monitor instance
 _monitor: Optional[MonitorInterface] = None
@@ -32,19 +32,19 @@ def configure_monitor(
 ) -> MonitorInterface:
     """
     Configure the global monitor instance.
-    
+
     Args:
         service_name: Name of the service
         api_key: LogFire API key
         project_id: LogFire project ID
         environment: Deployment environment
         **options: Additional configuration options
-        
+
     Returns:
         The configured monitor instance
     """
     global _monitor
-    
+
     with _monitor_lock:
         # Create config
         config = LogFireConfig(
@@ -54,28 +54,30 @@ def configure_monitor(
             environment=environment,
             **options,
         )
-        
+
         # Create client
         _monitor = LogFireClient(config)
-        
+
         return _monitor
 
 
 def get_monitor() -> MonitorInterface:
     """
     Get the global monitor instance.
-    
+
     Returns:
         The monitor instance
-        
+
     Raises:
         RuntimeError: If the monitor has not been configured
     """
     global _monitor
-    
+
     if _monitor is None:
-        raise RuntimeError("Monitor has not been configured. Call configure_monitor first.")
-    
+        raise RuntimeError(
+            "Monitor has not been configured. Call configure_monitor first."
+        )
+
     return _monitor
 
 
@@ -85,33 +87,34 @@ def with_monitoring(
 ) -> Callable[[F], F]:
     """
     Decorator to add monitoring to a function.
-    
+
     Args:
         component: Service component
         event_type: Event type (defaults to REQUEST for normal functions, RESPONSE for coroutines)
-        
+
     Returns:
         Decorated function
     """
-    
+
     def decorator(func: F) -> F:
         # Determine if the function is a coroutine
         is_coroutine = inspect.iscoroutinefunction(func)
-        
+
         # Choose default event type if not specified
         nonlocal event_type
         if event_type is None:
             event_type = EventType.RESPONSE if is_coroutine else EventType.REQUEST
-        
+
         if is_coroutine:
+
             @functools.wraps(func)
             async def async_wrapper(*args: Any, **kwargs: Any) -> Any:
                 monitor = get_monitor()
                 start_time = time.time()
-                
+
                 # Get the bound function name (including class name if method)
                 func_name = _get_function_name(func, args)
-                
+
                 # Start a span
                 span = monitor.start_span(
                     name=func_name,
@@ -119,11 +122,11 @@ def with_monitoring(
                     event_type=cast(EventType, event_type),
                     data=_safe_args_to_dict(func, args, kwargs),
                 )
-                
+
                 try:
                     # Call the function
                     result = await func(*args, **kwargs)
-                    
+
                     # Record success
                     duration_ms = (time.time() - start_time) * 1000
                     monitor.record_performance(
@@ -132,10 +135,10 @@ def with_monitoring(
                         component=component,
                         success=True,
                     )
-                    
+
                     # End span
                     monitor.end_span(span, status="ok")
-                    
+
                     return result
                 except Exception as e:
                     # Record failure
@@ -147,7 +150,7 @@ def with_monitoring(
                         success=False,
                         details={"error": str(e), "error_type": type(e).__name__},
                     )
-                    
+
                     # End span with error
                     monitor.end_span(
                         span,
@@ -155,20 +158,21 @@ def with_monitoring(
                         error_message=str(e),
                         data={"error_type": type(e).__name__},
                     )
-                    
+
                     # Re-raise the exception
                     raise
-            
+
             return cast(F, async_wrapper)
         else:
+
             @functools.wraps(func)
             def wrapper(*args: Any, **kwargs: Any) -> Any:
                 monitor = get_monitor()
                 start_time = time.time()
-                
+
                 # Get the bound function name (including class name if method)
                 func_name = _get_function_name(func, args)
-                
+
                 # Start a span
                 span = monitor.start_span(
                     name=func_name,
@@ -176,11 +180,11 @@ def with_monitoring(
                     event_type=cast(EventType, event_type),
                     data=_safe_args_to_dict(func, args, kwargs),
                 )
-                
+
                 try:
                     # Call the function
                     result = func(*args, **kwargs)
-                    
+
                     # Record success
                     duration_ms = (time.time() - start_time) * 1000
                     monitor.record_performance(
@@ -189,10 +193,10 @@ def with_monitoring(
                         component=component,
                         success=True,
                     )
-                    
+
                     # End span
                     monitor.end_span(span, status="ok")
-                    
+
                     return result
                 except Exception as e:
                     # Record failure
@@ -204,7 +208,7 @@ def with_monitoring(
                         success=False,
                         details={"error": str(e), "error_type": type(e).__name__},
                     )
-                    
+
                     # End span with error
                     monitor.end_span(
                         span,
@@ -212,12 +216,12 @@ def with_monitoring(
                         error_message=str(e),
                         data={"error_type": type(e).__name__},
                     )
-                    
+
                     # Re-raise the exception
                     raise
-            
+
             return cast(F, wrapper)
-    
+
     return decorator
 
 
@@ -230,13 +234,13 @@ def track_performance(
 ):
     """
     Context manager to track the performance of a block of code.
-    
+
     Args:
         operation_name: Name of the operation
         component: Service component
         event_type: Event type
         extra_data: Additional data to log
-        
+
     Example:
         ```python
         with track_performance("process_data", ServiceComponent.AGENT_CORE) as span:
@@ -246,7 +250,7 @@ def track_performance(
     """
     monitor = get_monitor()
     start_time = time.time()
-    
+
     # Start a span
     span = monitor.start_span(
         name=operation_name,
@@ -254,19 +258,19 @@ def track_performance(
         event_type=event_type,
         data=extra_data,
     )
-    
+
     # Create a helper to add data to the span
     class SpanContext:
         def add_data(self, data: Dict[str, Any]) -> None:
             """Add data to the span."""
             span.attributes.update(data)
-    
+
     span_context = SpanContext()
-    
+
     try:
         # Yield the span context
         yield span_context
-        
+
         # Record success
         duration_ms = (time.time() - start_time) * 1000
         monitor.record_performance(
@@ -276,7 +280,7 @@ def track_performance(
             success=True,
             details=span.attributes,
         )
-        
+
         # End span
         monitor.end_span(span, status="ok", data=span.attributes)
     except Exception as e:
@@ -293,7 +297,7 @@ def track_performance(
                 "error_type": type(e).__name__,
             },
         )
-        
+
         # End span with error
         monitor.end_span(
             span,
@@ -301,7 +305,7 @@ def track_performance(
             error_message=str(e),
             data={**span.attributes, "error_type": type(e).__name__},
         )
-        
+
         # Re-raise the exception
         raise
 
@@ -317,9 +321,9 @@ def log_api_call(
 ) -> None:
     """
     Log an API call.
-    
+
     This is a convenience wrapper around monitor.record_api_call.
-    
+
     Args:
         api_name: Name of the API
         status_code: HTTP status code
@@ -344,11 +348,11 @@ def log_api_call(
 def _get_function_name(func: Callable[..., Any], args: tuple) -> str:
     """
     Get the bound function name, including class name if method.
-    
+
     Args:
         func: Function
         args: Function arguments
-        
+
     Returns:
         Function name
     """
@@ -359,19 +363,21 @@ def _get_function_name(func: Callable[..., Any], args: tuple) -> str:
             method = getattr(cls, func.__name__)
             if getattr(method, "__func__", None) is func:
                 return f"{cls.__name__}.{func.__name__}"
-    
+
     return func.__name__
 
 
-def _safe_args_to_dict(func: Callable[..., Any], args: tuple, kwargs: Dict[str, Any]) -> Dict[str, Any]:
+def _safe_args_to_dict(
+    func: Callable[..., Any], args: tuple, kwargs: Dict[str, Any]
+) -> Dict[str, Any]:
     """
     Convert function arguments to a dictionary, safely handling non-serializable values.
-    
+
     Args:
         func: Function
         args: Positional arguments
         kwargs: Keyword arguments
-        
+
     Returns:
         Dictionary of arguments
     """
@@ -382,31 +388,29 @@ def _safe_args_to_dict(func: Callable[..., Any], args: tuple, kwargs: Dict[str, 
             method = getattr(cls, func.__name__)
             if getattr(method, "__func__", None) is func:
                 args = args[1:]
-    
+
     # Get function signature
     try:
         sig = inspect.signature(func)
         parameters = list(sig.parameters.keys())
-        
+
         # Build args dict
         args_dict = {}
-        
+
         # Add positional args
         for i, arg in enumerate(args):
             if i < len(parameters):
                 param_name = parameters[i]
                 args_dict[param_name] = _safe_serialize(arg)
-        
+
         # Add keyword args
         for key, value in kwargs.items():
             args_dict[key] = _safe_serialize(value)
-        
+
         return args_dict
     except Exception:
         # Fall back to just counting args
-        return {
-            f"arg{i}": _safe_serialize(arg) for i, arg in enumerate(args)
-        } | {
+        return {f"arg{i}": _safe_serialize(arg) for i, arg in enumerate(args)} | {
             key: _safe_serialize(value) for key, value in kwargs.items()
         }
 
@@ -414,10 +418,10 @@ def _safe_args_to_dict(func: Callable[..., Any], args: tuple, kwargs: Dict[str, 
 def _safe_serialize(value: Any) -> Any:
     """
     Safely serialize a value for logging.
-    
+
     Args:
         value: Value to serialize
-        
+
     Returns:
         Serializable value
     """
