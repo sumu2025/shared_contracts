@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+    
+    - name: 设置Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install
+        
+    - name: 代码风格检查
+      run: |
+        poetry run black . --check --line-length=88
+        poetry run isort . --check --profile black
+        poetry run flake8 . --max-line-length=88 --extend-ignore=E203
+        
+    - name: 类型检查
+      run: |
+        poetry run mypy .
+        
+  test:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+    
+    - name: 设置Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install
+        
+    - name: 运行单元测试
+      run: |
+        poetry run pytest -xvs tests/
+        
+    - name: 测试覆盖率报告
+      run: |
+        poetry run pytest --cov=agentforge_contracts tests/ --cov-report=xml
+    
+    - name: 上传覆盖率报告
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+        
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+    - name: 检出代码
+      uses: actions/checkout@v3
+    
+    - name: 设置Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: 安装依赖
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry config virtualenvs.create false
+        poetry install
+        
+    - name: 构建包
+      run: |
+        poetry build
+        
+    - name: 上传构建产物
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+        retention-days: 5
+
+  # 仅在主分支上触发部署流程
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+    - name: 下载构建产物
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist
+        
+    - name: 列出构建产物
+      run: ls -la dist/
+      
+    # 在实际环境中，这里可以添加发布到PyPI或私有仓库的步骤
+    # 现在仅模拟部署过程
+    - name: 模拟部署
+      run: |
+        echo "部署shared_contracts包到测试环境"
+        echo "部署版本: $(cat dist/*.tar.gz | cut -d'-' -f2 | cut -d'.' -f1-3)"
+        echo "部署时间: $(date)"
