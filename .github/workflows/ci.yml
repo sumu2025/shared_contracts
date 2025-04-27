@@ -36,7 +36,7 @@ jobs:
         
     - name: 类型检查
       run: |
-        poetry run mypy --no-namespace-packages --explicit-package-bases .
+        poetry run mypy --namespace-packages --explicit-package-bases .
         
   test:
     runs-on: ubuntu-latest
