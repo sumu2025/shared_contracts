@@ -8,7 +8,11 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Union
 
 from agentforge_contracts.core.models.base_models import BaseModel, BaseResponse
-from agentforge_contracts.core.models.model_models import ModelCapability, ModelConfig, ModelType
+from agentforge_contracts.core.models.model_models import (
+    ModelCapability,
+    ModelConfig,
+    ModelType,
+)
 
 
 class ModelRequest(BaseModel):
