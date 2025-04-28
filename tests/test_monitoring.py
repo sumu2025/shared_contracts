@@ -1,6 +1,4 @@
-"""
-Tests for monitoring components in agentforge-contracts.
-"""
+"""Tests for monitoring components in agentforge-contracts...."""
 
 import uuid
 from datetime import datetime
@@ -25,10 +23,10 @@ from shared_contracts.monitoring.monitor_types import (
 
 
 class TestMonitorTypes:
-    """Tests for monitoring types and enumerations."""
+    """Tests for monitoring types and enumerations...."""
 
     def test_log_level_enum(self):
-        """Test LogLevel enumeration."""
+        """Test LogLevel enumeration...."""
         assert LogLevel.DEBUG == "debug"
         assert LogLevel.INFO == "info"
         assert LogLevel.WARNING == "warning"
@@ -40,7 +38,7 @@ class TestMonitorTypes:
         assert LogLevel.WARNING.value == "warning"
 
     def test_service_component_enum(self):
-        """Test ServiceComponent enumeration."""
+        """Test ServiceComponent enumeration...."""
         assert ServiceComponent.AGENT_CORE == "agent_core"
         assert ServiceComponent.MODEL_SERVICE == "model_service"
         assert ServiceComponent.TOOL_SERVICE == "tool_service"
@@ -51,7 +49,7 @@ class TestMonitorTypes:
         assert ServiceComponent.API_GATEWAY.value == "api_gateway"
 
     def test_event_type_enum(self):
-        """Test EventType enumeration."""
+        """Test EventType enumeration...."""
         assert EventType.REQUEST == "request"
         assert EventType.RESPONSE == "response"
         assert EventType.EXCEPTION == "exception"
@@ -62,7 +60,7 @@ class TestMonitorTypes:
         assert EventType.VALIDATION.value == "validation"
 
     def test_monitor_event(self):
-        """Test MonitorEvent model."""
+        """Test MonitorEvent model...."""
         now = datetime.utcnow().timestamp()
         event = MonitorEvent(
             timestamp=now,
@@ -86,10 +84,10 @@ class TestMonitorTypes:
 
 
 class TestMonitorModels:
-    """Tests for monitoring models."""
+    """Tests for monitoring models...."""
 
     def test_metric_value(self):
-        """Test MetricValue model."""
+        """Test MetricValue model...."""
         value = MetricValue(value=42.0, tags={"host": "server-1"})
 
         assert value.value == 42.0
@@ -97,7 +95,7 @@ class TestMonitorModels:
         assert value.tags["host"] == "server-1"
 
     def test_metric(self):
-        """Test Metric model."""
+        """Test Metric model...."""
         metric = Metric(
             name="request_count",
             description="Number of requests",
@@ -117,7 +115,7 @@ class TestMonitorModels:
         assert metric.values[1].tags["endpoint"] == "/api/v1"
 
     def test_resource_usage(self):
-        """Test ResourceUsage model."""
+        """Test ResourceUsage model...."""
         usage = ResourceUsage(
             cpu_percent=25.5,
             memory_percent=40.2,
@@ -135,7 +133,7 @@ class TestMonitorModels:
         assert usage.open_file_descriptors == 42
 
     def test_service_health_status(self):
-        """Test ServiceHealthStatus model."""
+        """Test ServiceHealthStatus model...."""
         health = ServiceHealthStatus(
             service_id="agent-service-1",
             service_name="Agent Service",
@@ -165,7 +163,7 @@ class TestMonitorModels:
         assert health.resource_usage.cpu_percent == 25.5
 
     def test_trace_context(self):
-        """Test TraceContext model."""
+        """Test TraceContext model...."""
         trace = TraceContext(
             service_name="agent-service", operation_name="process-request"
         )
@@ -182,7 +180,7 @@ class TestMonitorModels:
         assert trace.error_message is None
 
     def test_alert_config(self):
-        """Test AlertConfig model."""
+        """Test AlertConfig model...."""
         alert = AlertConfig(
             name="High CPU Alert",
             description="Alert when CPU usage is too high",
@@ -205,7 +203,7 @@ class TestMonitorModels:
         assert alert.enabled is True
 
     def test_alert_instance(self):
-        """Test AlertInstance model."""
+        """Test AlertInstance model...."""
         alert_id = uuid.uuid4()
         instance = AlertInstance(
             alert_id=alert_id,
@@ -231,7 +229,7 @@ class TestMonitorModels:
         assert instance.resolution_message is None
 
     def test_log_config(self):
-        """Test LogConfig model."""
+        """Test LogConfig model...."""
         config = LogConfig(
             service_name="agent-service",
             environment="production",
@@ -267,10 +265,10 @@ class TestMonitorModels:
 
 
 class TestMonitorInterface:
-    """Tests for monitor interface."""
+    """Tests for monitor interface...."""
 
     def test_interface_implementation(self):
-        """Test implementation of MonitorInterface."""
+        """Test implementation of MonitorInterface...."""
 
         # Create a mock implementation
         class MockMonitor:

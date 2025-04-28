@@ -1,6 +1,4 @@
-"""
-Message type enumeration for the platform.
-"""
+"""Message type enumeration for the platform...."""
 
 from enum import Enum
 
@@ -11,7 +9,7 @@ class MessageType(str, Enum):
 
     This enum is used to categorize messages exchanged between services,
     agents, and users, enabling proper routing and handling.
-    """
+ ..."""
 
     # User-related messages
     USER_MESSAGE = "user_message"  # Message from a user to an agent

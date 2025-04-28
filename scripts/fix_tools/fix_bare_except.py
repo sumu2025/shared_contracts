@@ -1,11 +1,11 @@
-"""修复裸异常问题"""
+"""修复裸异常问题...."""
 import re
 import sys
 from pathlib import Path
 
 
 def fix_bare_except(file_path):
-    """修复指定文件中的裸异常问题"""
+    """修复指定文件中的裸异常问题...."""
     content = Path(file_path).read_text(encoding="utf-8")
     lines = content.splitlines()
 

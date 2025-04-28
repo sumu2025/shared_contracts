@@ -2,8 +2,7 @@
 API schema definitions for the Tool Service.
 
 These schemas define the API contracts for the Tool Service,
-including endpoints for tool management and execution.
-"""
+including endpoints for tool management and executio..."""
 
 from typing import Any, Dict
 

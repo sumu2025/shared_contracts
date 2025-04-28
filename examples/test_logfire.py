@@ -1,8 +1,7 @@
 """
 LogFire集成测试脚本
 
-此脚本测试LogFire集成是否正常工作，使用环境变量中的写入令牌。
-"""
+此脚本测试LogFire集成是否正常工作，使用环境变量中的写入令..."""
 
 import os
 import sys
@@ -17,7 +16,7 @@ from shared_contracts.monitoring import (
 
 
 def test_logfire():
-    """测试LogFire集成"""
+    """测试LogFire集成...."""
     # 检查环境变量
     token = os.environ.get("LOGFIRE_WRITE_TOKEN")
     if not token:

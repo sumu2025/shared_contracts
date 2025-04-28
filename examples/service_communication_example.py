@@ -1,14 +1,14 @@
 """
 示例：服务间通信
 
-本示例展示如何使用shared_contracts模块进行服务间通信，包括HTTP调用和消息队列两种模式。
-"""
+本示例展示如何使用shared_contracts模块进行服务间通信，包括HTTP调用和消息队列两种模..."""
 
 import asyncio
 import json
 import os
 import uuid
 from datetime import datetime
+from typing import Any, Awaitable, Callable, Dict, List, Optional, Union
 
 # 模拟HTTP客户端
 import httpx
@@ -43,20 +43,20 @@ monitor = configure_monitor(
 
 
 class ServiceClient:
-    """服务客户端基类。"""
+    """服务客户端基类。...."""
 
     def __init__(self, base_url: str, service_name: str):
-        """初始化客户端。"""
+        """初始化客户端。...."""
         self.base_url = base_url
         self.service_name = service_name
         self.client = httpx.AsyncClient(base_url=base_url)
 
-    async def close(self):
-        """关闭客户端。"""
+    async def close(self) -> None:
+        """关闭客户端。...."""
         await self.client.aclose()
 
-    async def request(self, method, endpoint, data=None, params=None):
-        """发送请求。"""
+    async def request(self, method: str, endpoint: str, data: Optional[Dict[str, Any]] = None, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:  # noqa: E501
+        """发送请求。...."""
         try:
             # 记录请求日志
             monitor.info(
@@ -117,24 +117,24 @@ class ServiceClient:
 
 
 class AgentServiceClient(ServiceClient):
-    """Agent服务客户端。"""
+    """Agent服务客户端。...."""
 
     def __init__(self, base_url="http://localhost:8001"):
-        """初始化代理服务客户端。"""
+        """初始化代理服务客户端。...."""
         super().__init__(base_url, "agent-service")
 
-    async def create_agent(self, config: AgentConfig):
-        """创建代理。"""
+    async def create_agent(self, config: AgentConfig) -> Dict[str, Any]:
+        """创建代理。...."""
         return await self.request("POST", "/agents", data=config.model_dump())
 
-    async def get_agent(self, agent_id: uuid.UUID):
-        """获取代理。"""
+    async def get_agent(self, agent_id: uuid.UUID) -> Dict[str, Any]:
+        """获取代理。...."""
         return await self.request("GET", f"/agents/{agent_id}")
 
     async def send_message(
-        self, agent_id: uuid.UUID, message: str, conversation_id=None
-    ):
-        """向代理发送消息。"""
+        self, agent_id: uuid.UUID, message: str, conversation_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """向代理发送消息。...."""
         data = {"message": message}
         if conversation_id:
             data["conversation_id"] = str(conversation_id)
@@ -143,22 +143,22 @@ class AgentServiceClient(ServiceClient):
 
 
 class ModelServiceClient(ServiceClient):
-    """Model服务客户端。"""
+    """Model服务客户端。...."""
 
     def __init__(self, base_url="http://localhost:8002"):
-        """初始化模型服务客户端。"""
+        """初始化模型服务客户端。...."""
         super().__init__(base_url, "model-service")
 
-    async def register_model(self, config: ModelConfig):
-        """注册模型。"""
+    async def register_model(self, config: ModelConfig) -> Dict[str, Any]:
+        """注册模型。...."""
         return await self.request("POST", "/models", data=config.model_dump())
 
-    async def get_model(self, model_id: str):
-        """获取模型。"""
+    async def get_model(self, model_id: str) -> Dict[str, Any]:
+        """获取模型。...."""
         return await self.request("GET", f"/models/{model_id}")
 
-    async def generate_completion(self, model_id: str, prompt: str, **options):
-        """生成完成。"""
+    async def generate_completion(self, model_id: str, prompt: str, **options) -> Dict[str, Any]:  # noqa: E501
+        """生成完成。...."""
         data = {"model_id": model_id, "prompt": prompt, **options}
         return await self.request("POST", "/completions", data=data)
 
@@ -167,14 +167,14 @@ class ModelServiceClient(ServiceClient):
 
 
 class MessageQueue:
-    """模拟消息队列。"""
+    """模拟消息队列。...."""
 
     def __init__(self):
         self.queues = {}
         self.consumers = {}
 
-    async def push(self, queue_name, message):
-        """推送消息到队列。"""
+    async def push(self, queue_name: str, message: Any) -> None:
+        """推送消息到队列。...."""
         if queue_name not in self.queues:
             self.queues[queue_name] = []
 
@@ -185,8 +185,8 @@ class MessageQueue:
             for consumer in self.consumers[queue_name]:
                 await consumer(message)
 
-    async def consume(self, queue_name, callback):
-        """消费队列消息。"""
+    async def consume(self, queue_name: str, callback: Callable[[Any], Awaitable[None]]) -> None:  # noqa: E501
+        """消费队列消息。...."""
         if queue_name not in self.consumers:
             self.consumers[queue_name] = []
 
@@ -194,14 +194,14 @@ class MessageQueue:
 
 
 class MessageQueueClient:
-    """消息队列客户端。"""
+    """消息队列客户端。...."""
 
     def __init__(self, message_queue):
         self.message_queue = message_queue
         self.pending_requests = {}
 
-    async def send_request(self, service_name, action, data, timeout=5.0):
-        """发送请求。"""
+    async def send_request(self, service_name: str, action: str, data: Any, timeout: float = 5.0) -> Dict[str, Any]:  # noqa: E501
+        """发送请求。...."""
         # 生成请求ID
         request_id = str(uuid.uuid4())
 
@@ -218,8 +218,8 @@ class MessageQueueClient:
         }
 
         # 设置响应处理器
-        async def handle_response(message):
-            """处理响应。"""
+        async def handle_response(message: Any) -> None:
+            """处理响应。...."""
             message_data = json.loads(message) if isinstance(message, str) else message
             response_id = message_data.get("request_id")
 
@@ -243,13 +243,13 @@ class MessageQueueClient:
 
 
 class AgentMQClient:
-    """代理服务消息队列客户端。"""
+    """代理服务消息队列客户端。...."""
 
     def __init__(self, mq_client):
         self.mq_client = mq_client
 
-    async def create_agent(self, config: AgentConfig):
-        """创建代理。"""
+    async def create_agent(self, config: AgentConfig) -> Dict[str, Any]:
+        """创建代理。...."""
         serialized = serialize_model(config)
         response = await self.mq_client.send_request(
             "agent", "create_agent", serialized
@@ -263,8 +263,8 @@ class AgentMQClient:
         else:
             return {"success": False, "error": response.get("error")}
 
-    async def send_message(self, agent_id: uuid.UUID, message: str):
-        """向代理发送消息。"""
+    async def send_message(self, agent_id: uuid.UUID, message: str) -> Dict[str, Any]:
+        """向代理发送消息。...."""
         data = {"agent_id": str(agent_id), "message": message}
 
         return await self.mq_client.send_request("agent", "send_message", data)
@@ -274,7 +274,7 @@ class AgentMQClient:
 
 
 class MockAgentService:
-    """模拟的代理服务实现。"""
+    """模拟的代理服务实现。...."""
 
     def __init__(self, message_queue=None):
         self.agents = {}
@@ -285,11 +285,11 @@ class MockAgentService:
         if self.message_queue:
             asyncio.create_task(self._start_consumer())
 
-    async def _start_consumer(self):
-        """启动消息队列消费者。"""
+    async def _start_consumer(self) -> None:
+        """启动消息队列消费者。...."""
 
-        async def handle_request(message):
-            """处理请求。"""
+        async def handle_request(message: Any) -> None:
+            """处理请求。...."""
             # 解析请求
             request = json.loads(message) if isinstance(message, str) else message
             request_id = request.get("request_id")
@@ -331,8 +331,8 @@ class MockAgentService:
         await self.message_queue.consume("agent_requests", handle_request)
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
-    async def create_agent(self, config: AgentConfig) -> BaseResponse[AgentConfig]:
-        """创建代理。"""
+    async def create_agent(self, config: AgentConfig) -> BaseResponse:
+        """创建代理。...."""
         # 确保代理ID
         agent_id = config.agent_id or uuid.uuid4()
         config.agent_id = agent_id
@@ -356,8 +356,8 @@ class MockAgentService:
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def send_message_to_agent(
         self, agent_id: uuid.UUID, message: str
-    ) -> BaseResponse[dict]:
-        """向代理发送消息。"""
+    ) -> BaseResponse:
+        """向代理发送消息。...."""
         # 检查代理是否存在
         if agent_id not in self.agents:
             return BaseResponse(
@@ -404,8 +404,8 @@ class MockAgentService:
 # ====== HTTP通信示例 ======
 
 
-async def http_communication_example():
-    """使用HTTP进行服务间通信的示例。"""
+async def http_communication_example() -> None:
+    """使用HTTP进行服务间通信的示例。...."""
     print("\n==== HTTP通信示例 ====")
 
     # 创建代理服务客户端
@@ -449,8 +449,8 @@ async def http_communication_example():
 # ====== 消息队列通信示例 ======
 
 
-async def message_queue_example():
-    """使用消息队列进行服务间通信的示例。"""
+async def message_queue_example() -> None:
+    """使用消息队列进行服务间通信的示例。...."""
     print("\n==== 消息队列通信示例 ====")
 
     # 创建消息队列
@@ -498,8 +498,8 @@ async def message_queue_example():
 # ====== 主函数 ====
 
 
-async def main():
-    """主函数。"""
+async def main() -> None:
+    """主函数。...."""
     print("==== AgentForge服务通信示例 ====")
 
     # 运行HTTP通信示例

@@ -2,8 +2,7 @@
 Serialization utilities for converting between different data formats.
 
 This module provides functions for serializing and deserializing data between
-different formats, with special handling for Pydantic models and common data types.
-"""
+different formats, with special handling for Pydantic models and common data type..."""
 
 import datetime
 import json
@@ -17,10 +16,10 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class CustomJSONEncoder(json.JSONEncoder):
-    """Custom JSON encoder with extended type support."""
+    """Custom JSON encoder with extended type support...."""
 
     def default(self, obj: Any) -> Any:
-        """Handle special types during JSON encoding."""
+        """Handle special types during JSON encoding...."""
         # Handle datetime
         if isinstance(obj, (datetime.datetime, datetime.date, datetime.time)):
             return obj.isoformat()
@@ -66,7 +65,7 @@ def model_to_dict(
 
     Returns:
         Dictionary representation of the model
-    """
+ ..."""
     return model.model_dump(
         exclude=set(exclude) if exclude else None,
         exclude_none=exclude_none,
@@ -92,7 +91,7 @@ def dict_to_model(
 
     Raises:
         ValidationError: If the data does not match the model
-    """
+ ..."""
     return model_class.model_validate(data, strict=strict)
 
 
@@ -117,7 +116,7 @@ def model_to_json(
 
     Returns:
         JSON string representation of the model
-    """
+ ..."""
     dict_data = model_to_dict(
         model=model,
         exclude=exclude,
@@ -152,7 +151,7 @@ def json_to_model(
     Raises:
         ValidationError: If the JSON data does not match the model
         json.JSONDecodeError: If the JSON is invalid
-    """
+ ..."""
     data = json.loads(json_str)
     return dict_to_model(data, model_class, strict=strict)
 
@@ -172,7 +171,7 @@ def deep_dict_update(
 
     Returns:
         Updated dictionary
-    """
+ ..."""
     result = base_dict.copy()
 
     for key, value in update_dict.items():
@@ -212,7 +211,7 @@ def serialize_with_custom_handlers(
 
     Raises:
         TypeError: If an object can't be serialized and no default_handler is provided
-    """
+ ..."""
     handlers = custom_handlers or {}
 
     def _serialize(obj: Any) -> Any:
@@ -274,7 +273,7 @@ def data_to_bytes(
 
     Returns:
         Bytes representation of the data
-    """
+ ..."""
     if isinstance(data, bytes):
         return data
 
@@ -308,7 +307,7 @@ def bytes_to_data(
 
     Raises:
         ValueError: If conversion to the target type fails
-    """
+ ..."""
     # Decode to string
     str_data = data_bytes.decode(encoding)
 

@@ -1,6 +1,4 @@
-"""
-Tests for core data models in agentforge-contracts.
-"""
+"""Tests for core data models in agentforge-contracts...."""
 
 import uuid
 from datetime import datetime, timedelta
@@ -37,10 +35,10 @@ from shared_contracts.core.models.tool_models import (
 
 
 class TestBaseModels:
-    """Tests for base models."""
+    """Tests for base models...."""
 
     def test_base_model(self):
-        """Test BaseModel validation."""
+        """Test BaseModel validation...."""
 
         class TestModel(BaseModel):
             name: str
@@ -56,7 +54,7 @@ class TestBaseModels:
             TestModel(name="test", value=42, extra_field="should fail")
 
     def test_base_request(self):
-        """Test BaseRequest."""
+        """Test BaseRequest...."""
         # Default creation
         request = BaseRequest()
         assert isinstance(request.request_id, uuid.UUID)
@@ -70,7 +68,7 @@ class TestBaseModels:
         assert request.timestamp == custom_time
 
     def test_base_response(self):
-        """Test BaseResponse."""
+        """Test BaseResponse...."""
         # Success response
         request_id = uuid.uuid4()
         success_response = BaseResponse[str](
@@ -100,7 +98,7 @@ class TestBaseModels:
             BaseResponse[str](request_id=request_id, success=False)
 
     def test_serialization_deserialization(self):
-        """Test JSON serialization and deserialization."""
+        """Test JSON serialization and deserialization...."""
         request_id = uuid.uuid4()
         response = BaseResponse[dict](
             request_id=request_id, success=True, data={"key": "value"}
@@ -118,10 +116,10 @@ class TestBaseModels:
 
 
 class TestAgentModels:
-    """Tests for agent models."""
+    """Tests for agent models...."""
 
     def test_agent_config(self):
-        """Test AgentConfig validation."""
+        """Test AgentConfig validation...."""
         # Create a minimal valid config
         config = AgentConfig(
             name="Test Agent",
@@ -138,7 +136,7 @@ class TestAgentModels:
         assert config.system_prompt == "You are a helpful assistant"
 
     def test_agent_state(self):
-        """Test AgentState."""
+        """Test AgentState...."""
         # Create a state
         current_time = datetime.now()
         state = AgentState(
@@ -161,10 +159,10 @@ class TestAgentModels:
 
 
 class TestToolModels:
-    """Tests for tool models."""
+    """Tests for tool models...."""
 
     def test_tool_definition(self):
-        """Test ToolDefinition validation."""
+        """Test ToolDefinition validation...."""
         # Create a tool definition
         tool_def = ToolDefinition(
             tool_id="calculator",
@@ -196,7 +194,7 @@ class TestToolModels:
         assert "operation" in tool_def.parameters.parameters
 
     def test_tool_parameters(self):
-        """Test ToolParameters."""
+        """Test ToolParameters...."""
         # Create parameters
         operation_param = ToolParameter(
             name="operation",
@@ -225,7 +223,7 @@ class TestToolModels:
         assert "b" in schema["properties"]
 
     def test_tool_result(self):
-        """Test ToolResult."""
+        """Test ToolResult...."""
         # Create a success result
         request_id = uuid.uuid4()
         result = ToolResult(
@@ -254,10 +252,10 @@ class TestToolModels:
 
 
 class TestModelModels:
-    """Tests for model-related models."""
+    """Tests for model-related models...."""
 
     def test_model_config(self):
-        """Test ModelConfig validation."""
+        """Test ModelConfig validation...."""
         # Create a model config with required capabilities model
         capabilities = ModelCapability(
             supports_streaming=True,
@@ -286,7 +284,7 @@ class TestModelModels:
         assert config.api_key_env_var == "OPENAI_API_KEY"
 
     def test_model_response(self):
-        """Test ModelResponse."""
+        """Test ModelResponse...."""
         # Create a response
         request_id = uuid.uuid4()
         response = ModelResponse(

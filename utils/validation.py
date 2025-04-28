@@ -1,6 +1,4 @@
-"""
-Validation utilities for Pydantic models and other data types.
-"""
+"""Validation utilities for Pydantic models and other data types...."""
 
 import re
 import uuid
@@ -24,7 +22,7 @@ T = TypeVar("T", bound=BaseModel)
 
 
 class ValidationResult(Generic[T]):
-    """Result of a model validation operation."""
+    """Result of a model validation operation...."""
 
     def __init__(
         self,
@@ -37,11 +35,11 @@ class ValidationResult(Generic[T]):
         self.errors = errors or []
 
     def __bool__(self) -> bool:
-        """Allow direct boolean checking of the validation result."""
+        """Allow direct boolean checking of the validation result...."""
         return self.valid
 
     def __str__(self) -> str:
-        """String representation of the validation result."""
+        """String representation of the validation result...."""
         if self.valid:
             return f"ValidationResult(valid=True, model={type(self.model).__name__})"
         return f"ValidationResult(valid=False, errors={self.errors})"
@@ -62,7 +60,7 @@ def validate_model(
 
     Returns:
         ValidationResult indicating success or failure with error details
-    """
+ ..."""
     try:
         # Handle case where data is already a Pydantic model
         if isinstance(data, BaseModel):
@@ -76,10 +74,23 @@ def validate_model(
 
         return ValidationResult(valid=True, model=model)
     except ValidationError as e:
-        return ValidationResult(
-            valid=False,
-            errors=[error.model_dump() for error in e.errors()],
-        )
+        try:
+            # 处理Pydantic v2的ValidationError
+            errors = []
+            for err in e.errors():
+                error_info = {
+                    "type": err.get('type', 'unknown_error'),
+                    "loc": err.get('loc', []),
+                    "msg": err.get('msg', str(err))
+                }
+                errors.append(error_info)
+            return ValidationResult(valid=False, errors=errors)
+        except (AttributeError, TypeError):
+            # 如果结构不匹配，回退到简单错误处理
+            return ValidationResult(
+                valid=False,
+                errors=[{"type": "validation_error", "msg": str(e)}]
+            )
     except Exception as e:
         return ValidationResult(
             valid=False,
@@ -101,7 +112,7 @@ def validate_models(
 
     Returns:
         A nested dictionary of validation results by group and model
-    """
+ ..."""
     results = {}
 
     for group_name, models in model_mapping.items():
@@ -124,7 +135,7 @@ def validate_uuid(value: Any) -> bool:
 
     Returns:
         Whether the value is a valid UUID
-    """
+ ..."""
     if isinstance(value, uuid.UUID):
         return True
 
@@ -153,7 +164,7 @@ def validate_model_type(
 
     Returns:
         Whether the value is a valid model type
-    """
+ ..."""
     if not isinstance(value, str):
         return False
 
@@ -178,7 +189,7 @@ def validate_service_name(
 
     Returns:
         Whether the value is a valid service name
-    """
+ ..."""
     if not isinstance(value, str):
         return False
 
@@ -193,30 +204,54 @@ def validate_service_name(
     return True
 
 
-def validate_enum_value(value: Any, enum_class: Type[Enum]) -> bool:
+def validate_enum_value(value: Any, enum_class: Type[Enum], case_sensitive: bool = False) -> bool:
     """
     Validate that a value is a valid enum value.
 
     Args:
         value: Value to validate
         enum_class: Enum class to validate against
+        case_sensitive: Whether name matching is case-sensitive
 
     Returns:
         Whether the value is a valid enum value
-    """
+ ..."""
+    # 处理None值
+    if value is None:
+        return False
+        
+    # 处理Enum实例
+    if isinstance(value, enum_class):
+        return True
+    
+    # 准备枚举值列表（用于值匹配）
+    enum_values = [member.value for member in enum_class]
+        
     try:
-        # Try direct membership
-        if value in enum_class:
+        # 首先尝试直接值匹配（这不受case_sensitive影响）
+        if value in enum_values:
             return True
+        
+        # 处理枚举名称匹配（受case_sensitive影响）
+        if isinstance(value, str):
+            # 区分大小写的名称匹配
+            try:
+                enum_class[value]  # 尝试通过名称查找
+                return True
+            except KeyError:
+                pass
+                
+            # 不区分大小写的名称匹配（仅当case_sensitive=False时）
+            if not case_sensitive:
+                value_lower = value.lower()
+                for member in enum_class:
+                    if member.name.lower() == value_lower:
+                        return True
 
-        # Try by name
-        if isinstance(value, str) and hasattr(enum_class, value):
-            return True
-
-        # Try by value
+        # 最后尝试通过构造函数匹配
         enum_class(value)
         return True
-    except (ValueError, TypeError, KeyError):
+    except (ValueError, TypeError, KeyError, AttributeError):
         return False
 
 
@@ -235,7 +270,7 @@ def validate_string_length(
 
     Returns:
         Whether the string has a valid length
-    """
+ ..."""
     if not isinstance(value, str):
         return False
 
@@ -267,7 +302,7 @@ def validate_numeric_range(
 
     Returns:
         Whether the number is within the valid range
-    """
+ ..."""
     if not isinstance(value, (int, float)):
         return False
 
@@ -301,7 +336,7 @@ def validate_with_validators(
 
     Returns:
         Whether the value is valid according to the validators
-    """
+ ..."""
     if not validators:
         return True
 
@@ -332,7 +367,7 @@ def validate_dict_schema(
 
     Returns:
         True if valid, or a list of error messages
-    """
+ ..."""
     if not isinstance(value, dict):
         return ["Value must be a dictionary"]
 

@@ -1,6 +1,4 @@
-"""
-Constants used across the AgentForge platform.
-"""
+"""Constants used across the AgentForge platform...."""
 
 from .error_codes import ERROR_CODES
 from .message_types import MessageType

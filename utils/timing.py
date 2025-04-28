@@ -1,6 +1,4 @@
-"""
-Timing and retry utilities.
-"""
+"""Timing and retry utilities...."""
 
 import asyncio
 import functools
@@ -25,7 +23,7 @@ def timed(func: F) -> F:
 
     Returns:
         Decorated function
-    """
+ ..."""
 
     @functools.wraps(func)
     def sync_wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -73,7 +71,7 @@ def measure_execution_time(func_or_name: Union[F, str]) -> Any:
         with measure_execution_time("my operation"):
             # ...
         ```
-    """
+ ..."""
     # When used as a decorator without arguments
     if callable(func_or_name):
         return timed(func_or_name)
@@ -120,7 +118,7 @@ def retry_with_backoff(
 
     Returns:
         Decorator function
-    """
+ ..."""
     if expected_exceptions is None:
         expected_exceptions = [Exception]
 
@@ -175,7 +173,7 @@ def retry_with_backoff(
 
 
 class RateLimiter:
-    """Rate limiter to control the frequency of operations."""
+    """Rate limiter to control the frequency of operations...."""
 
     def __init__(self, calls: int, period: float):
         """
@@ -184,19 +182,19 @@ class RateLimiter:
         Args:
             calls: Number of calls allowed in the period
             period: Period in seconds
-        """
+     ..."""
         self.calls = calls
         self.period = period
         self.timestamps: List[float] = []
 
     def _clean_old_timestamps(self) -> None:
-        """Remove timestamps older than the period."""
+        """Remove timestamps older than the period...."""
         now = time.time()
         cutoff = now - self.period
         self.timestamps = [t for t in self.timestamps if t > cutoff]
 
     def can_proceed(self) -> bool:
-        """Check if the operation can proceed within the rate limit."""
+        """Check if the operation can proceed within the rate limit...."""
         self._clean_old_timestamps()
         return len(self.timestamps) < self.calls
 
@@ -206,7 +204,7 @@ class RateLimiter:
 
         Returns:
             Whether permission was granted
-        """
+     ..."""
         if not self.can_proceed():
             return False
 
@@ -219,7 +217,7 @@ class RateLimiter:
 
         Returns:
             Wait time in seconds (0 if can proceed immediately)
-        """
+     ..."""
         if self.can_proceed():
             return 0.0
 
@@ -241,7 +239,7 @@ def rate_limit(
 
     Returns:
         Decorator function
-    """
+ ..."""
     limiter = RateLimiter(calls, period)
 
     def decorator(func: F) -> F:

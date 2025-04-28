@@ -1,6 +1,4 @@
-"""
-Base models for the AgentForge platform.
-"""
+"""Base models for the AgentForge platform...."""
 
 from datetime import datetime
 from typing import Generic, Optional, TypeVar
@@ -13,18 +11,18 @@ T = TypeVar("T")
 
 
 class BaseModel(PydanticBaseModel):
-    """Base model with common configuration."""
+    """Base model with common configuration...."""
 
     model_config = ConfigDict(
         extra="forbid",  # Forbid extra attributes
         validate_assignment=True,  # Validate when attributes are assigned
-        arbitrary_types_allowed=True,  # Allow arbitrary types (needed for some edge cases)  # noqa: E501
+        arbitrary_types_allowed=True,  # Allow arbitrary types (needed for some edge cases)
         populate_by_name=True,  # Allow populating by field name
     )
 
 
 class BaseRequest(BaseModel):
-    """Base class for all request models."""
+    """Base class for all request models...."""
 
     request_id: UUID = Field(
         default_factory=uuid4, description="Unique request identifier"
@@ -35,7 +33,7 @@ class BaseRequest(BaseModel):
 
 
 class BaseResponse(BaseModel, Generic[T]):
-    """Base class for all response models."""
+    """Base class for all response models...."""
 
     request_id: UUID = Field(..., description="Request identifier this response is for")
     timestamp: datetime = Field(
@@ -51,7 +49,7 @@ class BaseResponse(BaseModel, Generic[T]):
 
     @model_validator(mode="after")
     def validate_success_data_error(self) -> "BaseResponse":
-        """Validate that data is present on success and error on failure."""
+        """Validate that data is present on success and error on failure...."""
         if self.success and self.data is None:
             raise ValueError("Data must be present when success is True")
         if not self.success and self.error is None:

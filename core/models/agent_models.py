@@ -1,6 +1,4 @@
-"""
-Agent-related data models.
-"""
+"""Agent-related data models...."""
 
 from datetime import datetime
 from enum import Enum
@@ -13,7 +11,7 @@ from .base_models import BaseModel
 
 
 class AgentStatus(str, Enum):
-    """Agent status enumeration."""
+    """Agent status enumeration...."""
 
     INITIALIZING = "initializing"
     READY = "ready"
@@ -23,7 +21,7 @@ class AgentStatus(str, Enum):
 
 
 class AgentCapability(str, Enum):
-    """Agent capability enumeration."""
+    """Agent capability enumeration...."""
 
     CONVERSATION = "conversation"
     PLANNING = "planning"
@@ -34,7 +32,7 @@ class AgentCapability(str, Enum):
 
 
 class AgentConfig(BaseModel):
-    """Configuration for an agent."""
+    """Configuration for an agent...."""
 
     agent_id: UUID = Field(default_factory=uuid4, description="Unique agent identifier")
     name: str = Field(..., description="Agent name", min_length=1, max_length=100)
@@ -64,14 +62,14 @@ class AgentConfig(BaseModel):
     @field_validator("name")
     @classmethod
     def validate_name(cls, v: str) -> str:
-        """Validate the agent name."""
+        """Validate the agent name...."""
         if not v.strip():
             raise ValueError("Name cannot be empty or just whitespace")
         return v.strip()
 
 
 class AgentState(BaseModel):
-    """Agent state information."""
+    """Agent state information...."""
 
     agent_id: UUID = Field(..., description="Agent identifier")
     status: AgentStatus = Field(..., description="Current agent status")

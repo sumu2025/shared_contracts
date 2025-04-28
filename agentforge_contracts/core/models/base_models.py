@@ -2,8 +2,7 @@
 基础模型定义
 
 这个模块定义了平台中使用的基础数据模型。
-所有这些模型都使用pydantic v2实现。
-"""
+所有这些模型都使用pydantic v2实..."""
 
 from datetime import datetime
 from typing import Any, Dict, Optional
@@ -14,7 +13,7 @@ from pydantic import ConfigDict, Field, field_validator
 
 
 class BaseModel(PydanticBaseModel):
-    """所有模型的基类，定义了共同的配置选项"""
+    """所有模型的基类，定义了共同的配置选项...."""
 
     # 使用ConfigDict配置模型行为 (pydantic v2风格)
     model_config = ConfigDict(
@@ -30,7 +29,7 @@ class BaseModel(PydanticBaseModel):
 
 
 class BaseRequest(BaseModel):
-    """所有请求的基类"""
+    """所有请求的基类...."""
 
     request_id: UUID = Field(default_factory=uuid4, description="请求唯一标识符")
 
@@ -42,7 +41,7 @@ class BaseRequest(BaseModel):
 
 
 class BaseResponse(BaseModel):
-    """所有响应的基类"""
+    """所有响应的基类...."""
 
     request_id: UUID = Field(..., description="对应请求的唯一标识符")
 
@@ -57,7 +56,7 @@ class BaseResponse(BaseModel):
     @field_validator("status")
     @classmethod
     def validate_status(cls, value: str) -> str:
-        """验证状态字段值是否有效"""
+        """验证状态字段值是否有效...."""
         valid_statuses = ["success", "error", "pending"]
         if value not in valid_statuses:
             raise ValueError(f"状态必须是以下之一: {', '.join(valid_statuses)}")
@@ -65,7 +64,7 @@ class BaseResponse(BaseModel):
 
 
 class BaseError(BaseModel):
-    """错误信息模型"""
+    """错误信息模型...."""
 
     error_code: str = Field(..., description="错误代码")
 

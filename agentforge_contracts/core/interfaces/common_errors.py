@@ -1,8 +1,7 @@
 """
 通用错误定义
 
-这个模块定义了所有服务共享的错误类型。
-"""
+这个模块定义了所有服务共享的错误类..."""
 
 from typing import Any, Dict, Optional
 from uuid import UUID
@@ -11,7 +10,7 @@ from ..models.base_models import BaseError
 
 
 class ServiceError(Exception):
-    """服务错误基类"""
+    """服务错误基类...."""
 
     def __init__(
         self,
@@ -28,7 +27,7 @@ class ServiceError(Exception):
             error_code: 错误代码
             details: 错误详情
             request_id: 相关请求ID
-        """
+     ..."""
         self.message = message
         self.error_code = error_code
         self.details = details or {}
@@ -40,14 +39,14 @@ class ServiceError(Exception):
         super().__init__(message)
 
     def to_error_model(self) -> BaseError:
-        """转换为错误模型对象"""
+        """转换为错误模型对象...."""
         return BaseError(
             error_code=self.error_code, message=self.message, details=self.details
         )
 
 
 class ValidationError(ServiceError):
-    """输入验证错误"""
+    """输入验证错误...."""
 
     def __init__(
         self,
@@ -64,7 +63,7 @@ class ValidationError(ServiceError):
 
 
 class NotFoundError(ServiceError):
-    """资源未找到错误"""
+    """资源未找到错误...."""
 
     def __init__(
         self,
@@ -84,7 +83,7 @@ class NotFoundError(ServiceError):
 
 
 class AuthorizationError(ServiceError):
-    """授权错误"""
+    """授权错误...."""
 
     def __init__(
         self,
@@ -101,7 +100,7 @@ class AuthorizationError(ServiceError):
 
 
 class RateLimitError(ServiceError):
-    """速率限制错误"""
+    """速率限制错误...."""
 
     def __init__(
         self,
@@ -121,7 +120,7 @@ class RateLimitError(ServiceError):
 
 
 class DependencyError(ServiceError):
-    """依赖服务错误"""
+    """依赖服务错误...."""
 
     def __init__(
         self,

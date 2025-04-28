@@ -1,6 +1,4 @@
-"""
-Tool service interface definition.
-"""
+"""Tool service interface definition...."""
 
 from typing import Any, AsyncIterable, Dict, List, Optional, Protocol, runtime_checkable
 
@@ -10,7 +8,7 @@ from ..models.tool_models import ToolDefinition, ToolResult
 
 @runtime_checkable
 class ToolServiceInterface(Protocol):
-    """Interface for the tool service."""
+    """Interface for the tool service...."""
 
     async def register_tool(
         self, definition: ToolDefinition
@@ -27,7 +25,7 @@ class ToolServiceInterface(Protocol):
         Raises:
             ValidationError: If the definition is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def get_tool(self, tool_id: str) -> BaseResponse[ToolDefinition]:
@@ -43,7 +41,7 @@ class ToolServiceInterface(Protocol):
         Raises:
             NotFoundError: If the tool is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def update_tool(
@@ -63,7 +61,7 @@ class ToolServiceInterface(Protocol):
             NotFoundError: If the tool is not found
             ValidationError: If the updates are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def delete_tool(self, tool_id: str) -> BaseResponse[bool]:
@@ -79,7 +77,7 @@ class ToolServiceInterface(Protocol):
         Raises:
             NotFoundError: If the tool is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def list_tools(
@@ -102,7 +100,7 @@ class ToolServiceInterface(Protocol):
         Raises:
             ValidationError: If the pagination or filter parameters are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def execute_tool(
@@ -123,7 +121,7 @@ class ToolServiceInterface(Protocol):
             NotFoundError: If the tool is not found
             ValidationError: If the parameters are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def execute_streaming_tool(
@@ -143,7 +141,7 @@ class ToolServiceInterface(Protocol):
             NotFoundError: If the tool is not found
             ValidationError: If the parameters are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def get_tool_schema(self, tool_id: str) -> BaseResponse[Dict[str, Any]]:
@@ -159,5 +157,5 @@ class ToolServiceInterface(Protocol):
         Raises:
             NotFoundError: If the tool is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...

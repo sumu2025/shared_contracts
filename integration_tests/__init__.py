@@ -1,3 +1,1 @@
-"""
-Integration tests for shared_contracts module.
-"""
+"""Integration tests for shared_contracts module...."""

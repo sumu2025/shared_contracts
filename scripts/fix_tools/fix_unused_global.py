@@ -1,10 +1,10 @@
-"""修复未使用全局声明问题"""
+"""修复未使用全局声明问题...."""
 import sys
 from pathlib import Path
 
 
 def fix_unused_global(file_path):
-    """修复指定文件中的未使用全局声明问题"""
+    """修复指定文件中的未使用全局声明问题...."""
     content = Path(file_path).read_text(encoding="utf-8")
     lines = content.splitlines()
 

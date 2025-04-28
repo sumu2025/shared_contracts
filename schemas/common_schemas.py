@@ -2,8 +2,7 @@
 Common schema definitions used across all services.
 
 These schemas define common structures like pagination, error responses,
-and other shared patterns used in API contracts.
-"""
+and other shared patterns used in API contract..."""
 
 from typing import Any, Dict
 

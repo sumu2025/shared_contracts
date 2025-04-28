@@ -1,6 +1,4 @@
-"""
-LogFire configuration for the AgentForge platform.
-"""
+"""LogFire configuration for the AgentForge platform...."""
 
 from typing import Any, Dict, Optional
 
@@ -10,7 +8,7 @@ from ..monitor_types import LogLevel
 
 
 class LogFireConfig(BaseModel):
-    """Configuration for LogFire client."""
+    """Configuration for LogFire client...."""
 
     api_key: str = Field(..., description="LogFire API key / write token")
     project_id: Optional[str] = Field(
@@ -51,7 +49,7 @@ class LogFireConfig(BaseModel):
 
     @model_validator(mode="after")
     def validate_config(self) -> "LogFireConfig":
-        """Validate the configuration."""
+        """Validate the configuration...."""
         if self.batch_size < 1:
             raise ValueError("batch_size must be at least 1")
 

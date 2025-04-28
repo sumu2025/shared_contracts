@@ -1,6 +1,4 @@
-"""
-Version management utilities.
-"""
+"""Version management utilities...."""
 
 import re
 from typing import Dict, Optional
@@ -20,7 +18,7 @@ def get_version(version_str: str) -> Dict[str, int]:
 
     Raises:
         ValueError: If the version string is invalid
-    """
+ ..."""
     pattern = r"^(\d+)\.(\d+)\.(\d+)(?:-([\w.-]+))?(?:\+([\w.-]+))?$"
     match = re.match(pattern, version_str)
 
@@ -59,7 +57,7 @@ def compare_versions(version1: str, version2: str) -> int:
 
     Raises:
         ValueError: If either version string is invalid
-    """
+ ..."""
     v1 = version.parse(version1)
     v2 = version.parse(version2)
 
@@ -89,7 +87,7 @@ def is_compatible_version(
 
     Raises:
         ValueError: If any version string is invalid
-    """
+ ..."""
     v_current = version.parse(current_version)
 
     if min_version is not None:

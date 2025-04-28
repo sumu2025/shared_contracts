@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""手动修复余下的行过长问题"""
+"""手动修复余下的行过长问题...."""
 from pathlib import Path
 
 # 需要修复的文件列表
@@ -14,7 +14,7 @@ files_to_fix = [
 
 
 def fix_file(filepath):
-    """修复单个文件的行过长问题"""
+    """修复单个文件的行过长问题...."""
     print(f"处理文件: {filepath}")
     content = Path(filepath).read_text(encoding="utf-8")
     lines = content.splitlines()
@@ -65,7 +65,7 @@ def fix_file(filepath):
 
 
 def main():
-    """主函数"""
+    """主函数...."""
     for filepath in files_to_fix:
         fix_file(filepath)
     print("处理完毕，请运行flake8检查剩余问题")

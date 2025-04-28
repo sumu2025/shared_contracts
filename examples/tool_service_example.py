@@ -1,8 +1,7 @@
 """
 示例：工具服务实现
 
-本示例展示如何实现ToolServiceInterface接口，创建和使用自定义工具。
-"""
+本示例展示如何实现ToolServiceInterface接口，创建和使用自定义工..."""
 
 import asyncio
 import logging
@@ -54,7 +53,7 @@ monitor = configure_monitor(
 
 
 class ToolService(ToolServiceInterface):
-    """工具服务实现。"""
+    """工具服务实现。...."""
 
     def __init__(self):
         self.tools = {}  # 存储工具定义
@@ -64,7 +63,7 @@ class ToolService(ToolServiceInterface):
         self._register_built_in_tools()
 
     def _register_built_in_tools(self):
-        """注册内置工具。"""
+        """注册内置工具。...."""
         # 注册计算器工具
         self._register_calculator_tool()
 
@@ -75,7 +74,7 @@ class ToolService(ToolServiceInterface):
         self._register_search_tool()
 
     def _register_calculator_tool(self):
-        """注册计算器工具。"""
+        """注册计算器工具。...."""
         # 创建工具定义
         calculator_tool = ToolDefinition(
             tool_id="calculator",
@@ -122,7 +121,7 @@ class ToolService(ToolServiceInterface):
         self.tool_executors[calculator_tool.tool_id] = self._execute_calculator
 
     def _register_weather_tool(self):
-        """注册天气查询工具。"""
+        """注册天气查询工具。...."""
         # 创建工具定义
         weather_tool = ToolDefinition(
             tool_id="weather",
@@ -154,7 +153,7 @@ class ToolService(ToolServiceInterface):
         self.tool_executors[weather_tool.tool_id] = self._execute_weather
 
     def _register_search_tool(self):
-        """注册搜索工具。"""
+        """注册搜索工具。...."""
         # 创建工具定义
         search_tool = ToolDefinition(
             tool_id="search",
@@ -188,7 +187,7 @@ class ToolService(ToolServiceInterface):
     async def register_tool(
         self, definition: ToolDefinition
     ) -> BaseResponse[ToolDefinition]:
-        """注册新工具。"""
+        """注册新工具。...."""
         # 检查工具ID是否已存在
         if definition.tool_id in self.tools:
             return BaseResponse(
@@ -213,7 +212,7 @@ class ToolService(ToolServiceInterface):
 
     @with_monitoring(component=ServiceComponent.TOOL_SERVICE)
     async def get_tool(self, tool_id: str) -> BaseResponse[ToolDefinition]:
-        """获取工具定义。"""
+        """获取工具定义。...."""
         if tool_id not in self.tools:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -227,7 +226,7 @@ class ToolService(ToolServiceInterface):
 
     @with_monitoring(component=ServiceComponent.TOOL_SERVICE)
     async def list_tools(self) -> BaseResponse[List[ToolDefinition]]:
-        """列出所有工具。"""
+        """列出所有工具。...."""
         return BaseResponse(
             request_id=uuid.uuid4(), success=True, data=list(self.tools.values())
         )
@@ -236,7 +235,7 @@ class ToolService(ToolServiceInterface):
     async def execute_tool(
         self, tool_id: str, parameters: Dict[str, Any], stream: bool = False
     ) -> BaseResponse[ToolResult]:
-        """执行工具。"""
+        """执行工具。...."""
         # 检查工具是否存在
         if tool_id not in self.tools:
             return BaseResponse(
@@ -346,7 +345,7 @@ class ToolService(ToolServiceInterface):
     # ====== 工具执行器 ======
 
     async def _execute_calculator(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
-        """执行计算器工具。"""
+        """执行计算器工具。...."""
         operation = parameters.get("operation")
         a = float(parameters.get("a", 0))
         b = float(parameters.get("b", 0)) if "b" in parameters else None
@@ -396,7 +395,7 @@ class ToolService(ToolServiceInterface):
         return response
 
     async def _execute_weather(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
-        """执行天气查询工具。"""
+        """执行天气查询工具。...."""
         location = parameters.get("location")
         units = parameters.get("units", "celsius")
 
@@ -436,7 +435,7 @@ class ToolService(ToolServiceInterface):
         }
 
     async def _execute_search(self, parameters: Dict[str, Any]) -> Dict[str, Any]:
-        """执行搜索工具。"""
+        """执行搜索工具。...."""
         query = parameters.get("query")
         num_results = int(parameters.get("num_results", 3))
 
@@ -488,7 +487,7 @@ class ToolService(ToolServiceInterface):
 
 
 async def run_example():
-    """运行工具服务示例。"""
+    """运行工具服务示例。...."""
     print("\n==== AgentForge工具服务示例 ====\n")
 
     # 创建工具服务
@@ -535,7 +534,7 @@ async def run_example():
 
         # 添加翻译工具执行器
         async def execute_translator(parameters: Dict[str, Any]) -> Dict[str, Any]:
-            """执行翻译工具。"""
+            """执行翻译工具。...."""
             text = parameters.get("text")
             source_lang = parameters.get("source_lang")
             target_lang = parameters.get("target_lang")

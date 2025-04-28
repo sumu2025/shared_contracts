@@ -1,0 +1,47 @@
+[
+  {
+    "tool_id": "calculator",
+    "name": "Calculator",
+    "description": "A simple calculator tool",
+    "version": "1.0.0",
+    "parameters": {
+      "parameters": {
+        "operation": {
+          "name": "operation",
+          "description": "Operation to perform",
+          "type": "string",
+          "enum": ["add", "subtract", "multiply", "divide"],
+          "required": true
+        },
+        "a": {
+          "name": "a",
+          "description": "First number",
+          "type": "number",
+          "required": true
+        },
+        "b": {
+          "name": "b",
+          "description": "Second number",
+          "type": "number",
+          "required": true
+        }
+      }
+    }
+  },
+  {
+    "tool_id": "weather",
+    "name": "Weather",
+    "description": "Get weather information for a location",
+    "version": "1.0.0",
+    "parameters": {
+      "parameters": {
+        "location": {
+          "name": "location",
+          "description": "Location to get weather for",
+          "type": "string",
+          "required": true
+        }
+      }
+    }
+  }
+]

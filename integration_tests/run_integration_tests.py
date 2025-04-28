@@ -3,8 +3,7 @@
 运行所有集成测试的脚本。
 
 此脚本用于执行shared_contracts模块的所有集成测试，
-便于在命令行中一键运行所有测试。
-"""
+便于在命令行中一键运行所有测..."""
 
 import argparse
 import os
@@ -25,7 +24,7 @@ def run_tests(verbose=False, test_name=None, fail_fast=False):
 
     Returns:
         测试成功返回True，否则返回False
-    """
+ ..."""
     # 获取当前目录
     current_dir = os.path.dirname(os.path.abspath(__file__))
 

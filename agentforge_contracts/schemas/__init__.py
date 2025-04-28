@@ -1,8 +1,7 @@
 """
 API schema definitions for the AgentForge platform.
 
-This module re-exports schema definitions from the shared_contracts package.
-"""
+This module re-exports schema definitions from the shared_contracts packag..."""
 
 from shared_contracts.schemas import (
     AGENT_API_SCHEMAS,

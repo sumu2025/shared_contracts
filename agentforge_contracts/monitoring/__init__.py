@@ -1,8 +1,7 @@
 """
 Monitoring contracts for the AgentForge platform.
 
-This module re-exports monitoring interfaces and models from the shared_contracts package.
-"""  # noqa: E501
+This module re-exports monitoring interfaces and models from the shared_contracts packag..."""  # noqa: E501
 
 from shared_contracts.monitoring import (  # 核心接口和类型; 实现; 工具函数
     AlertConfig,

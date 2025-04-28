@@ -2,8 +2,7 @@
 Utilities for working with JSON schemas.
 
 This module provides functions for extracting, merging, and validating JSON schemas,
-which are used for API contracts and data validation.
-"""
+which are used for API contracts and data validatio..."""
 
 import copy
 import json
@@ -30,7 +29,7 @@ def extract_json_schema(
 
     Returns:
         JSON schema as a dictionary
-    """
+ ..."""
     # Get model class if instance was provided
     model_class = model if isinstance(model, type) else model.__class__
 
@@ -66,7 +65,7 @@ def merge_schemas(
 
     Returns:
         Merged schema
-    """
+ ..."""
     if not schemas:
         return {}
 
@@ -135,7 +134,7 @@ def validate_schema(
 
     Returns:
         List of validation errors, empty if valid
-    """
+ ..."""
     errors = []
 
     try:
@@ -176,7 +175,7 @@ def generate_openapi_schema(
 
     Returns:
         OpenAPI schema
-    """
+ ..."""
     openapi = {
         "openapi": "3.0.3",
         "info": {
@@ -213,7 +212,7 @@ def schema_to_json(schema: Dict[str, Any], indent: int = 2) -> str:
 
     Returns:
         JSON string
-    """
+ ..."""
     return json.dumps(schema, indent=indent)
 
 
@@ -229,7 +228,7 @@ def json_to_schema(json_str: str) -> Dict[str, Any]:
 
     Raises:
         json.JSONDecodeError: If the JSON is invalid
-    """
+ ..."""
     return json.loads(json_str)
 
 
@@ -246,7 +245,7 @@ def get_referenced_schemas(
 
     Returns:
         Dictionary of referenced schemas
-    """
+ ..."""
     referenced = {}
 
     def _find_refs(obj: Any) -> None:

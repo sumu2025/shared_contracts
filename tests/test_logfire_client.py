@@ -1,6 +1,4 @@
-"""
-Tests for LogFire client implementation.
-"""
+"""Tests for LogFire client implementation...."""
 
 import asyncio
 import time
@@ -27,11 +25,11 @@ from shared_contracts.monitoring.utils.tracing_utils import (
 
 
 class TestLogFireClient:
-    """Tests for LogFire client implementation."""
+    """Tests for LogFire client implementation...."""
 
     @pytest.fixture
     def mock_config(self):
-        """Create a mock LogFire config for testing."""
+        """Create a mock LogFire config for testing...."""
         return LogFireConfig(
             api_key="test-api-key",
             project_id="test-project",
@@ -44,7 +42,7 @@ class TestLogFireClient:
 
     @pytest.fixture
     def mock_client(self, mock_config):
-        """Create a mock LogFire client for testing."""
+        """Create a mock LogFire client for testing...."""
         with patch("httpx.AsyncClient") as mock_http:
             # Mock the HTTP client
             mock_response = AsyncMock()
@@ -60,7 +58,7 @@ class TestLogFireClient:
             yield client
 
     def test_initialization(self, mock_config):
-        """Test client initialization."""
+        """Test client initialization...."""
         with patch("httpx.AsyncClient") as mock_http:
             client = LogFireClient(mock_config)
 
@@ -73,7 +71,7 @@ class TestLogFireClient:
             mock_http.assert_called_once()
 
     def test_log(self, mock_client):
-        """Test log method."""
+        """Test log method...."""
         # Log a message
         mock_client.log(
             message="Test message",
@@ -98,7 +96,7 @@ class TestLogFireClient:
         assert log_entry["environment"] == "test"
 
     def test_convenience_methods(self, mock_client):
-        """Test convenience logging methods."""
+        """Test convenience logging methods...."""
         # Test debug
         mock_client.debug(
             message="Debug message",
@@ -158,7 +156,7 @@ class TestLogFireClient:
 
     @pytest.mark.asyncio
     async def test_flush(self, mock_client):
-        """Test flush method."""
+        """Test flush method...."""
         # Add some logs
         for i in range(5):
             mock_client.log(
@@ -194,7 +192,7 @@ class TestLogFireClient:
         assert len(mock_client.metric_buffer) == 0
 
     def test_tracing(self, mock_client):
-        """Test tracing functionality."""
+        """Test tracing functionality...."""
         # Start a span
         span = mock_client.start_span(
             name="test-operation",
@@ -245,7 +243,7 @@ class TestLogFireClient:
         assert log_entry["data"]["status"] == "ok"
 
     def test_error_handling(self, mock_client):
-        """Test error handling in spans."""
+        """Test error handling in spans...."""
         # Start a span
         span = mock_client.start_span(
             name="error-operation",
@@ -273,7 +271,7 @@ class TestLogFireClient:
         assert log_entry["data"]["status"] == "error"
 
     def test_record_performance(self, mock_client):
-        """Test performance recording."""
+        """Test performance recording...."""
         # Record performance
         mock_client.record_performance(
             operation="test-operation",
@@ -306,7 +304,7 @@ class TestLogFireClient:
         assert metric_entry["tags"]["component"] == "agent_core"
 
     def test_record_api_call(self, mock_client):
-        """Test API call recording."""
+        """Test API call recording...."""
         # Record API call
         mock_client.record_api_call(
             api_name="test-api",
@@ -343,7 +341,7 @@ class TestLogFireClient:
         assert metric_entry["tags"]["success"] == "True"
 
     def test_sanitize_data(self, mock_client):
-        """Test data sanitization."""
+        """Test data sanitization...."""
         data = {
             "username": "user123",
             "password": "secret123",
@@ -366,23 +364,30 @@ class TestLogFireClient:
 
 
 class TestMonitorUtils:
-    """Tests for monitoring utilities."""
+    """Tests for monitoring utilities...."""
 
     @pytest.fixture
     def setup_monitor(self):
-        """Set up global monitor for testing."""
+        """Set up global monitor for testing...."""
         with patch(
+            "shared_contracts.monitoring.utils.logger_utils._monitor", new=MagicMock()
+        ), patch(
             "shared_contracts.monitoring.utils.logger_utils.get_monitor"
         ) as mock_get_monitor:
             # Create mock monitor
             mock_monitor = MagicMock()
             mock_monitor.start_span.return_value = MagicMock()
+            mock_monitor.start_span.return_value.attributes = {}
             mock_get_monitor.return_value = mock_monitor
 
+            # Configure the global monitor variable directly
+            import shared_contracts.monitoring.utils.logger_utils as logger_utils
+            logger_utils._monitor = mock_monitor
+            
             yield mock_monitor
 
     def test_track_performance(self, setup_monitor):
-        """Test track_performance context manager."""
+        """Test track_performance context manager...."""
         mock_monitor = setup_monitor
 
         # Use context manager
@@ -415,7 +420,7 @@ class TestMonitorUtils:
         assert mock_monitor.record_performance.call_args[1]["success"] is True
 
     def test_track_performance_exception(self, setup_monitor):
-        """Test track_performance with exception."""
+        """Test track_performance with exception...."""
         mock_monitor = setup_monitor
 
         # Use context manager with exception
@@ -439,7 +444,7 @@ class TestMonitorUtils:
         assert mock_monitor.record_performance.call_args[1]["success"] is False
 
     def test_with_monitoring_decorator(self, setup_monitor):
-        """Test with_monitoring decorator."""
+        """Test with_monitoring decorator...."""
         mock_monitor = setup_monitor
 
         # Define a decorated function
@@ -473,7 +478,7 @@ class TestMonitorUtils:
         assert mock_monitor.record_performance.call_args[1]["success"] is True
 
     def test_trace_method_decorator(self, setup_monitor):
-        """Test trace_method decorator."""
+        """Test trace_method decorator...."""
         mock_monitor = setup_monitor
 
         # Define a test class with decorated method
@@ -502,7 +507,7 @@ class TestMonitorUtils:
         assert mock_monitor.end_span.call_args[1]["status"] == "ok"
 
     def test_create_trace_context(self, setup_monitor):
-        """Test create_trace_context function."""
+        """Test create_trace_context function...."""
         mock_monitor = setup_monitor
 
         # Use context manager
@@ -528,7 +533,7 @@ class TestMonitorUtils:
         assert mock_monitor.end_span.call_args[1]["data"]["added"] == "value"
 
     def test_nested_traces(self, setup_monitor):
-        """Test nested traces."""
+        """Test nested traces...."""
         mock_monitor = setup_monitor
         span_instances = []
 
@@ -537,7 +542,13 @@ class TestMonitorUtils:
             span = MagicMock()
             span.span_id = uuid.uuid4()
             span.trace_id = uuid.uuid4()
-            span.attributes = kwargs.get("data", {}).copy() or {}
+            data = kwargs.get("data")
+            if data is None:
+                span.attributes = {}
+            elif isinstance(data, dict):
+                span.attributes = data.copy()
+            else:
+                span.attributes = {}
             span_instances.append(span)
             return span
 

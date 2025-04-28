@@ -1,6 +1,4 @@
-"""
-AI Model-related data models.
-"""
+"""AI Model-related data models...."""
 
 from enum import Enum
 from typing import Any, Dict, Optional
@@ -12,7 +10,7 @@ from .base_models import BaseModel
 
 
 class ModelProvider(str, Enum):
-    """AI model provider enumeration."""
+    """AI model provider enumeration...."""
 
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
@@ -23,7 +21,7 @@ class ModelProvider(str, Enum):
 
 
 class ModelType(str, Enum):
-    """AI model type enumeration."""
+    """AI model type enumeration...."""
 
     COMPLETION = "completion"
     CHAT = "chat"
@@ -33,7 +31,7 @@ class ModelType(str, Enum):
 
 
 class ModelCapability(BaseModel):
-    """Capabilities of an AI model."""
+    """Capabilities of an AI model...."""
 
     supports_streaming: bool = Field(
         default=False, description="Whether the model supports streaming"
@@ -59,7 +57,7 @@ class ModelCapability(BaseModel):
 
 
 class ModelConfig(BaseModel):
-    """Configuration for an AI model."""
+    """Configuration for an AI model...."""
 
     model_id: str = Field(..., description="Unique model identifier", min_length=1)
     provider: ModelProvider = Field(..., description="Model provider")
@@ -90,7 +88,7 @@ class ModelConfig(BaseModel):
     @field_validator("model_id")
     @classmethod
     def validate_model_id(cls, v: str) -> str:
-        """Validate model ID format."""
+        """Validate model ID format...."""
         v = v.strip()
         if not v:
             raise ValueError("Model ID cannot be empty")
@@ -100,7 +98,7 @@ class ModelConfig(BaseModel):
 
 
 class ModelResponse(BaseModel):
-    """Response from an AI model."""
+    """Response from an AI model...."""
 
     model_id: str = Field(..., description="Model identifier")
     request_id: UUID = Field(..., description="Request identifier")

@@ -1,6 +1,4 @@
-"""
-Model service interface definition.
-"""
+"""Model service interface definition...."""
 
 from typing import Any, AsyncIterable, Dict, List, Optional, Protocol, runtime_checkable
 
@@ -10,7 +8,7 @@ from ..models.model_models import ModelConfig, ModelResponse
 
 @runtime_checkable
 class ModelServiceInterface(Protocol):
-    """Interface for the model service."""
+    """Interface for the model service...."""
 
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
         """
@@ -25,7 +23,7 @@ class ModelServiceInterface(Protocol):
         Raises:
             ValidationError: If the configuration is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def get_model(self, model_id: str) -> BaseResponse[ModelConfig]:
@@ -41,7 +39,7 @@ class ModelServiceInterface(Protocol):
         Raises:
             NotFoundError: If the model is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def update_model(
@@ -61,7 +59,7 @@ class ModelServiceInterface(Protocol):
             NotFoundError: If the model is not found
             ValidationError: If the updates are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def delete_model(self, model_id: str) -> BaseResponse[bool]:
@@ -77,7 +75,7 @@ class ModelServiceInterface(Protocol):
         Raises:
             NotFoundError: If the model is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def list_models(
@@ -100,7 +98,7 @@ class ModelServiceInterface(Protocol):
         Raises:
             ValidationError: If the pagination or filter parameters are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def generate_completion(
@@ -130,7 +128,7 @@ class ModelServiceInterface(Protocol):
             NotFoundError: If the model is not found
             ValidationError: If the request is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def generate_streaming_completion(
@@ -158,5 +156,5 @@ class ModelServiceInterface(Protocol):
             NotFoundError: If the model is not found
             ValidationError: If the request is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...

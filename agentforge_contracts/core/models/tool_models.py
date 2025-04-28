@@ -1,8 +1,7 @@
 """
 工具相关数据模型
 
-定义与工具相关的模型，包括工具定义、参数和结果等。
-"""
+定义与工具相关的模型，包括工具定义、参数和结果..."""
 
 from datetime import datetime
 from enum import Enum
@@ -15,7 +14,7 @@ from .base_models import BaseModel
 
 
 class ParameterType(str, Enum):
-    """参数类型枚举"""
+    """参数类型枚举...."""
 
     STRING = "string"
     INTEGER = "integer"
@@ -27,7 +26,7 @@ class ParameterType(str, Enum):
 
 
 class ToolParameter(BaseModel):
-    """工具参数定义"""
+    """工具参数定义...."""
 
     name: str = Field(..., min_length=1, description="参数名称")
 
@@ -43,7 +42,7 @@ class ToolParameter(BaseModel):
 
     @model_validator(mode="after")
     def validate_default_type(self) -> "ToolParameter":
-        """验证默认值类型与参数类型匹配"""
+        """验证默认值类型与参数类型匹配...."""
         if self.default is not None:
             # 根据参数类型验证默认值
             if self.type == ParameterType.STRING and not isinstance(self.default, str):
@@ -73,7 +72,7 @@ class ToolParameter(BaseModel):
 
 
 class ToolDefinition(BaseModel):
-    """工具定义模型"""
+    """工具定义模型...."""
 
     tool_id: str = Field(..., min_length=1, description="工具唯一标识符")
 
@@ -98,14 +97,14 @@ class ToolDefinition(BaseModel):
     @field_validator("tool_id")
     @classmethod
     def validate_tool_id(cls, value: str) -> str:
-        """验证工具ID格式"""
+        """验证工具ID格式...."""
         if not value or " " in value:
             raise ValueError("工具ID不能包含空格且不能为空")
         return value
 
 
 class ToolResult(BaseModel):
-    """工具执行结果模型"""
+    """工具执行结果模型...."""
 
     tool_id: str = Field(..., min_length=1, description="工具ID")
 
@@ -124,7 +123,7 @@ class ToolResult(BaseModel):
     @field_validator("status")
     @classmethod
     def validate_status(cls, value: str) -> str:
-        """验证状态值是否有效"""
+        """验证状态值是否有效...."""
         valid_statuses = ["success", "error", "running", "timeout", "cancelled"]
         if value not in valid_statuses:
             raise ValueError(f"无效的状态: {value}. 有效的状态包括: {', '.join(valid_statuses)}")
@@ -132,7 +131,7 @@ class ToolResult(BaseModel):
 
     @model_validator(mode="after")
     def validate_result(self) -> "ToolResult":
-        """验证结果的一致性"""
+        """验证结果的一致性...."""
         if self.status == "success" and self.data is None:
             raise ValueError("成功状态必须提供结果数据")
 

@@ -1,8 +1,7 @@
 """
 Utility functions for the AgentForge platform.
 
-This module re-exports utility functions from the shared_contracts package.
-"""
+This module re-exports utility functions from the shared_contracts packag..."""
 
 # Schema工具
 from shared_contracts.utils.schema_utils import (

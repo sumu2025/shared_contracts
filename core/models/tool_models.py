@@ -1,6 +1,4 @@
-"""
-Tool-related data models.
-"""
+"""Tool-related data models...."""
 
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
@@ -12,7 +10,7 @@ from .base_models import BaseModel
 
 
 class ToolParameterType(str, Enum):
-    """Tool parameter type enumeration."""
+    """Tool parameter type enumeration...."""
 
     STRING = "string"
     INTEGER = "integer"
@@ -24,7 +22,7 @@ class ToolParameterType(str, Enum):
 
 
 class ToolParameter(BaseModel):
-    """Definition of a tool parameter."""
+    """Definition of a tool parameter...."""
 
     name: str = Field(..., description="Parameter name", min_length=1)
     description: str = Field(..., description="Parameter description", min_length=1)
@@ -50,7 +48,7 @@ class ToolParameter(BaseModel):
 
     @model_validator(mode="after")
     def validate_parameter(self) -> "ToolParameter":
-        """Validate parameter constraints based on type."""
+        """Validate parameter constraints based on type...."""
         if self.type in (ToolParameterType.INTEGER, ToolParameterType.NUMBER):
             if self.min_value is not None and self.max_value is not None:
                 if self.min_value > self.max_value:
@@ -83,14 +81,14 @@ class ToolParameter(BaseModel):
 
 
 class ToolParameters(BaseModel):
-    """Container for tool parameters with JSON schema generation."""
+    """Container for tool parameters with JSON schema generation...."""
 
     parameters: Dict[str, ToolParameter] = Field(
         default_factory=dict, description="Map of parameter names to definitions"
     )
 
     def to_json_schema(self) -> Dict[str, Any]:
-        """Convert to JSON schema format."""
+        """Convert to JSON schema format...."""
         properties = {}
         required = []
 
@@ -140,7 +138,7 @@ class ToolParameters(BaseModel):
 
 
 class ToolDefinition(BaseModel):
-    """Definition of a tool."""
+    """Definition of a tool...."""
 
     tool_id: str = Field(..., description="Unique tool identifier", min_length=1)
     name: str = Field(..., description="Tool name", min_length=1)
@@ -162,7 +160,7 @@ class ToolDefinition(BaseModel):
 
 
 class ToolResultStatus(str, Enum):
-    """Tool result status enumeration."""
+    """Tool result status enumeration...."""
 
     SUCCESS = "success"
     ERROR = "error"
@@ -170,7 +168,7 @@ class ToolResultStatus(str, Enum):
 
 
 class ToolResult(BaseModel):
-    """Result of a tool execution."""
+    """Result of a tool execution...."""
 
     tool_id: str = Field(..., description="Tool identifier")
     request_id: UUID = Field(..., description="Request identifier")
@@ -185,7 +183,7 @@ class ToolResult(BaseModel):
 
     @model_validator(mode="after")
     def validate_result(self) -> "ToolResult":
-        """Validate result fields based on status."""
+        """Validate result fields based on status...."""
         if self.status == ToolResultStatus.SUCCESS and self.data is None:
             raise ValueError("Data must be present when status is SUCCESS")
         if self.status == ToolResultStatus.ERROR and self.error is None:

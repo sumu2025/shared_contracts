@@ -1,6 +1,4 @@
-"""
-Core data models for the AgentForge platform.
-"""
+"""Core data models for the AgentForge platform...."""
 
 from .agent_models import AgentCapability, AgentConfig, AgentState
 from .base_models import BaseModel, BaseRequest, BaseResponse

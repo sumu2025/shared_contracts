@@ -1,8 +1,7 @@
 """
 Monitoring utilities for the AgentForge platform.
 
-This package contains utilities for working with monitoring components.
-"""
+This package contains utilities for working with monitoring component..."""
 
 from .logger_utils import (
     configure_monitor,

@@ -1,0 +1,95 @@
+site_name: AgentForge 共享契约库
+site_url: https://agentforge.example.com/docs/
+repo_url: https://github.com/example/agentforge-contracts/
+repo_name: AgentForge/shared_contracts
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed
+  - pymdownx.critic
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append(".")
+          selection:
+            inherited_members: true
+          rendering:
+            show_source: true
+            show_if_no_docstring: false
+            heading_level: 3
+
+nav:
+  - 主页: index.md
+  - 指南:
+    - 介绍: guides/index.md
+    - 监控系统: guides/monitoring.md
+    - 数据验证: guides/validation.md
+    - 模型定义: guides/models.md
+    - 安全实践: guides/security.md
+    - 最佳实践: guides/best_practices.md
+  - API 参考:
+    - 概述: api/index.md
+    - 核心 API: api/core.md
+    - 监控 API: api/monitoring.md
+    - 模式 API: api/schemas.md
+    - 工具 API: api/utils.md
+  - 开发:
+    - 开发指南: development/index.md
+    - 贡献指南: development/contributing.md
+    - 代码风格: development/code_style.md
+    - 测试指南: development/testing.md
+    - 版本控制: development/versioning.md
+    - 变更日志: development/changelog.md
+  - 关于:
+    - 许可证: about/license.md
+    - 版权: about/copyright.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/example/agentforge-contracts/
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/agentforge-contracts/
+  version:
+    provider: mike

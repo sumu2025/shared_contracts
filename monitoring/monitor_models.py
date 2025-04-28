@@ -1,6 +1,4 @@
-"""
-Monitoring data models.
-"""
+"""Monitoring data models...."""
 
 from datetime import datetime
 from typing import Any, Dict, List, Literal, Optional
@@ -13,7 +11,7 @@ from .monitor_types import EventType, LogLevel, ServiceComponent
 
 
 class MetricValue(ContractBaseModel):
-    """Model for a metric value."""
+    """Model for a metric value...."""
 
     value: float = Field(..., description="Metric value")
     timestamp: datetime = Field(
@@ -23,7 +21,7 @@ class MetricValue(ContractBaseModel):
 
 
 class Metric(ContractBaseModel):
-    """Model for a metric."""
+    """Model for a metric...."""
 
     name: str = Field(..., description="Metric name")
     description: str = Field(..., description="Metric description")
@@ -35,7 +33,7 @@ class Metric(ContractBaseModel):
 
 
 class ResourceUsage(ContractBaseModel):
-    """Model for resource usage metrics."""
+    """Model for resource usage metrics...."""
 
     cpu_percent: float = Field(..., description="CPU usage percentage")
     memory_percent: float = Field(..., description="Memory usage percentage")
@@ -53,7 +51,7 @@ class ResourceUsage(ContractBaseModel):
 
 
 class ServiceHealthStatus(ContractBaseModel):
-    """Model for service health status."""
+    """Model for service health status...."""
 
     service_id: str = Field(..., description="Service identifier")
     service_name: str = Field(..., description="Service name")
@@ -71,7 +69,7 @@ class ServiceHealthStatus(ContractBaseModel):
 
 
 class TraceContext(ContractBaseModel):
-    """Model for distributed tracing context."""
+    """Model for distributed tracing context...."""
 
     trace_id: UUID = Field(default_factory=uuid4, description="Trace identifier")
     parent_span_id: Optional[UUID] = Field(None, description="Parent span identifier")
@@ -96,7 +94,7 @@ class TraceContext(ContractBaseModel):
 
 
 class AlertConfig(ContractBaseModel):
-    """Model for alert configuration."""
+    """Model for alert configuration...."""
 
     alert_id: UUID = Field(default_factory=uuid4, description="Alert identifier")
     name: str = Field(..., description="Alert name")
@@ -113,7 +111,7 @@ class AlertConfig(ContractBaseModel):
 
 
 class AlertInstance(ContractBaseModel):
-    """Model for an alert instance."""
+    """Model for an alert instance...."""
 
     alert_id: UUID = Field(..., description="Alert identifier")
     instance_id: UUID = Field(
@@ -141,7 +139,7 @@ class AlertInstance(ContractBaseModel):
 
 
 class LogConfig(ContractBaseModel):
-    """Model for log configuration."""
+    """Model for log configuration...."""
 
     service_name: str = Field(..., description="Service name")
     environment: str = Field(

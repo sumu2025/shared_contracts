@@ -1,8 +1,7 @@
 """
 LogFire监控设置模块
 
-此模块提供从环境变量初始化LogFire监控的函数。
-"""
+此模块提供从环境变量初始化LogFire监控的函..."""
 
 import logging
 import os
@@ -33,7 +32,7 @@ def setup_from_env(
 
     Returns:
         配置好的监控接口，如果环境变量未设置则返回None
-    """
+ ..."""
     # 从环境变量获取令牌
     token = os.environ.get(env_var)
     if not token:

@@ -1,8 +1,7 @@
 """
 Core contracts for the AgentForge platform.
 
-This module includes core data models, interfaces, and constants used across the platform.
-"""  # noqa: E501
+This module includes core data models, interfaces, and constants used across the platfor..."""  # noqa: E501
 
 from .constants import (
     AGENT_SERVICE_NAME,

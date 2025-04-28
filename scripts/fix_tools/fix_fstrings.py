@@ -1,11 +1,11 @@
-"""修复f-string缺少占位符的问题"""
+"""修复f-string缺少占位符的问题...."""
 import re
 import sys
 from pathlib import Path
 
 
 def fix_fstrings(file_path):
-    """修复指定文件中的f-string问题"""
+    """修复指定文件中的f-string问题...."""
     content = Path(file_path).read_text(encoding="utf-8")
     # 查找不含{}的f-string
     pattern = r'f"([^{]*)"'

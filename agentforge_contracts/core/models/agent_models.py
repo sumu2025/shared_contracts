@@ -1,8 +1,7 @@
 """
 代理相关数据模型
 
-定义与AI代理相关的模型，包括配置、状态等。
-"""
+定义与AI代理相关的模型，包括配置、状态..."""
 
 from datetime import datetime
 from enum import Enum
@@ -15,7 +14,7 @@ from .base_models import BaseModel
 
 
 class AgentType(str, Enum):
-    """代理类型枚举"""
+    """代理类型枚举...."""
 
     ASSISTANT = "assistant"
     AUTONOMOUS = "autonomous"
@@ -24,7 +23,7 @@ class AgentType(str, Enum):
 
 
 class AgentConfig(BaseModel):
-    """代理配置模型"""
+    """代理配置模型...."""
 
     agent_id: UUID = Field(default_factory=uuid4, description="代理唯一标识符")
 
@@ -54,14 +53,14 @@ class AgentConfig(BaseModel):
 
     @model_validator(mode="after")
     def update_timestamps(self) -> "AgentConfig":
-        """确保更新时间总是最新的"""
+        """确保更新时间总是最新的...."""
         self.updated_at = datetime.utcnow()
         return self
 
     @field_validator("capabilities")
     @classmethod
     def validate_capabilities(cls, value: Set[str]) -> Set[str]:
-        """验证能力集合中的值"""
+        """验证能力集合中的值...."""
         valid_capabilities = {
             "text-generation",
             "code-generation",
@@ -84,7 +83,7 @@ class AgentConfig(BaseModel):
 
 
 class AgentState(BaseModel):
-    """代理状态模型"""
+    """代理状态模型...."""
 
     agent_id: UUID = Field(..., description="代理ID")
 
@@ -103,7 +102,7 @@ class AgentState(BaseModel):
     @field_validator("status")
     @classmethod
     def validate_status(cls, value: str) -> str:
-        """验证状态值是否有效"""
+        """验证状态值是否有效...."""
         valid_statuses = [
             "idle",
             "busy",

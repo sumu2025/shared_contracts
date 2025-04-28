@@ -1,11 +1,11 @@
-"""修复未使用变量问题"""
+"""修复未使用变量问题...."""
 import re
 import sys
 from pathlib import Path
 
 
 def fix_unused_vars(file_path):
-    """修复指定文件中的未使用变量问题"""
+    """修复指定文件中的未使用变量问题...."""
     content = Path(file_path).read_text(encoding="utf-8")
     lines = content.splitlines()
 

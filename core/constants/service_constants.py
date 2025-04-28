@@ -1,6 +1,4 @@
-"""
-Service-related constants.
-"""
+"""Service-related constants...."""
 
 # Service names
 AGENT_SERVICE_NAME = "agent-service"

@@ -1,6 +1,4 @@
-"""
-Utilities for working with the monitoring client.
-"""
+"""Utilities for working with the monitoring client...."""
 
 import functools
 import inspect
@@ -9,10 +7,18 @@ import time
 from contextlib import contextmanager
 from typing import Any, Callable, Dict, Optional, TypeVar, cast
 
-from ..implementations.logfire_client import LogFireClient
-from ..implementations.logfire_config import LogFireConfig
-from ..monitor_interface import MonitorInterface
-from ..monitor_types import EventType, ServiceComponent
+try:
+    # Try absolute import first (for when package is installed)
+    from shared_contracts.monitoring.implementations.logfire_client import LogFireClient
+    from shared_contracts.monitoring.implementations.logfire_config import LogFireConfig
+    from shared_contracts.monitoring.monitor_interface import MonitorInterface
+    from shared_contracts.monitoring.monitor_types import EventType, ServiceComponent
+except ImportError:
+    # Fall back to relative import (for development)
+    from ..implementations.logfire_client import LogFireClient
+    from ..implementations.logfire_config import LogFireConfig
+    from ..monitor_interface import MonitorInterface
+    from ..monitor_types import EventType, ServiceComponent
 
 # Global monitor instance
 _monitor: Optional[MonitorInterface] = None
@@ -42,7 +48,7 @@ def configure_monitor(
 
     Returns:
         The configured monitor instance
-    """
+ ..."""
     global _monitor
 
     with _monitor_lock:
@@ -70,13 +76,52 @@ def get_monitor() -> MonitorInterface:
 
     Raises:
         RuntimeError: If the monitor has not been configured
-    """
-    #     global _monitor  # 未使用的全局声明
+ ..."""
+    global _monitor  # 声明全局变量
 
+    # 如果监控器未配置，尝试自动配置一个默认实例
     if _monitor is None:
-        raise RuntimeError(
-            "Monitor has not been configured. Call configure_monitor first."
-        )
+        try:
+            # 尝试使用环境变量配置
+            from ..setup import setup_from_env
+            configured_monitor = setup_from_env("auto-configured-service")
+            
+            # 如果环境变量配置失败，创建一个内存中的模拟监控器
+            if configured_monitor is None:
+                from ..implementations.logfire_config import LogFireConfig
+                from ..implementations.logfire_client import LogFireClient
+                
+                with _monitor_lock:
+                    config = LogFireConfig(
+                        api_key="mock-key",
+                        service_name="auto-configured-service",
+                        environment="development",
+                        enable_metadata=False,
+                        # 禁用向远程服务发送数据
+                        batch_size=10000,  # 设置一个大的批处理大小，实际上不会刷新
+                    )
+                    _monitor = LogFireClient(config)
+                    # 重写_do_flush方法，避免发送数据
+                    async def mock_do_flush() -> bool:
+                        return True
+                    _monitor._do_flush = mock_do_flush
+                    
+                    # 记录日志，但不抛出异常
+                    import logging
+                    logging.getLogger("shared_contracts.monitoring").warning(
+                        "自动配置了一个内存监控器。这不会向外部服务发送数据。"
+                        "为获得完整功能，请使用configure_monitor配置一个真实监控器。"
+                    )
+            else:
+                # 使用从环境变量配置的监控器
+                with _monitor_lock:
+                    _monitor = configured_monitor
+        except Exception as e:
+            # 配置失败时，抛出详细的错误信息
+            raise RuntimeError(
+                f"Monitor has not been configured and auto-configuration failed: {e}. "
+                "Call configure_monitor first."
+            )
 
     return _monitor
 
@@ -95,7 +140,7 @@ def with_monitoring(
 
     Returns:
         Decorated function
-    """
+ ..."""
 
     def decorator(func: F) -> F:
         # Determine if the function is a coroutine
@@ -248,7 +293,7 @@ def track_performance(
             # Do some work
             span.add_data({"records_processed": 100})
         ```
-    """
+ ..."""
     monitor = get_monitor()
     start_time = time.time()
 
@@ -263,7 +308,7 @@ def track_performance(
     # Create a helper to add data to the span
     class SpanContext:
         def add_data(self, data: Dict[str, Any]) -> None:
-            """Add data to the span."""
+            """Add data to the span...."""
             span.attributes.update(data)
 
     span_context = SpanContext()
@@ -333,7 +378,7 @@ def log_api_call(
         request_data: Request data
         response_data: Response data
         error: Error message, if the call failed
-    """
+ ..."""
     monitor = get_monitor()
     monitor.record_api_call(
         api_name=api_name,
@@ -356,7 +401,7 @@ def _get_function_name(func: Callable[..., Any], args: tuple) -> str:
 
     Returns:
         Function name
-    """
+ ..."""
     if args and hasattr(args[0], "__class__"):
         # This might be a method, check if the function is defined in the class
         cls = args[0].__class__
@@ -381,7 +426,7 @@ def _safe_args_to_dict(
 
     Returns:
         Dictionary of arguments
-    """
+ ..."""
     # Skip self or cls for methods
     if args and hasattr(args[0], "__class__"):
         cls = args[0].__class__
@@ -425,7 +470,7 @@ def _safe_serialize(value: Any) -> Any:
 
     Returns:
         Serializable value
-    """
+ ..."""
     if value is None:
         return None
     elif isinstance(value, (str, int, float, bool)):

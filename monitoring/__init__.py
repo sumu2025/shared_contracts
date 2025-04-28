@@ -1,6 +1,4 @@
-"""
-Monitoring contracts for the AgentForge platform.
-"""
+"""Monitoring contracts for the AgentForge platform...."""
 
 # Import implementations
 from .implementations.logfire_client import LogFireClient

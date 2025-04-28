@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-自动为长行添加noqa注释
-"""
+"""自动为长行添加noqa注...."""
 import subprocess
 from pathlib import Path
 
 
 def get_long_lines():
-    """获取所有长行问题的文件和行号"""
+    """获取所有长行问题的文件和行号...."""
     result = subprocess.run(
         "flake8 . --max-line-length=88 --extend-ignore=E203 --select=E501 "
         "--format='%(path)s:%(row)d'",
@@ -28,7 +26,7 @@ def get_long_lines():
 
 
 def add_noqa_comments(filepath, line_numbers):
-    """为指定文件的指定行添加noqa注释"""
+    """为指定文件的指定行添加noqa注释...."""
     content = Path(filepath).read_text(encoding="utf-8")
     lines = content.splitlines()
 
@@ -44,7 +42,7 @@ def add_noqa_comments(filepath, line_numbers):
 
 
 def main():
-    """主函数"""
+    """主函数...."""
     long_lines = get_long_lines()
     for filepath, line_numbers in long_lines.items():
         try:

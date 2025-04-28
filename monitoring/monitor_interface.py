@@ -1,6 +1,4 @@
-"""
-Monitoring interface definition.
-"""
+"""Monitoring interface definition...."""
 
 from typing import (
     Any,
@@ -27,7 +25,7 @@ from .monitor_types import EventType, LogLevel, ServiceComponent
 
 @runtime_checkable
 class MonitorInterface(Protocol):
-    """Interface for monitoring services."""
+    """Interface for monitoring services...."""
 
     def configure(
         self,
@@ -45,7 +43,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             Whether configuration was successful
-        """
+     ..."""
         ...
 
     def log(
@@ -69,7 +67,7 @@ class MonitorInterface(Protocol):
             data: Event data
             tags: Event tags
             trace_id: Trace ID for distributed tracing
-        """
+     ..."""
         ...
 
     def debug(
@@ -87,7 +85,7 @@ class MonitorInterface(Protocol):
             component: Service component
             event_type: Event type
             **kwargs: Additional event data
-        """
+     ..."""
         ...
 
     def info(
@@ -105,7 +103,7 @@ class MonitorInterface(Protocol):
             component: Service component
             event_type: Event type
             **kwargs: Additional event data
-        """
+     ..."""
         ...
 
     def warning(
@@ -123,7 +121,7 @@ class MonitorInterface(Protocol):
             component: Service component
             event_type: Event type
             **kwargs: Additional event data
-        """
+     ..."""
         ...
 
     def error(
@@ -141,7 +139,7 @@ class MonitorInterface(Protocol):
             component: Service component
             event_type: Event type
             **kwargs: Additional event data
-        """
+     ..."""
         ...
 
     def critical(
@@ -159,7 +157,7 @@ class MonitorInterface(Protocol):
             component: Service component
             event_type: Event type
             **kwargs: Additional event data
-        """
+     ..."""
         ...
 
     def start_span(
@@ -182,7 +180,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             A trace context object
-        """
+     ..."""
         ...
 
     def end_span(
@@ -200,7 +198,7 @@ class MonitorInterface(Protocol):
             data: Additional span data
             status: Span status
             error_message: Error message if status is error
-        """
+     ..."""
         ...
 
     def record_model_validation(
@@ -220,7 +218,7 @@ class MonitorInterface(Protocol):
             data: Validation data
             error: Error message, if validation failed
             component: Service component
-        """
+     ..."""
         ...
 
     def record_api_call(
@@ -244,7 +242,7 @@ class MonitorInterface(Protocol):
             request_data: Request data
             response_data: Response data
             error: Error message, if the call failed
-        """
+     ..."""
         ...
 
     def record_performance(
@@ -264,7 +262,7 @@ class MonitorInterface(Protocol):
             component: Service component
             success: Whether the operation was successful
             details: Additional details
-        """
+     ..."""
         ...
 
     def register_metric(
@@ -285,7 +283,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The registered metric
-        """
+     ..."""
         ...
 
     def record_metric(
@@ -301,7 +299,7 @@ class MonitorInterface(Protocol):
             metric_name: Metric name
             value: Metric value
             tags: Metric tags
-        """
+     ..."""
         ...
 
     def get_metrics(
@@ -316,7 +314,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             List of metrics
-        """
+     ..."""
         ...
 
     def record_health_status(
@@ -328,7 +326,7 @@ class MonitorInterface(Protocol):
 
         Args:
             status: Service health status
-        """
+     ..."""
         ...
 
     def get_health_status(
@@ -343,7 +341,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             Service health status or list of statuses
-        """
+     ..."""
         ...
 
     def create_alert(
@@ -358,7 +356,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The created alert configuration
-        """
+     ..."""
         ...
 
     def update_alert(
@@ -375,7 +373,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The updated alert configuration
-        """
+     ..."""
         ...
 
     def delete_alert(
@@ -390,7 +388,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             Whether deletion was successful
-        """
+     ..."""
         ...
 
     def get_alerts(
@@ -405,7 +403,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             List of alert configurations
-        """
+     ..."""
         ...
 
     def get_alert_instances(
@@ -420,7 +418,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             List of alert instances
-        """
+     ..."""
         ...
 
     def acknowledge_alert(
@@ -437,7 +435,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The updated alert instance
-        """
+     ..."""
         ...
 
     def resolve_alert(
@@ -454,7 +452,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The updated alert instance
-        """
+     ..."""
         ...
 
     def update_log_config(
@@ -469,7 +467,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The updated log configuration
-        """
+     ..."""
         ...
 
     def get_log_config(self) -> LogConfig:
@@ -478,7 +476,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             The current log configuration
-        """
+     ..."""
         ...
 
     def flush(self) -> bool:
@@ -487,7 +485,7 @@ class MonitorInterface(Protocol):
 
         Returns:
             Whether flush was successful
-        """
+     ..."""
         ...
 
     def shutdown(self) -> bool:
@@ -496,5 +494,5 @@ class MonitorInterface(Protocol):
 
         Returns:
             Whether shutdown was successful
-        """
+     ..."""
         ...

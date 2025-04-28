@@ -1,8 +1,7 @@
 """
 Agent-Model服务集成测试。
 
-此模块测试Agent服务与Model服务间通过shared_contracts进行交互的场景。
-"""
+此模块测试Agent服务与Model服务间通过shared_contracts进行交互的场..."""
 
 import uuid
 from typing import Any, Dict, Optional
@@ -29,21 +28,21 @@ from shared_contracts.monitoring import (
 
 # 模拟Model服务实现
 class MockModelService:
-    """Model服务的模拟实现。"""
+    """Model服务的模拟实现。...."""
 
     def __init__(self):
-        """初始化服务。"""
+        """初始化服务。...."""
         self.models = {}
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册一个模型。"""
+        """注册一个模型。...."""
         self.models[config.model_id] = config
         return BaseResponse(request_id=uuid.uuid4(), success=True, data=config)
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def get_model(self, model_id: str) -> BaseResponse[ModelConfig]:
-        """获取模型配置。"""
+        """获取模型配置。...."""
         if model_id not in self.models:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -64,7 +63,7 @@ class MockModelService:
         temperature: Optional[float] = None,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成。"""
+        """生成文本完成。...."""
         # 检查模型是否存在
         if model_id not in self.models:
             return BaseResponse(
@@ -92,7 +91,7 @@ class MockModelService:
 
 # 模拟Agent服务实现
 class MockAgentService:
-    """Agent服务的模拟实现。"""
+    """Agent服务的模拟实现。...."""
 
     def __init__(self, model_service: ModelServiceInterface):
         """
@@ -100,13 +99,13 @@ class MockAgentService:
 
         Args:
             model_service: Model服务接口
-        """
+     ..."""
         self.agents = {}
         self.model_service = model_service
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def create_agent(self, config: AgentConfig) -> BaseResponse[AgentConfig]:
-        """创建一个代理。"""
+        """创建一个代理。...."""
         # 确保模型存在
         model_response = await self.model_service.get_model(config.model_id)
         if not model_response.success:
@@ -125,7 +124,7 @@ class MockAgentService:
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def get_agent(self, agent_id: uuid.UUID) -> BaseResponse[AgentConfig]:
-        """获取代理配置。"""
+        """获取代理配置。...."""
         if agent_id not in self.agents:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -148,7 +147,7 @@ class MockAgentService:
         向代理发送消息。
 
         这个方法会调用Model服务生成响应。
-        """
+     ..."""
         # 检查代理是否存在
         if agent_id not in self.agents:
             return BaseResponse(
@@ -202,7 +201,7 @@ class MockAgentService:
 
 @pytest.fixture
 def setup_monitor():
-    """设置监控客户端。"""
+    """设置监控客户端。...."""
     try:
         # 使用内存配置（不实际连接到LogFire）
         # config = LogFireConfig(  # 未使用变量: config
@@ -232,7 +231,7 @@ def setup_monitor():
 
 @pytest.mark.asyncio
 async def test_agent_model_integration(setup_monitor):
-    """测试Agent服务与Model服务间的集成。"""
+    """测试Agent服务与Model服务间的集成。...."""
     # 创建Model服务
     model_service = MockModelService()
 

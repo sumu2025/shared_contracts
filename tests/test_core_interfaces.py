@@ -1,6 +1,4 @@
-"""
-Tests for core interfaces in agentforge-contracts.
-"""
+"""Tests for core interfaces in agentforge-contracts...."""
 
 import uuid
 from datetime import datetime
@@ -39,11 +37,11 @@ from shared_contracts.core.models.tool_models import (
 
 
 class TestServiceInterfaces:
-    """Tests for service interfaces."""
+    """Tests for service interfaces...."""
 
     @pytest.mark.asyncio
     async def test_agent_service_interface_implementation(self):
-        """Test implementation of AgentServiceInterface."""
+        """Test implementation of AgentServiceInterface...."""
 
         # Create a concrete implementation
         class ConcreteAgentService:
@@ -168,7 +166,7 @@ class TestServiceInterfaces:
 
     @pytest.mark.asyncio
     async def test_model_service_interface_implementation(self):
-        """Test implementation of ModelServiceInterface."""
+        """Test implementation of ModelServiceInterface...."""
 
         # Create a concrete implementation
         class ConcreteModelService:
@@ -349,7 +347,7 @@ class TestServiceInterfaces:
 
     @pytest.mark.asyncio
     async def test_tool_service_interface_implementation(self):
-        """Test implementation of ToolServiceInterface."""
+        """Test implementation of ToolServiceInterface...."""
 
         # Create a concrete implementation
         class ConcreteToolService:
@@ -477,10 +475,10 @@ class TestServiceInterfaces:
 
 
 class TestServiceErrors:
-    """Tests for service error classes."""
+    """Tests for service error classes...."""
 
     def test_service_error(self):
-        """Test ServiceError."""
+        """Test ServiceError...."""
         error = ServiceError(
             message="Test error",
             code="test_error",
@@ -499,7 +497,7 @@ class TestServiceErrors:
         assert error_dict["details"] == {"more": "info"}
 
     def test_not_found_error(self):
-        """Test NotFoundError."""
+        """Test NotFoundError...."""
         error = NotFoundError(
             message="Agent not found", resource_type="agent", resource_id="123"
         )
@@ -511,7 +509,7 @@ class TestServiceErrors:
         assert error.details["resource_id"] == "123"
 
     def test_validation_error(self):
-        """Test ValidationError."""
+        """Test ValidationError...."""
         error = ValidationError(message="Invalid input", field="name")
 
         assert error.message == "Invalid input"
@@ -520,7 +518,7 @@ class TestServiceErrors:
         assert error.details["field"] == "name"
 
     def test_authentication_error(self):
-        """Test AuthenticationError."""
+        """Test AuthenticationError...."""
         error = AuthenticationError()
 
         assert error.message == "Authentication failed"

@@ -1,6 +1,4 @@
-"""
-Utilities for distributed tracing.
-"""
+"""Utilities for distributed tracing...."""
 
 import contextlib
 import functools
@@ -8,9 +6,16 @@ import inspect
 import threading
 from typing import Any, Callable, ContextManager, Dict, Optional, TypeVar, cast
 
-from ..monitor_models import TraceContext
-from ..monitor_types import EventType, ServiceComponent
-from .logger_utils import get_monitor
+try:
+    # Try absolute import first (for when package is installed)
+    from shared_contracts.monitoring.monitor_models import TraceContext
+    from shared_contracts.monitoring.monitor_types import EventType, ServiceComponent
+    from shared_contracts.monitoring.utils.logger_utils import get_monitor
+except ImportError:
+    # Fall back to relative import (for development)
+    from ..monitor_models import TraceContext
+    from ..monitor_types import EventType, ServiceComponent
+    from .logger_utils import get_monitor
 
 # Type variables for better type hinting
 F = TypeVar("F", bound=Callable[..., Any])
@@ -36,7 +41,7 @@ def trace_method(
 
     Returns:
         Decorated method
-    """
+ ..."""
 
     def decorator(method: F) -> F:
         # Determine if the method is a coroutine
@@ -201,7 +206,7 @@ def trace_async_method(
 
     Returns:
         Decorated method
-    """
+ ..."""
     if event_type is None:
         event_type = EventType.RESPONSE
 
@@ -233,7 +238,7 @@ def create_trace_context(
             # Process the request
             span.attributes["request_id"] = request.id
         ```
-    """
+ ..."""
     # Get the monitor
     monitor = get_monitor()
 
@@ -259,8 +264,17 @@ def create_trace_context(
         # Yield the span
         yield span
 
-        # End span
-        monitor.end_span(span, status="ok", data=span.attributes)
+        # End span with data (include original data and span attributes)
+        if data is None:
+            span_data = span.attributes
+        else:
+            # Create a copy of original data and span attributes for safety
+            span_data = {}
+            if isinstance(data, dict):
+                span_data.update(data)
+            span_data.update(span.attributes)
+                
+        monitor.end_span(span, status="ok", data=span_data)
     except Exception as e:
         # End span with error
         monitor.end_span(
@@ -286,7 +300,7 @@ def get_current_trace() -> Optional[TraceContext]:
 
     Returns:
         Current trace context, or None if not in a trace
-    """
+ ..."""
     return getattr(_trace_context_local, "current_trace", None)
 
 
@@ -299,7 +313,7 @@ def _safe_value(value: Any) -> Any:
 
     Returns:
         Safe representation
-    """
+ ..."""
     if value is None:
         return None
     elif isinstance(value, (str, int, float, bool)):

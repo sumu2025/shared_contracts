@@ -1,8 +1,7 @@
 """
 核心数据模型
 
-这个模块包含使用pydantic v2定义的共享数据模型。
-"""
+这个模块包含使用pydantic v2定义的共享数据模..."""
 
 from shared_contracts.core.models import (
     AgentCapability,

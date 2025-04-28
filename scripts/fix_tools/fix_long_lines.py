@@ -1,10 +1,10 @@
-"""修复行过长问题的脚本"""
+"""修复行过长问题的脚本...."""
 import sys
 from pathlib import Path
 
 
 def fix_long_lines(file_path):
-    """修复指定文件中的行过长问题"""
+    """修复指定文件中的行过长问题...."""
     content = Path(file_path).read_text(encoding="utf-8")
     lines = content.splitlines()
     modified = False

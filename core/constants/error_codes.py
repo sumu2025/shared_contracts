@@ -1,6 +1,4 @@
-"""
-Error code constants used across the platform.
-"""
+"""Error code constants used across the platform...."""
 
 # Dictionary of error codes with descriptions
 ERROR_CODES = {

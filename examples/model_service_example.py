@@ -1,8 +1,7 @@
 """
 示例：模型服务实现
 
-本示例展示如何实现和使用ModelServiceInterface接口，包括多种模型提供商的集成。
-"""
+本示例展示如何实现和使用ModelServiceInterface接口，包括多种模型提供商的集..."""
 
 import asyncio
 import json
@@ -51,14 +50,14 @@ monitor = configure_monitor(
 
 
 class ModelService(ModelServiceInterface):
-    """模型服务基类实现。"""
+    """模型服务基类实现。...."""
 
     def __init__(self):
         self.models = {}  # 存储模型配置
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册模型。"""
+        """注册模型。...."""
         # 存储模型配置
         self.models[config.model_id] = config
 
@@ -75,7 +74,7 @@ class ModelService(ModelServiceInterface):
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def get_model(self, model_id: str) -> BaseResponse[ModelConfig]:
-        """获取模型配置。"""
+        """获取模型配置。...."""
         if model_id not in self.models:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -89,7 +88,7 @@ class ModelService(ModelServiceInterface):
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def list_models(self) -> BaseResponse[List[ModelConfig]]:
-        """列出所有模型。"""
+        """列出所有模型。...."""
         return BaseResponse(
             request_id=uuid.uuid4(), success=True, data=list(self.models.values())
         )
@@ -104,7 +103,7 @@ class ModelService(ModelServiceInterface):
         stream: bool = False,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成。"""
+        """生成文本完成。...."""
         # 这个方法由子类实现
         raise NotImplementedError("Subclasses must implement generate_completion")
 
@@ -113,11 +112,11 @@ class ModelService(ModelServiceInterface):
 
 
 class OpenAIModelService(ModelService):
-    """OpenAI模型服务实现。"""
+    """OpenAI模型服务实现。...."""
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册OpenAI模型。"""
+        """注册OpenAI模型。...."""
         # 检查API密钥环境变量
         env_var = config.api_key_env_var
         api_key = os.environ.get(env_var)
@@ -143,7 +142,7 @@ class OpenAIModelService(ModelService):
     async def _call_openai_api(
         self, endpoint: str, payload: Dict[str, Any], api_key: str, timeout: float
     ) -> Dict[str, Any]:
-        """调用OpenAI API。"""
+        """调用OpenAI API。...."""
         headers = {
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -169,7 +168,7 @@ class OpenAIModelService(ModelService):
         stream: bool = False,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成。"""
+        """生成文本完成。...."""
         # 检查模型是否存在
         if model_id not in self.models:
             return BaseResponse(
@@ -295,11 +294,11 @@ class OpenAIModelService(ModelService):
 
 
 class ClaudeModelService(ModelService):
-    """Anthropic Claude模型服务实现。"""
+    """Anthropic Claude模型服务实现。...."""
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册Claude模型。"""
+        """注册Claude模型。...."""
         # 检查API密钥环境变量
         env_var = config.api_key_env_var
         api_key = os.environ.get(env_var)
@@ -325,7 +324,7 @@ class ClaudeModelService(ModelService):
     async def _call_claude_api(
         self, payload: Dict[str, Any], api_key: str, timeout: float
     ) -> Dict[str, Any]:
-        """调用Claude API。"""
+        """调用Claude API。...."""
         headers = {
             "x-api-key": api_key,
             "Content-Type": "application/json",
@@ -355,7 +354,7 @@ class ClaudeModelService(ModelService):
         stream: bool = False,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成。"""
+        """生成文本完成。...."""
         # 检查模型是否存在
         if model_id not in self.models:
             return BaseResponse(
@@ -466,7 +465,7 @@ class ClaudeModelService(ModelService):
 
 
 class MultiProviderModelService(ModelService):
-    """多提供商模型服务代理，根据配置自动路由到对应服务。"""
+    """多提供商模型服务代理，根据配置自动路由到对应服务。...."""
 
     def __init__(self):
         super().__init__()
@@ -477,7 +476,7 @@ class MultiProviderModelService(ModelService):
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册模型，路由到对应的服务。"""
+        """注册模型，路由到对应的服务。...."""
         # 检查是否支持该提供商
         if config.provider not in self.provider_services:
             return BaseResponse(
@@ -503,7 +502,7 @@ class MultiProviderModelService(ModelService):
         stream: bool = False,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成，路由到对应的服务。"""
+        """生成文本完成，路由到对应的服务。...."""
         # 检查模型是否存在
         if model_id not in self.models:
             return BaseResponse(
@@ -538,7 +537,7 @@ class MultiProviderModelService(ModelService):
 
 
 async def run_example():
-    """运行模型服务示例。"""
+    """运行模型服务示例。...."""
     print("\n==== AgentForge模型服务示例 ====\n")
 
     # 创建多提供商模型服务

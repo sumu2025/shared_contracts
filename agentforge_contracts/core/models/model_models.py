@@ -1,8 +1,7 @@
 """
 模型服务相关数据模型
 
-定义与模型服务相关的数据模型，包括模型配置、能力等。
-"""
+定义与模型服务相关的数据模型，包括模型配置、能力..."""
 
 from datetime import datetime
 from enum import Enum
@@ -14,7 +13,7 @@ from .base_models import BaseModel
 
 
 class ModelType(str, Enum):
-    """模型类型枚举"""
+    """模型类型枚举...."""
 
     TEXT = "text"
     EMBEDDING = "embedding"
@@ -24,7 +23,7 @@ class ModelType(str, Enum):
 
 
 class ModelProvider(str, Enum):
-    """模型提供者枚举"""
+    """模型提供者枚举...."""
 
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
@@ -36,7 +35,7 @@ class ModelProvider(str, Enum):
 
 
 class ModelCapability(BaseModel):
-    """模型能力模型"""
+    """模型能力模型...."""
 
     supports_streaming: bool = Field(default=False, description="是否支持流式输出")
 
@@ -62,14 +61,14 @@ class ModelCapability(BaseModel):
 
     @model_validator(mode="after")
     def validate_costs(self) -> "ModelCapability":
-        """验证成本信息的合理性"""
+        """验证成本信息的合理性...."""
         if self.input_cost_per_token < 0 or self.output_cost_per_token < 0:
             raise ValueError("token成本不能为负数")
         return self
 
 
 class ModelConfig(BaseModel):
-    """模型配置模型"""
+    """模型配置模型...."""
 
     model_id: str = Field(..., min_length=1, description="模型唯一标识符")
 
@@ -105,6 +104,6 @@ class ModelConfig(BaseModel):
 
     @model_validator(mode="after")
     def update_timestamps(self) -> "ModelConfig":
-        """确保更新时间总是最新的"""
+        """确保更新时间总是最新的...."""
         self.updated_at = datetime.utcnow()
         return self

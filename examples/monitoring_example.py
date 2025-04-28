@@ -1,8 +1,7 @@
 """
 示例：使用监控客户端跟踪服务活动
 
-本示例展示如何配置和使用LogFire监控客户端来记录服务活动。
-"""
+本示例展示如何配置和使用LogFire监控客户端来记录服务活..."""
 
 # flake8: noqa
 
@@ -11,14 +10,14 @@
 
 
 class SimpleMonitor:
-    """简单的监控器示例类"""
+    """简单的监控器示例类...."""
 
     def __init__(self, service_name):
-        """初始化监控器"""
+        """初始化监控器...."""
         self.service_name = service_name
 
     def log_event(self, message):
-        """记录事件"""
+        """记录事件...."""
         print(f"[{self.service_name}] {message}")
 
 

@@ -6,27 +6,89 @@ repos:
     -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
+    -   id: check-ast
+    -   id: check-json
+    -   id: check-merge-conflict
+    -   id: debug-statements
+    -   id: detect-private-key
 
 -   repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
     -   id: isort
-        args: [--profile=black, --line-length=88]
+        args: ["--profile=black", "--line-length=88"]
 
 -   repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
     -   id: black
-        args: [--line-length=88]
+        args: ["--line-length=88"]
 
 -   repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
     -   id: flake8
-        args: [--max-line-length=88, --extend-ignore=E203]
+        args: ["--max-line-length=88", "--extend-ignore=E203,D400,D107"]
+        additional_dependencies:
+        - flake8-bugbear
+        - flake8-docstrings
 
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.4.1
     hooks:
     -   id: mypy
-        additional_dependencies: [pydantic>=2.5.2, types-requests]
+        additional_dependencies:
+        - "pydantic>=2.5.2"
+        - "types-requests"
+        args: ["--namespace-packages", "--explicit-package-bases"]
+
+# 安全检查
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+    -   id: bandit
+        args: ["--skip=B101", "-r"]
+
+# 本地自定义钩子
+-   repo: local
+    hooks:
+    # 确保Pydantic版本符合要求
+    -   id: check-pydantic-version
+        name: 检查Pydantic版本
+        entry: python scripts/check_pydantic_version.py
+        language: system
+        pass_filenames: false
+        always_run: true
+
+    # 自动修复文档字符串问题
+    -   id: fix-docstrings
+        name: 自动修复文档字符串
+        entry: python scripts/fix_docstrings_auto.py
+        language: system
+        types: [python]
+        pass_filenames: false
+        
+    # 自动修复长行
+    -   id: fix-long-lines
+        name: 自动修复长行
+        entry: python scripts/fix_remaining_long_lines.py
+        language: system
+        types: [python]
+        pass_filenames: false
+        
+    # 自动删除未使用的导入
+    -   id: fix-unused-imports
+        name: 删除未使用的导入
+        entry: python scripts/fix_tools/fix_imports.py
+        language: system
+        types: [python]
+        pass_filenames: false
+        
+    # 自动添加noqa标记
+    -   id: add-noqa
+        name: 添加noqa标记
+        entry: python scripts/add_noqa.py
+        language: system
+        types: [python]
+        pass_filenames: false
+        stages: [commit]

@@ -1,8 +1,7 @@
 """
 Agent-Tool服务集成测试。
 
-此模块测试Agent服务与Tool服务间通过shared_contracts进行交互的场景。
-"""
+此模块测试Agent服务与Tool服务间通过shared_contracts进行交互的场..."""
 
 import uuid
 from typing import Any, Dict
@@ -29,23 +28,23 @@ from shared_contracts.monitoring import (
 
 # 模拟Tool服务实现
 class MockToolService:
-    """Tool服务的模拟实现。"""
+    """Tool服务的模拟实现。...."""
 
     def __init__(self):
-        """初始化服务。"""
+        """初始化服务。...."""
         self.tools = {}
 
     @with_monitoring(component=ServiceComponent.TOOL_SERVICE)
     async def register_tool(
         self, definition: ToolDefinition
     ) -> BaseResponse[ToolDefinition]:
-        """注册一个工具。"""
+        """注册一个工具。...."""
         self.tools[definition.tool_id] = definition
         return BaseResponse(request_id=uuid.uuid4(), success=True, data=definition)
 
     @with_monitoring(component=ServiceComponent.TOOL_SERVICE)
     async def get_tool(self, tool_id: str) -> BaseResponse[ToolDefinition]:
-        """获取工具定义。"""
+        """获取工具定义。...."""
         if tool_id not in self.tools:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -61,7 +60,7 @@ class MockToolService:
     async def execute_tool(
         self, tool_id: str, parameters: Dict[str, Any]
     ) -> BaseResponse[ToolResult]:
-        """执行工具。"""
+        """执行工具。...."""
         # 检查工具是否存在
         if tool_id not in self.tools:
             return BaseResponse(
@@ -157,7 +156,7 @@ class MockToolService:
 
 # 模拟Agent服务实现
 class MockAgentWithTools:
-    """具有工具使用能力的Agent服务模拟实现。"""
+    """具有工具使用能力的Agent服务模拟实现。...."""
 
     def __init__(self, tool_service: ToolServiceInterface):
         """
@@ -165,13 +164,13 @@ class MockAgentWithTools:
 
         Args:
             tool_service: Tool服务接口
-        """
+     ..."""
         self.agents = {}
         self.tool_service = tool_service
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def create_agent(self, config: AgentConfig) -> BaseResponse[AgentConfig]:
-        """创建一个代理。"""
+        """创建一个代理。...."""
         # 检查工具可用性
         for tool_id in config.tools:
             tool_response = await self.tool_service.get_tool(tool_id)
@@ -191,7 +190,7 @@ class MockAgentWithTools:
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def get_agent(self, agent_id: uuid.UUID) -> BaseResponse[AgentConfig]:
-        """获取代理配置。"""
+        """获取代理配置。...."""
         if agent_id not in self.agents:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -211,7 +210,7 @@ class MockAgentWithTools:
         使用工具。
 
         此方法会检查代理是否有权限使用该工具，然后调用Tool服务执行工具。
-        """
+     ..."""
         # 检查代理是否存在
         if agent_id not in self.agents:
             return BaseResponse(
@@ -278,7 +277,7 @@ class MockAgentWithTools:
 
 @pytest.fixture
 def setup_monitor():
-    """设置监控客户端。"""
+    """设置监控客户端。...."""
     try:
         # 使用内存配置（不实际连接到LogFire）
         # config = LogFireConfig(  # 未使用变量: config
@@ -308,7 +307,7 @@ def setup_monitor():
 
 @pytest.mark.asyncio
 async def test_agent_tool_integration(setup_monitor):
-    """测试Agent服务与Tool服务间的集成。"""
+    """测试Agent服务与Tool服务间的集成。...."""
     # 创建Tool服务
     tool_service = MockToolService()
 

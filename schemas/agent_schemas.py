@@ -2,8 +2,7 @@
 API schema definitions for the Agent Service.
 
 These schemas define the API contracts for the Agent Service,
-including endpoints for agent management and interaction.
-"""
+including endpoints for agent management and interactio..."""
 
 from typing import Any, Dict
 

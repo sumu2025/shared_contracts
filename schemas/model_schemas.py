@@ -2,8 +2,7 @@
 API schema definitions for the Model Service.
 
 These schemas define the API contracts for the Model Service,
-including endpoints for model management and inference.
-"""
+including endpoints for model management and inferenc..."""
 
 from typing import Any, Dict
 

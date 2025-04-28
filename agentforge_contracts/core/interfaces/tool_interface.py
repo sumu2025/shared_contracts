@@ -1,8 +1,7 @@
 """
 工具服务接口定义
 
-这个模块定义了工具服务的接口和相关类型。
-"""
+这个模块定义了工具服务的接口和相关类..."""
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
@@ -13,7 +12,7 @@ from ..models.tool_models import ToolDefinition, ToolResult
 
 
 class ToolExecutionRequest(BaseModel):
-    """工具执行请求"""
+    """工具执行请求...."""
 
     tool_id: str
     parameters: Dict[str, Any]
@@ -24,14 +23,14 @@ class ToolExecutionRequest(BaseModel):
 
 
 class ToolExecutionResponse(BaseResponse):
-    """工具执行响应"""
+    """工具执行响应...."""
 
     tool_id: str
     result: ToolResult
 
 
 class ToolServiceInterface(ABC):
-    """工具服务接口协议"""
+    """工具服务接口协议...."""
 
     @abstractmethod
     async def get_tools(
@@ -49,7 +48,7 @@ class ToolServiceInterface(ABC):
 
         Raises:
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def get_tool(self, tool_id: str) -> ToolDefinition:
@@ -65,7 +64,7 @@ class ToolServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到工具
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def register_tool(self, definition: ToolDefinition) -> ToolDefinition:
@@ -81,7 +80,7 @@ class ToolServiceInterface(ABC):
         Raises:
             ValidationError: 如果定义无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def update_tool(
@@ -101,7 +100,7 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到工具
             ValidationError: 如果定义无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def delete_tool(self, tool_id: str) -> bool:
@@ -117,7 +116,7 @@ class ToolServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到工具
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def execute_tool(
@@ -136,7 +135,7 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到工具
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def get_execution_result(self, execution_id: UUID) -> ToolResult:
@@ -152,7 +151,7 @@ class ToolServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到执行
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def cancel_execution(self, execution_id: UUID) -> bool:
@@ -169,4 +168,4 @@ class ToolServiceInterface(ABC):
             NotFoundError: 如果找不到执行
             ValidationError: 如果执行已完成
             ServiceError: 通用服务错误
-        """
+     ..."""

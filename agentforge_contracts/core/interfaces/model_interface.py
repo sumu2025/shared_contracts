@@ -1,8 +1,7 @@
 """
 模型服务接口定义
 
-这个模块定义了模型服务的接口和相关类型。
-"""
+这个模块定义了模型服务的接口和相关类..."""
 
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Union
@@ -16,7 +15,7 @@ from agentforge_contracts.core.models.model_models import (
 
 
 class ModelRequest(BaseModel):
-    """模型请求基类"""
+    """模型请求基类...."""
 
     model_id: str
     inputs: Union[str, List[str], Dict[str, Any]]
@@ -25,7 +24,7 @@ class ModelRequest(BaseModel):
 
 
 class ModelResponse(BaseResponse):
-    """模型响应基类"""
+    """模型响应基类...."""
 
     model_id: str
     outputs: Union[str, List[str], Dict[str, Any]]
@@ -35,7 +34,7 @@ class ModelResponse(BaseResponse):
 
 
 class ModelServiceInterface(ABC):
-    """模型服务接口协议"""
+    """模型服务接口协议...."""
 
     @abstractmethod
     async def get_models(
@@ -53,7 +52,7 @@ class ModelServiceInterface(ABC):
 
         Raises:
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def get_model(self, model_id: str) -> ModelConfig:
@@ -69,7 +68,7 @@ class ModelServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def register_model(self, config: ModelConfig) -> ModelConfig:
@@ -85,7 +84,7 @@ class ModelServiceInterface(ABC):
         Raises:
             ValidationError: 如果配置无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def update_model(self, model_id: str, config: ModelConfig) -> ModelConfig:
@@ -103,7 +102,7 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ValidationError: 如果配置无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def delete_model(self, model_id: str) -> bool:
@@ -119,7 +118,7 @@ class ModelServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def generate_text(self, request: ModelRequest) -> ModelResponse:
@@ -136,7 +135,7 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def generate_embeddings(self, request: ModelRequest) -> ModelResponse:
@@ -153,7 +152,7 @@ class ModelServiceInterface(ABC):
             NotFoundError: 如果找不到模型
             ValidationError: 如果请求无效
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def get_model_capabilities(self, model_id: str) -> ModelCapability:
@@ -169,7 +168,7 @@ class ModelServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
-        """
+     ..."""
 
     @abstractmethod
     async def check_model_health(self, model_id: str) -> Dict[str, Any]:
@@ -185,4 +184,4 @@ class ModelServiceInterface(ABC):
         Raises:
             NotFoundError: 如果找不到模型
             ServiceError: 通用服务错误
-        """
+     ..."""

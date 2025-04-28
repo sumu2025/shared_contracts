@@ -1,0 +1,23 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203,W503,D400,D107,D200
+per-file-ignores =
+    # 测试目录中允许特殊规则例外
+    */tests/*.py:D400,D107,B011
+    # 示例代码的例外
+    */examples/*.py:D400,D107,F401
+    # 核心接口允许特定文档字符串格式
+    */core/*.py:D200
+    */agentforge_contracts/core/*.py:D400
+    # 脚本工具例外
+    */scripts/fix_tools/*.py:F401,W293
+    # 集成测试例外
+    */integration_tests/*.py:F401,W293
+    # 监控实现例外
+    */monitoring/implementations/*.py:W293,W291
+exclude =
+    .git,
+    .venv,
+    __pycache__,
+    build,
+    dist

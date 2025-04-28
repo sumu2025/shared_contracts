@@ -1,6 +1,4 @@
-"""
-Monitoring types and enumerations.
-"""
+"""Monitoring types and enumerations...."""
 
 from enum import Enum
 from typing import Any, Dict, List, Optional
@@ -10,7 +8,7 @@ from pydantic import Field
 
 
 class LogLevel(str, Enum):
-    """Log level enumeration."""
+    """Log level enumeration...."""
 
     DEBUG = "debug"
     INFO = "info"
@@ -20,7 +18,7 @@ class LogLevel(str, Enum):
 
 
 class ServiceComponent(str, Enum):
-    """Service component enumeration."""
+    """Service component enumeration...."""
 
     AGENT_CORE = "agent_core"
     MODEL_SERVICE = "model_service"
@@ -33,7 +31,7 @@ class ServiceComponent(str, Enum):
 
 
 class EventType(str, Enum):
-    """Event type enumeration."""
+    """Event type enumeration...."""
 
     REQUEST = "request"
     RESPONSE = "response"
@@ -46,7 +44,7 @@ class EventType(str, Enum):
 
 
 class MonitorEvent(PydanticBaseModel):
-    """Base monitoring event model."""
+    """Base monitoring event model...."""
 
     timestamp: float = Field(..., description="Event timestamp (Unix time)")
     level: LogLevel = Field(..., description="Log level")

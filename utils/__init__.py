@@ -1,6 +1,4 @@
-"""
-Utility functions and classes for the AgentForge platform.
-"""
+"""Utility functions and classes for the AgentForge platform...."""
 
 # Schema utilities
 from .schema_utils import (

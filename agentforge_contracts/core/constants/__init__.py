@@ -1,8 +1,7 @@
 """
 Core constants for the AgentForge platform.
 
-This module re-exports constants used across the platform from the shared_contracts package.  # noqa: E501
-"""
+This module re-exports constants used across the platform from the shared_contracts package.  # noqa: E5..."""
 
 from shared_contracts.core.constants import (
     AGENT_SERVICE_NAME,

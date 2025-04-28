@@ -1,6 +1,4 @@
-"""
-Agent service interface definition.
-"""
+"""Agent service interface definition...."""
 
 from typing import Any, Dict, List, Optional, Protocol, runtime_checkable
 from uuid import UUID
@@ -11,7 +9,7 @@ from ..models.base_models import BaseResponse
 
 @runtime_checkable
 class AgentServiceInterface(Protocol):
-    """Interface for the agent service."""
+    """Interface for the agent service...."""
 
     async def create_agent(self, config: AgentConfig) -> BaseResponse[AgentConfig]:
         """
@@ -26,7 +24,7 @@ class AgentServiceInterface(Protocol):
         Raises:
             ValidationError: If the configuration is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def get_agent(self, agent_id: UUID) -> BaseResponse[AgentConfig]:
@@ -42,7 +40,7 @@ class AgentServiceInterface(Protocol):
         Raises:
             NotFoundError: If the agent is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def update_agent(
@@ -62,7 +60,7 @@ class AgentServiceInterface(Protocol):
             NotFoundError: If the agent is not found
             ValidationError: If the updates are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def delete_agent(self, agent_id: UUID) -> BaseResponse[bool]:
@@ -78,7 +76,7 @@ class AgentServiceInterface(Protocol):
         Raises:
             NotFoundError: If the agent is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def list_agents(
@@ -101,7 +99,7 @@ class AgentServiceInterface(Protocol):
         Raises:
             ValidationError: If the pagination or filter parameters are invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def get_agent_state(self, agent_id: UUID) -> BaseResponse[AgentState]:
@@ -117,7 +115,7 @@ class AgentServiceInterface(Protocol):
         Raises:
             NotFoundError: If the agent is not found
             ServiceError: For other service errors
-        """
+     ..."""
         ...
 
     async def send_message_to_agent(
@@ -138,5 +136,5 @@ class AgentServiceInterface(Protocol):
             NotFoundError: If the agent is not found
             ValidationError: If the message is invalid
             ServiceError: For other service errors
-        """
+     ..."""
         ...

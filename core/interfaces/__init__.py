@@ -1,6 +1,4 @@
-"""
-Service interface definitions for the AgentForge platform.
-"""
+"""Service interface definitions for the AgentForge platform...."""
 
 from .agent_interface import AgentServiceInterface
 from .common_errors import (

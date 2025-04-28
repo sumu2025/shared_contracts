@@ -1,15 +1,49 @@
 # AgentForge Shared Contracts
 
-_版本: 1.0.0 | 最后更新: 2025-04-26_
+_版本: 1.0.0 | 最后更新: 2025-04-28_
 
 **版本:** 1.0.0  
-**最后更新:** 2025-04-26
+**最后更新:** 2025-04-28
 
 [![CI Status](https://github.com/agentforge/shared_contracts/workflows/CI/badge.svg)](https://github.com/agentforge/shared_contracts/actions)
 [![Python Version](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![codecov](https://codecov.io/gh/agentforge/shared_contracts/branch/main/graph/badge.svg)](https://codecov.io/gh/agentforge/shared_contracts)
 
 AgentForge共享契约模块(shared_contracts)是一个定义服务间通信接口和数据模型的核心库，旨在确保不同服务组件之间的一致性和互操作性。
+
+## 重要更新：导入路径优化
+
+我们最近对导入路径进行了优化，现在支持两种导入方式：
+
+1. **作为已安装的包导入（推荐）**：
+   ```python
+   from shared_contracts.core import models
+   from shared_contracts.monitoring import LogFireClient
+   ```
+
+2. **从项目中直接导入**：
+   ```python
+   from core import models
+   from monitoring import LogFireClient
+   ```
+
+为了支持这两种导入方式，我们进行了以下更改：
+- 添加了 `shared_contracts` 包结构
+- 更新了导入语句以支持两种模式
+- 提供了开发模式安装脚本
+
+### 如何设置导入路径
+
+**方法1: 运行开发模式安装脚本**
+```bash
+# 从项目根目录运行
+python setup_dev.py
+```
+
+**方法2: 手动安装包**
+```bash
+pip install -e .
+```
 
 ## 概述
 
@@ -59,7 +93,7 @@ poetry install
 
 2. 使用Poetry安装依赖:
    ```bash
-   poetry install
+   poetry install --with dev
    ```
 
 3. 安装pre-commit钩子:
@@ -79,12 +113,17 @@ poetry install
    # 使用验证脚本运行所有检查
    bash scripts/validate.sh
    
-   # 或单独运行检查
-   poetry run black .
-   poetry run isort .
-   poetry run flake8 .
-   poetry run mypy .
-   poetry run pytest
+   # 自动格式化代码
+   bash scripts/auto_format.sh
+   
+   # 运行所有测试
+   bash scripts/run_tests.sh
+   
+   # 只运行单元测试
+   bash scripts/run_tests.sh --type unit
+   
+   # 只运行集成测试
+   bash scripts/run_tests.sh --type integration
    ```
 
 3. 构建包:
@@ -118,13 +157,23 @@ poetry install
 
 1. **持续集成 (CI)**:
    - 每次推送或PR时自动运行
-   - 执行代码风格检查、类型检查和单元测试
-   - 生成覆盖率报告
+   - 执行依赖版本检查，确保pydantic>=2.0.0
+   - 自动修复代码风格问题，减少格式相关的CI失败
+   - 执行类型检查和单元测试
+   - 生成覆盖率报告并上传到Codecov
 
 2. **持续部署 (CD)**:
    - 仅在合并到主分支时触发
-   - 自动构建包
+   - 自动构建包并验证
    - 部署到指定环境(开发、测试或生产)
+   - 使用LogFire记录部署状态和性能指标
+
+3. **开发工具**:
+   - 提供自动格式化脚本: `./scripts/auto_format.sh`
+   - 提供多种特定问题修复脚本: `./scripts/fix_*.sh`
+   - 使用pre-commit钩子确保代码质量
+
+详细说明请参阅[CI/CD指南](./docs/ci_cd_guide.md)和[代码风格指南](./docs/guides/code_style_guide.md)。
 
 ## 模块结构
 
@@ -357,3 +406,7 @@ monitor.shutdown()
 | 实现服务间通信 | [集成指南 - 服务间通信模式](./docs/integration.md#服务间通信模式) |
 | 查看示例应用 | [examples/complete_application_example.py](./examples/complete_application_example.py)、[examples/model_service_example.py](./examples/model_service_example.py) 和 [examples/tool_service_example.py](./examples/tool_service_example.py) |
 | 排查常见问题 | [故障排除指南](./docs/troubleshooting.md) |
+| **了解CI/CD流程** | **[新] [CI/CD指南](./docs/ci_cd_guide.md)** |
+| **了解代码风格规范** | **[新] [代码风格指南](./docs/guides/code_style_guide.md)** |
+| **了解开发流程** | **[新] [开发者指南](./docs/guides/developer_guide.md)** |
+| **了解测试标准** | **[新] [测试要求](./docs/testing_requirements.md)** |

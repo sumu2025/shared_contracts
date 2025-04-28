@@ -1,0 +1,24 @@
+[run]
+source = agentforge_contracts
+omit = 
+    */tests/*
+    */examples/*
+    */scripts/*
+    */__pycache__/*
+    */__init__.py
+    */integration_tests/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    raise NotImplementedError
+    if __name__ == .__main__.:
+    pass
+    raise ImportError
+    except ImportError
+    raise RuntimeError
+
+[html]
+directory = htmlcov
+title = AgentForge Contracts Test Coverage Report

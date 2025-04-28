@@ -1,6 +1,4 @@
-"""
-Tests for utility functions in agentforge-contracts.
-"""
+"""Tests for utility functions in agentforge-contracts...."""
 
 import asyncio
 import json
@@ -44,7 +42,7 @@ from shared_contracts.utils.version import (
 
 # Test models for validation and serialization
 class TestEnum(str, Enum):
-    """Test enumeration."""
+    """Test enumeration...."""
 
     VALUE1 = "value1"
     VALUE2 = "value2"
@@ -52,14 +50,14 @@ class TestEnum(str, Enum):
 
 
 class NestedModel(BaseModel):
-    """Nested model for testing."""
+    """Nested model for testing...."""
 
     field1: str
     field2: Optional[int] = None
 
 
 class TestModel(BaseModel):
-    """Test model for validation and serialization."""
+    """Test model for validation and serialization...."""
 
     id: uuid.UUID
     name: str
@@ -71,10 +69,10 @@ class TestModel(BaseModel):
 
 
 class TestSchemaUtils:
-    """Tests for schema_utils module."""
+    """Tests for schema_utils module...."""
 
     def test_extract_json_schema(self):
-        """Test extracting JSON schema from a Pydantic model."""
+        """Test extracting JSON schema from a Pydantic model...."""
         schema = extract_json_schema(TestModel)
 
         assert schema["type"] == "object"
@@ -92,7 +90,7 @@ class TestSchemaUtils:
         assert "nested" not in schema_excluded["properties"]
 
     def test_merge_schemas(self):
-        """Test merging schemas."""
+        """Test merging schemas...."""
         schema1 = {
             "type": "object",
             "properties": {
@@ -131,7 +129,7 @@ class TestSchemaUtils:
         assert "field2" in merged["required"]
 
     def test_validate_schema(self):
-        """Test schema validation."""
+        """Test schema validation...."""
         schema = {
             "type": "object",
             "properties": {
@@ -162,7 +160,7 @@ class TestSchemaUtils:
         assert len(errors) > 0
 
     def test_schema_to_json(self):
-        """Test schema_to_json function."""
+        """Test schema_to_json function...."""
         schema = {
             "type": "object",
             "properties": {
@@ -181,7 +179,7 @@ class TestSchemaUtils:
         assert "age" in parsed["properties"]
 
     def test_json_to_schema(self):
-        """Test json_to_schema function."""
+        """Test json_to_schema function...."""
         json_str = json.dumps(
             {
                 "type": "object",
@@ -199,10 +197,10 @@ class TestSchemaUtils:
 
 
 class TestValidationUtils:
-    """Tests for validation_utils module."""
+    """Tests for validation_utils module...."""
 
     def test_validate_model(self):
-        """Test validate_model function."""
+        """Test validate_model function...."""
         # Create a valid model
         test_data = {
             "id": str(uuid.uuid4()),
@@ -243,7 +241,7 @@ class TestValidationUtils:
         assert len(result.errors) > 0
 
     def test_validate_uuid(self):
-        """Test validate_uuid function."""
+        """Test validate_uuid function...."""
         # Valid UUIDs
         valid_uuid1 = uuid.uuid4()
         valid_uuid2 = str(uuid.uuid4())
@@ -259,7 +257,7 @@ class TestValidationUtils:
         )  # Wrong format
 
     def test_validate_model_type(self):
-        """Test validate_model_type function."""
+        """Test validate_model_type function...."""
         allowed_types = {"type1", "type2", "Type3"}
 
         # Test case-sensitive
@@ -274,7 +272,7 @@ class TestValidationUtils:
         assert validate_model_type("type4", allowed_types) is False
 
     def test_validate_service_name(self):
-        """Test validate_service_name function."""
+        """Test validate_service_name function...."""
         # Valid service names
         assert validate_service_name("service-name") is True
         assert validate_service_name("s123") is True
@@ -292,7 +290,7 @@ class TestValidationUtils:
         assert validate_service_name("service-3", allowed_services=allowed) is False
 
     def test_validate_enum_value(self):
-        """Test validate_enum_value function."""
+        """Test validate_enum_value function...."""
         # Test with string enum
         assert validate_enum_value(TestEnum.VALUE1, TestEnum) is True
         assert validate_enum_value("value1", TestEnum) is True
@@ -301,10 +299,10 @@ class TestValidationUtils:
 
 
 class TestSerializationUtils:
-    """Tests for serialization_utils module."""
+    """Tests for serialization_utils module...."""
 
     def test_model_to_dict(self):
-        """Test model_to_dict function."""
+        """Test model_to_dict function...."""
         # Create a test model
         model = TestModel(
             id=uuid.uuid4(),
@@ -338,7 +336,7 @@ class TestSerializationUtils:
         assert "field2" not in result_exclude_none["nested"]
 
     def test_dict_to_model(self):
-        """Test dict_to_model function."""
+        """Test dict_to_model function...."""
         # Create a test dict
         data = {
             "id": str(uuid.uuid4()),
@@ -366,7 +364,7 @@ class TestSerializationUtils:
         assert model.nested.field2 == 123
 
     def test_model_to_json(self):
-        """Test model_to_json function."""
+        """Test model_to_json function...."""
         # Create a test model
         model = TestModel(
             id=uuid.uuid4(),
@@ -393,7 +391,7 @@ class TestSerializationUtils:
         assert parsed["nested"]["field1"] == "nested value"
 
     def test_json_to_model(self):
-        """Test json_to_model function."""
+        """Test json_to_model function...."""
         # Create a test model and convert to JSON
         id_value = uuid.uuid4()
         now = datetime.utcnow()
@@ -428,7 +426,7 @@ class TestSerializationUtils:
         assert model.nested.field2 == 123
 
     def test_deep_dict_update(self):
-        """Test deep_dict_update function."""
+        """Test deep_dict_update function...."""
         # Create test dictionaries
         base = {
             "a": 1,
@@ -466,10 +464,10 @@ class TestSerializationUtils:
 
 
 class TestVersionUtils:
-    """Tests for version_utils module."""
+    """Tests for version_utils module...."""
 
     def test_get_version(self):
-        """Test get_version function."""
+        """Test get_version function...."""
         # Test simple version
         info = get_version("1.2.3")
         assert info["major"] == 1
@@ -492,7 +490,7 @@ class TestVersionUtils:
             get_version("1.2")
 
     def test_compare_versions(self):
-        """Test compare_versions function."""
+        """Test compare_versions function...."""
         # Equal versions
         assert compare_versions("1.2.3", "1.2.3") == 0
 
@@ -508,7 +506,7 @@ class TestVersionUtils:
         assert compare_versions("1.2.3-beta.2", "1.2.3-beta.1") > 0
 
     def test_is_compatible_version(self):
-        """Test is_compatible_version function."""
+        """Test is_compatible_version function...."""
         # Test with min_version only
         assert is_compatible_version("1.2.3", min_version="1.2.0") is True
         assert is_compatible_version("1.2.3", min_version="1.2.3") is True
@@ -539,10 +537,10 @@ class TestVersionUtils:
 
 
 class TestTimingUtils:
-    """Tests for timing_utils module."""
+    """Tests for timing_utils module...."""
 
     def test_timed_decorator(self):
-        """Test timed decorator."""
+        """Test timed decorator...."""
 
         # Define a test function
         @timed
@@ -556,7 +554,7 @@ class TestTimingUtils:
 
     @pytest.mark.asyncio
     async def test_async_timed_decorator(self):
-        """Test async_timed decorator."""
+        """Test async_timed decorator...."""
 
         # Define a test async function
         @async_timed
@@ -569,7 +567,7 @@ class TestTimingUtils:
         assert result == 0.1
 
     def test_measure_execution_time(self):
-        """Test measure_execution_time context manager."""
+        """Test measure_execution_time context manager...."""
         # Use as a context manager
         with measure_execution_time("test operation"):
             time.sleep(0.1)

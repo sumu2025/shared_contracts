@@ -1,8 +1,7 @@
 """
 完整工作流集成测试。
 
-此模块测试Agent、Model和Tool服务间的完整交互场景，同时使用监控工具追踪数据流。
-"""
+此模块测试Agent、Model和Tool服务间的完整交互场景，同时使用监控工具追踪数据..."""
 
 import json
 import uuid
@@ -38,16 +37,16 @@ from shared_contracts.monitoring import (
 
 # 模拟模型服务
 class MockModelService:
-    """Model服务的模拟实现。"""
+    """Model服务的模拟实现。...."""
 
     def __init__(self, monitor: MonitorInterface):
-        """初始化服务。"""
+        """初始化服务。...."""
         self.models = {}
         self.monitor = monitor
 
     @with_monitoring(component=ServiceComponent.MODEL_SERVICE)
     async def register_model(self, config: ModelConfig) -> BaseResponse[ModelConfig]:
-        """注册一个模型。"""
+        """注册一个模型。...."""
         self.models[config.model_id] = config
         self.monitor.info(
             f"Model registered: {config.model_id}",
@@ -66,7 +65,7 @@ class MockModelService:
         temperature: Optional[float] = None,
         **options: Any,
     ) -> BaseResponse[ModelResponse]:
-        """生成文本完成。"""
+        """生成文本完成。...."""
         request_id = uuid.uuid4()
 
         self.monitor.info(
@@ -128,10 +127,10 @@ class MockModelService:
 
 # 模拟工具服务
 class MockToolService:
-    """Tool服务的模拟实现。"""
+    """Tool服务的模拟实现。...."""
 
     def __init__(self, monitor: MonitorInterface):
-        """初始化服务。"""
+        """初始化服务。...."""
         self.tools = {}
         self.monitor = monitor
 
@@ -139,7 +138,7 @@ class MockToolService:
     async def register_tool(
         self, definition: ToolDefinition
     ) -> BaseResponse[ToolDefinition]:
-        """注册一个工具。"""
+        """注册一个工具。...."""
         self.tools[definition.tool_id] = definition
         self.monitor.info(
             f"Tool registered: {definition.tool_id}",
@@ -153,7 +152,7 @@ class MockToolService:
     async def execute_tool(
         self, tool_id: str, parameters: Dict[str, Any]
     ) -> BaseResponse[ToolResult]:
-        """执行工具。"""
+        """执行工具。...."""
         request_id = uuid.uuid4()
 
         self.monitor.info(
@@ -238,7 +237,7 @@ class MockToolService:
 
 # 模拟代理服务
 class MockAgentService:
-    """具有完整能力的Agent服务模拟实现。"""
+    """具有完整能力的Agent服务模拟实现。...."""
 
     def __init__(self, model_service, tool_service, monitor: MonitorInterface):
         """
@@ -248,7 +247,7 @@ class MockAgentService:
             model_service: Model服务接口
             tool_service: Tool服务接口
             monitor: 监控接口
-        """
+     ..."""
         self.agents = {}
         self.model_service = model_service
         self.tool_service = tool_service
@@ -256,7 +255,7 @@ class MockAgentService:
 
     @with_monitoring(component=ServiceComponent.AGENT_CORE)
     async def create_agent(self, config: AgentConfig) -> BaseResponse[AgentConfig]:
-        """创建一个代理。"""
+        """创建一个代理。...."""
         agent_id = config.agent_id or uuid.uuid4()
         config.agent_id = agent_id
         self.agents[agent_id] = config
@@ -288,7 +287,7 @@ class MockAgentService:
         3. 调用Tool服务执行工具
         4. 将工具执行结果返回给Model服务
         5. 生成最终响应
-        """
+     ..."""
         if agent_id not in self.agents:
             return BaseResponse(
                 request_id=uuid.uuid4(),
@@ -402,7 +401,7 @@ class MockAgentService:
 
 @pytest.fixture
 def setup_monitor():
-    """设置监控客户端。"""
+    """设置监控客户端。...."""
     try:
         # 使用内存配置（不实际连接到LogFire）
         monitor = configure_monitor(
@@ -423,7 +422,7 @@ def setup_monitor():
 
 @pytest.mark.asyncio
 async def test_complete_workflow(setup_monitor):
-    """测试完整工作流，包括Agent、Model和Tool服务间的交互。"""
+    """测试完整工作流，包括Agent、Model和Tool服务间的交互。...."""
     monitor = setup_monitor
 
     # 1. 初始化服务

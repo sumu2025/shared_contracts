@@ -1,8 +1,7 @@
 """
 示例：使用实用工具函数
 
-本示例展示如何使用shared_contracts中的实用工具函数，包括模式操作、验证、序列化和计时。
-"""
+本示例展示如何使用shared_contracts中的实用工具函数，包括模式操作、验证、序列化和计..."""
 
 import json
 import time
@@ -36,7 +35,7 @@ from agentforge_contracts.utils import (  # Schema工具; 验证工具; 序列�
 
 # ====== 定义示例模型 ======
 class UserRole(str, Enum):
-    """用户角色枚举"""
+    """用户角色枚举...."""
 
     ADMIN = "admin"
     USER = "user"
@@ -44,7 +43,7 @@ class UserRole(str, Enum):
 
 
 class Address(BaseModel):
-    """地址模型"""
+    """地址模型...."""
 
     street: str
     city: str
@@ -53,7 +52,7 @@ class Address(BaseModel):
 
 
 class User(BaseModel):
-    """用户模型"""
+    """用户模型...."""
 
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
     username: str
@@ -67,7 +66,7 @@ class User(BaseModel):
 
 # ====== Schema工具示例 ======
 def schema_tools_example():
-    """Schema工具使用示例"""
+    """Schema工具使用示例...."""
     print("\n=== Schema工具示例 ===")
 
     # 提取Schema
@@ -108,7 +107,7 @@ def schema_tools_example():
 
 # ====== 验证工具示例 ======
 def validation_tools_example():
-    """验证工具使用示例"""
+    """验证工具使用示例...."""
     print("\n=== 验证工具示例 ===")
 
     # 验证模型
@@ -152,7 +151,7 @@ def validation_tools_example():
 
 # ====== 序列化工具示例 ======
 def serialization_tools_example():
-    """序列化工具使用示例"""
+    """序列化工具使用示例...."""
     print("\n=== 序列化工具示例 ===")
 
     # 创建示例用户
@@ -216,14 +215,14 @@ def serialization_tools_example():
 # ====== 计时工具示例 ======
 @timed
 def slow_operation(delay):
-    """模拟慢操作"""
+    """模拟慢操作...."""
     time.sleep(delay)
     return delay
 
 
 @retry_with_backoff(max_retries=3, initial_delay=0.1)
 def unreliable_operation(succeed_after=None):
-    """模拟不可靠操作"""
+    """模拟不可靠操作...."""
     # 用于跟踪重试次数的局部变量
     if not hasattr(unreliable_operation, "_retry_count"):
         unreliable_operation._retry_count = 0
@@ -237,7 +236,7 @@ def unreliable_operation(succeed_after=None):
 
 
 def timing_tools_example():
-    """计时工具使用示例"""
+    """计时工具使用示例...."""
     print("\n=== 计时工具示例 ===")
 
     # 使用装饰器计时
@@ -264,7 +263,7 @@ def timing_tools_example():
 
 # ====== 主函数 ======
 def main():
-    """主函数"""
+    """主函数...."""
     print("==== AgentForge实用工具示例 ====\n")
 
     # 运行Schema工具示例

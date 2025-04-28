@@ -1,3 +1,1 @@
-"""
-Test package for agentforge-contracts.
-"""
+"""Test package for agentforge-contracts...."""
